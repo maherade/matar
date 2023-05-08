@@ -124,7 +124,7 @@ class MyApp extends StatelessWidget {
             'ads': (context) => adsScreen(),
             "map": (context) => Maps(),
             "send linke": (context) => const SendLinke(),
-            "code ver": (context) => const CodeVer()
+            "code ver": (context) => const CodeVer(),
           },
         ));
   }

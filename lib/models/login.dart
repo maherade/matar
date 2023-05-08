@@ -24,6 +24,7 @@ class LogIn extends StatelessWidget {
             buildToast(text: "تم  تسجيل الدخول بنجاح", color: Colors.black);
             CacheHelper.saveData(key: "token", value: cubit.login?.token);
             CacheHelper.saveData(key: "login", value: true);
+            print("--------------------------");
             print(CacheHelper.getData(key: "token"));
             Navigator.of(context).pushReplacementNamed("main layout");
           }

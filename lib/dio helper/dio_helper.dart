@@ -71,10 +71,10 @@ class ShopDioHelper {
 
   static Future<Response> deleteData({
     required String url,
-    required Map<String, dynamic> data,
-    required String language,
+    Map<String, dynamic>? data,
+    String? language,
     Map<String, dynamic>? query,
-    String? token,
+    required String? token,
   }) async {
     dio.options.headers = {
       'Content-Type': 'application/json',
@@ -85,4 +85,18 @@ class ShopDioHelper {
       url,
     );
   }
+// /static Future<String> deleteUser(String apiUrl, String userId, String token) async {
+//   final dio = Dio();
+//   dio.options.headers = {'Authorization': 'Bearer $token'};
+//   try {
+//     final response = await dio.delete('$apiUrl/users/$userId');
+//     if (response.statusCode == 200) {
+//       return 'User with ID $userId was deleted successfully';
+//     } else {
+//       return 'Error deleting user with ID $userId: ${response.data}';
+//     }
+//   } on DioError catch (e) {
+//     return 'Error deleting user with ID $userId: ${e.message}';
+//   }
+// }
 }

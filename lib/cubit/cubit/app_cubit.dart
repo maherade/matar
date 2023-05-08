@@ -2,7 +2,6 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mattar/dio%20helper/dio_helper.dart';
@@ -196,6 +195,7 @@ class AppCubit extends Cubit<ApppState> {
       },
     ).then((value) {
       login = LoginModel.fromJson(value.data);
+      // /print(login?.token);
       // print(
       //     "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
       // print(login?.subscription);
@@ -653,4 +653,31 @@ class AppCubit extends Cubit<ApppState> {
 //   _subscription?.cancel();
 //   return super.close();
 // }
+
+  void deleteUser(
+      {required String? email,
+      required String? password,
+      required String? name,
+      required String? country}) {
+    emit(SignUpLoadingState());
+    ShopDioHelper.postData(
+      url: "auth/signup",
+      data: {
+        'email': email,
+        'password': password,
+        'name': name,
+        'country': country
+      },
+      language: 'ar',
+    ).then((value) {
+      if (value.statusCode == 200) {
+        print("signUp Successfully");
+      } else if (value.statusCode == 404) {
+        print("email is signuped");
+      }
+      emit(SignUpSuccessState());
+    }).catchError((error) {
+      emit(SignUpErrorState(error.toString()));
+    });
+  }
 }

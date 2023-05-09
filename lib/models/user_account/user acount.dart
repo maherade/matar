@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
+import 'package:mattar/dio%20helper/dio_helper.dart';
 import 'package:mattar/models/mattar%20video%20and%20image/cubit/cubit/video_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
@@ -318,15 +319,14 @@ class _UserAccountState extends State<UserAccount> {
                                   List<Widget> Action = [
                                     TextButton(
                                       onPressed: () async {
-                                        // await ShopDioHelper.deleteUser(
-                                        //     'https://admin.rain-app.com/api/request-delete-account',
-                                        //     '${AppCubit.caller(context).login?.id}',
-                                        //     '${AppCubit.caller(context).login?.token}');
-                                        // Navigator.pop(context);
-                                        // Navigator.of(context).pushReplacementNamed("main layout");
-                                        // setState(() {
-                                        //
-                                        // });
+                                        ShopDioHelper.deleteData(
+                                            token:
+                                                '${AppCubit.caller(context).login?.token}',
+                                            url: '/api/request-delete-account');
+                                        Navigator.pop(context);
+                                        Navigator.of(context)
+                                            .pushReplacementNamed("signup");
+                                        setState(() {});
                                       },
                                       child: const Text(
                                         'نعم',

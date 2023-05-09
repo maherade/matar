@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mattar/component/component.dart';
@@ -694,15 +693,29 @@ class AppCubit extends Cubit<ApppState> {
 //   return super.close();
 // }
 
+  // Delete User
+  void deleteUser({
+    required String? token,
+  }) {
+    emit(DeleteUserLoadingState());
+    ShopDioHelper.deleteData(url: '/api/request-delete-account', token: token)
+        .then((value) {
+      if (value.statusCode == 200) {
+        print("User Deleted Successfully");
+      } else if (value.statusCode == 404) {
+        print("email is not found");
+      }
+      emit(DeleteUserSuccessState());
+    }).catchError((error) {
+      emit(DeleteUserErrorState(error.toString()));
+    });
+  }
 
-
-  void loginWithGoogle(
-      {
+  void loginWithGoogle({
     required String? name,
     required String? email,
     required String? googleToken,
-  }
-  ) {
+  }) {
     ShopDioHelper.postData(
       url: "auth/social/google",
       data: {

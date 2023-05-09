@@ -72,6 +72,7 @@ dependencies:
   image_zoom_on_move: ^1.0.0
   internet_connectivity_checker: ^1.0.0
   firebase_analytics:
+  tutorial_coach_mark: ^1.2.8
 
 
 

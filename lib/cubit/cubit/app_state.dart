@@ -113,7 +113,17 @@ class CahngePageViewInd extends ApppState {}
 
 class CahngeCountryState extends ApppState {}
 
-class LoginWithGoogleLoadingState extends ApppState {}
-class LoginWithGoogleSuccessState extends ApppState {}
-class LoginWithGoogleErrorState extends ApppState {}
+//Delete User
+class DeleteUserLoadingState extends ApppState {}
 
+class DeleteUserSuccessState extends ApppState {}
+
+class DeleteUserErrorState extends ApppState {
+  DeleteUserErrorState(String error);
+}
+
+class LoginWithGoogleLoadingState extends ApppState {}
+
+class LoginWithGoogleSuccessState extends ApppState {}
+
+class LoginWithGoogleErrorState extends ApppState {}

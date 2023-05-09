@@ -265,6 +265,7 @@ class AppCubit extends Cubit<ApppState> {
 
   List<WeatherModel> post = [];
   List<WeatherModel> posts = [];
+  List<WeatherModel> selectedPosts = [];
   List postComments = [];
   List ind = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49];
   bool? a = false;
@@ -292,6 +293,42 @@ class AppCubit extends Cubit<ApppState> {
       emit(GetWeatherPostsError());
     });
   }
+
+  void getSelectedWeatherPosts({
+    required int countryId
+   }) {
+
+    a = false;
+    emit(GetWeatherPostsLoading());
+    ShopDioHelper.getData(url: "v2/outlooks/${countryId}").then((value) {
+
+
+      print('5555555555555555555');
+
+      value.data.forEach((element) => selectedPosts.add(WeatherModel.fromJson(element)));
+
+      print('------------------------------------------------');
+      print(value.data[0]['title']);
+      print(selectedPosts[0].title);
+      print('------------------------------------------------');
+      // for (int i = 0; i < post.length; i++) {
+      //   if (ind.contains(i)) {
+      //     posts.add(post[i]);
+      //     posts.add(post[i]);
+      //   } else {
+      //     posts.add(post[i]);
+      //   }
+      // }
+      // post.forEach((element) {
+      //   postComments.add(element.comments);
+      // });
+      a = true;
+      emit(GetWeatherPostsSuccess());
+    }).catchError((e) {
+      emit(GetWeatherPostsError());
+    });
+  }
+
 
   int pageViewInd = 0;
 

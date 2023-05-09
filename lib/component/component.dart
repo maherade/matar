@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:mattar/component/constants.dart';
+import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
 Future LogInDialog(BuildContext context) {
@@ -348,6 +349,11 @@ Widget countryContainer({required BuildContext context, required var model}) {
     onTap: () {
       CacheHelper.saveData(key: "countryId", value: model.id);
       CacheHelper.saveData(key: "country", value: model.country);
+      print(model.country);
+      print(model.id);
+
+      AppCubit.caller(context).getSelectedWeatherPosts(countryId: model.id);
+
       Navigator.of(context).pushReplacementNamed("main layout");
     },
     child: Container(

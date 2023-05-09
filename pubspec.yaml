@@ -71,6 +71,7 @@ dependencies:
   firebase_core_platform_interface: 4.5.1
   image_zoom_on_move: ^1.0.0
   internet_connectivity_checker: ^1.0.0
+  firebase_analytics:
 
 
 

@@ -51,34 +51,42 @@ class NotificationScreen extends StatelessWidget {
                 color: Color.fromRGBO(66, 105, 129, 1),
                 key: refreshControl,
                 child: Scaffold(
-                  backgroundColor: backgroundColor,
+                  backgroundColor: Colors.white,
                   body: Column(
                     children: [
                       Expanded(
                         child: ListView.builder(
                             itemCount: notiFilterData.length,
                             itemBuilder: (ctx, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      "noti details",
-                                      arguments: notiFilterData[index]);
-                                  // try {
-                                  //   await canLaunch(cubit
-                                  //           .notificationData[index].redirect)
-                                  //       ? await launch(
-                                  //           enableJavaScript: true,
-                                  //           forceWebView: true,
-                                  //           cubit
-                                  //               .notificationData[index].redirect)
-                                  //       : throw "could not fiend";
-                                  // } catch (e) {}
-                                },
-                                child: notiContainer(
-                                    content: notiFilterData[index].content,
-                                    date: notiFilterData[index].date,
-                                    image:
-                                        "https://admin.rain-app.com/storage/notifications/${notiFilterData[index].media}"),
+                              return Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                          "noti details",
+                                          arguments: notiFilterData[index]);
+                                      // try {
+                                      //   await canLaunch(cubit
+                                      //           .notificationData[index].redirect)
+                                      //       ? await launch(
+                                      //           enableJavaScript: true,
+                                      //           forceWebView: true,
+                                      //           cubit
+                                      //               .notificationData[index].redirect)
+                                      //       : throw "could not fiend";
+                                      // } catch (e) {}
+                                    },
+                                    child: notiContainer(
+                                        content: notiFilterData[index].content,
+                                        date: notiFilterData[index].date,
+                                        image:
+                                            "https://admin.rain-app.com/storage/notifications/${notiFilterData[index].media}"),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                                    child: Divider(color: Colors.black.withOpacity(.5),),
+                                  ),
+                                ],
                               );
                             }),
                       )

@@ -194,14 +194,9 @@ defaultAppBar({
 Widget notiContainer(
     {required String content, required String date, required String image}) {
   return Container(
-    width: double.infinity,
-    height: 90,
+    height: 65,
     margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-    padding: const EdgeInsets.all(15),
-    decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [shadow()]),
+    padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -215,9 +210,9 @@ Widget notiContainer(
                 child: Text(
                   content,
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700
                   ),
                 ),
               ),
@@ -231,17 +226,15 @@ Widget notiContainer(
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   softWrap: false,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
                 ),
               ),
             )
           ],
         ),
-        Expanded(
-          child: SizedBox(
-            height: 50,
-            child: CachedNetworkImage(imageUrl: image, height: 50),
-          ),
+        SizedBox(
+          height: 40,
+          child: CachedNetworkImage(imageUrl: image, height: 5),
         ),
       ],
     ),
@@ -380,3 +373,20 @@ Widget countryContainer({required BuildContext context, required var model}) {
     ),
   );
 }
+
+
+
+customToast({
+  required String title,
+  required Color color
+})
+{
+  Fluttertoast.showToast(
+      msg: title,
+      textColor: Colors.white,
+      backgroundColor: color,
+      gravity: ToastGravity.BOTTOM
+  );
+
+}
+

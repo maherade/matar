@@ -1,9 +1,13 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mattar/component/component.dart';
 import 'package:mattar/dio%20helper/dio_helper.dart';
 import 'package:mattar/models/map/maps.dart';
 import 'package:mattar/models/mattar%20video%20and%20image/video.dart';
@@ -195,7 +199,6 @@ class AppCubit extends Cubit<ApppState> {
       },
     ).then((value) {
       login = LoginModel.fromJson(value.data);
-      // /print(login?.token);
       // print(
       //     "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
       // print(login?.subscription);
@@ -654,30 +657,125 @@ class AppCubit extends Cubit<ApppState> {
 //   return super.close();
 // }
 
-  void deleteUser(
-      {required String? email,
-      required String? password,
-      required String? name,
-      required String? country}) {
-    emit(SignUpLoadingState());
+
+
+  void loginWithGoogle(
+      {
+    required String? name,
+    required String? email,
+    required String? googleToken,
+  }
+  ) {
     ShopDioHelper.postData(
-      url: "auth/signup",
+      url: "auth/social/google",
       data: {
-        'email': email,
-        'password': password,
         'name': name,
-        'country': country
+        'email': email,
+        'google_token': googleToken,
       },
-      language: 'ar',
     ).then((value) {
-      if (value.statusCode == 200) {
-        print("signUp Successfully");
-      } else if (value.statusCode == 404) {
-        print("email is signuped");
-      }
-      emit(SignUpSuccessState());
+      // print(value.data);
+
+      print(value.statusCode);
+      login = LoginModel.fromJson(value.data);
+
+      print('----------------------------------------');
+      print(login!.name);
+      print(login!.email);
+      print('----------------------------------------');
+
+      emit(LoginWithGoogleSuccessState());
     }).catchError((error) {
-      emit(SignUpErrorState(error.toString()));
+      print('Error');
+
+      print("Error in google login in postman is ${error.toString()}");
+
+      emit(LoginWithGoogleErrorState());
     });
   }
+
+
+  Future<void> googleFunction(context)async{
+
+    final googleSignIn = GoogleSignIn();
+
+    try{
+      GoogleSignInAccount ?googleSignInAccount = await googleSignIn.signIn();
+
+      GoogleSignInAuthentication googleSignInAuthentication =await googleSignInAccount!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+        loginWithGoogle(
+            name: googleSignInAccount.displayName,
+            email: googleSignInAccount.email,
+            googleToken: "${googleSignInAccount.id}"
+        );
+
+      });
+
+      print("Name in google function ${googleSignInAccount.displayName}");
+      print("Name in accessToken ${credential.accessToken}");
+      print("Name in idToken ${credential.idToken}");
+      print("Name in id ${googleSignInAccount.id}");
+
+
+
+      // AppStrings.uId=googleSignInAccount.id;
+      // CashHelper.saveDataSharedPreference(key: 'googleEmail', value: googleSignInAccount.email);
+      // CashHelper.saveDataSharedPreference(key: 'displayName', value: googleSignInAccount.displayName);
+      // CashHelper.saveDataSharedPreference(key: 'imageUrl', value: googleSignInAccount.photoUrl);
+      // CashHelper.saveDataSharedPreference(key: 'googleId', value: googleSignInAccount.id);
+
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context)=>const EnterPhoneScreen())
+      // );
+
+       emit(LoginWithGoogleSuccessState());
+
+    } on FirebaseAuthException catch(e){
+
+      var content ='';
+
+      switch(e.code){
+        case'account-exists-with-different-credential':
+          content='this account exists with a different sign in provider';
+          break;
+
+        case'invalid-credential':
+          content='unKnown error has occurred';
+          break;
+
+        case'operation-not-allowed':
+          content='this operation is not allowed';
+          break;
+
+        case'user-disabled':
+          content='the user you tried to log into is disabled';
+          break;
+
+        case'user-not-found':
+          content='the user you tried to log into was not found';
+          break;
+      }
+
+      customToast(title: content, color: Colors.red);
+      emit(LoginWithGoogleErrorState());
+
+    } catch(e){
+
+      customToast(title: 'An unknown error occurred ,try again', color: Colors.red);
+      emit(LoginWithGoogleErrorState());
+
+    }
+
+  }
+
+
 }

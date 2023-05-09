@@ -52,7 +52,7 @@ class ShopDioHelper {
 
   static Future<Response> putData({
     required String url,
-    required Map<String, dynamic> data,
+    Map<String, dynamic> ?data,
     required String language,
     Map<String, dynamic>? query,
     String? token,

@@ -20,7 +20,7 @@ class LogIn extends StatelessWidget {
         listener: (context, state) async {
           var cubit = AppCubit.caller(context);
           // TODO: implement listener
-          if (state is ShopLoginSuccessState) {
+          if (state is ShopLoginSuccessState || state is LoginWithGoogleSuccessState) {
             buildToast(text: "تم  تسجيل الدخول بنجاح", color: Colors.black);
             CacheHelper.saveData(key: "token", value: cubit.login?.token);
             CacheHelper.saveData(key: "login", value: true);
@@ -45,8 +45,8 @@ class LogIn extends StatelessWidget {
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SizedBox(
-                          height: 50,
+                         SizedBox(
+                          height: MediaQuery.of(context).size.height*.2,
                         ),
                         Row(
                           children: [
@@ -100,9 +100,11 @@ class LogIn extends StatelessWidget {
                                       },
                                       type: TextInputType.emailAddress),
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                 SizedBox(
+                                  height: MediaQuery.of(context).size.height*.04,
                                 ),
+
+                                // تسجيل الدخول
                                 defaultButton(
                                   onPressed: () {
                                     if (formKey.currentState!.validate()) {
@@ -116,9 +118,57 @@ class LogIn extends StatelessWidget {
                                   isUpperCase: false,
                                   radius: 15,
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height*.02,
                                 ),
+                                // تسجيل الدخول بجوجل
+                                MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)
+                                  ),
+                                    color: Color(0xFFF44336),
+                                  onPressed: (){
+                                    // AppCubit.caller(context).googleFunction(context);
+                                    AppCubit.caller(context).googleFunction(context);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('جوجل',style: const TextStyle(color: Colors.white, fontSize: 18),),
+                                      SizedBox(width: MediaQuery.of(context).size.height*.02,),
+                                      Image(
+                                        height: MediaQuery.of(context).size.height*.06,
+                                        image: AssetImage('images/gmail.png'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height*.02,
+                                ),
+                                // تسجيل الدخول بالفيس بوك
+                                MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)
+                                  ),
+                                  color: Color(0xFF3B5998),
+                                  onPressed: (){},
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('فيس بوك',style: const TextStyle(color: Colors.white, fontSize: 18),),
+                                      SizedBox(width: MediaQuery.of(context).size.height*.02,),
+                                      Image(
+                                        height: MediaQuery.of(context).size.height*.06,
+                                        image: AssetImage('images/facebook.png'),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
                                 // Row(
                                 //   mainAxisAlignment: MainAxisAlignment.center,
                                 //   children: [

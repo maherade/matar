@@ -32,12 +32,12 @@ class LoginModel {
     date = json['date'];
     coupon = json["coupon"] ?? "null";
     ban = json['ban'] ?? 0;
-    if (json['subscription'] != []) {
-      subscription = <Subscription>[];
-      json['subscription'].forEach((v) {
-        subscription.add(Subscription.fromJson(v));
-      });
-    }
+    // if (json['subscription'] != []) {
+    //   subscription = <Subscription>[];
+    //   json['subscription'].forEach((v) {
+    //     subscription.add(Subscription.fromJson(v));
+    //   });
+    // }
     // else {
     //   subscription = [
     //     Subscription.fromJson({

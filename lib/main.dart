@@ -1,5 +1,6 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,7 +32,9 @@ import 'models/mattar video and image/cubit/cubit/video_cubit.dart';
 import 'network/local/shared_pref.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   ShopDioHelper.shopDioInit();
   await CacheHelper.init();
   Admob.initialize();
@@ -73,6 +76,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (ctx) => CountryCubit()),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             iconTheme: const IconThemeData(color: Colors.white),
             textTheme: const TextTheme(

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "601892087128",
+    "project_id": "matar-app",
+    "storage_bucket": "matar-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601892087128:android:0403a3c7db2f9bb51a712d",
+        "android_client_info": {
+          "package_name": "com.example.mattar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "601892087128-kaveuldeaup5m60tepebm386bg8d5d85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mattar",
+            "certificate_hash": "1e79707aca17d026a4c60c68b9ae9c50fc8b258a"
+          }
+        },
+        {
+          "client_id": "601892087128-m8vsudco2t0837f02sr286puvf44ov19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEKiHreLDL_DgpAHJMIm9GAeFoXNgKCtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "601892087128-m8vsudco2t0837f02sr286puvf44ov19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

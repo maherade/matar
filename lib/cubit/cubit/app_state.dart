@@ -112,3 +112,8 @@ class AddComment extends ApppState {}
 class CahngePageViewInd extends ApppState {}
 
 class CahngeCountryState extends ApppState {}
+
+class LoginWithGoogleLoadingState extends ApppState {}
+class LoginWithGoogleSuccessState extends ApppState {}
+class LoginWithGoogleErrorState extends ApppState {}
+

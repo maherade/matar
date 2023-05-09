@@ -5,6 +5,7 @@ import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
+import 'package:flutter/foundation.dart';
 
 class MainLayout extends StatelessWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class MainLayout extends StatelessWidget {
                       height: 60,
                     ),
                     Container(
-                      height: 100,
+                      height: 90,
                       width: 100,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100)),
@@ -64,11 +65,13 @@ class MainLayout extends StatelessWidget {
                               errorWidget: (_, __, ___) =>
                                   Image.asset("images/avatar.png"))
                           : const CircleAvatar(
-                              radius: 100,
-                              backgroundImage: AssetImage("images/avatar.png")),
+                              radius: 30,
+                              backgroundColor: Colors.white,
+                              child: Image(image: AssetImage("images/avatar.png"),height: 55,),
+                              ),
                     ),
                     const SizedBox(
-                      height: 2,
+                      height: 10,
                     ),
                     CacheHelper.getData(key: "token") != null &&
                             cubit.profile?.name != null
@@ -77,7 +80,7 @@ class MainLayout extends StatelessWidget {
                             height: 1,
                           ),
                     const SizedBox(
-                      height: 8,
+                      height: 0,
                     ),
                     Expanded(
                       child: ListView(
@@ -137,14 +140,22 @@ class MainLayout extends StatelessWidget {
                               context: context,
                               title: "مشاركة التطبيق",
                               onpressed: () {}),
-                          defaultDrawerContainer(
-                              context: context,
-                              title: "تطبيقات ومواقع مفيدة",
-                              onpressed: () => Navigator.of(context)
-                                  .pushReplacementNamed("apps")),
+                            defaultDrawerContainer(
+                                context: context,
+                                title: "تطبيقات ومواقع مفيدة",
+                                onpressed: () => Navigator.of(context)
+                                    .pushReplacementNamed("apps")),
+
+
                           defaultDrawerContainer(
                               context: context,
                               title: "تابعنا عبر وسائل التواصل الاجتماعي ",
+                              onpressed: () => Navigator.of(context)
+                                  .pushReplacementNamed("social")),
+
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "اعاده تعين كلمه المرور",
                               onpressed: () => Navigator.of(context)
                                   .pushReplacementNamed("social")),
                         ],

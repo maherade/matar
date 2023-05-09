@@ -107,7 +107,7 @@ class _UserAccountState extends State<UserAccount> {
                           height: 50,
                         ),
                         Container(
-                          height: 100,
+                          height: 90,
                           width: 100,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100)),

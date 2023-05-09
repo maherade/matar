@@ -302,8 +302,6 @@ class AppCubit extends Cubit<ApppState> {
     ShopDioHelper.getData(url: "v2/outlooks/${countryId}").then((value) {
 
 
-      print('5555555555555555555');
-
       value.data.forEach((element) => selectedPosts.add(WeatherModel.fromJson(element)));
 
       print('------------------------------------------------');

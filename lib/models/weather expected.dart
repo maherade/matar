@@ -143,7 +143,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
     PageController controller = PageController();
 
     return ConnectivityBuilder(builder: (status) {
-      return status == "offline"
+      return statues == "offline"
           ? Center(
               child: Container(
               height: double.infinity,
@@ -1387,7 +1387,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       });
     } else {
       setState(() {
-        statues = "ofline";
+        statues = "offline";
       });
     }
   }

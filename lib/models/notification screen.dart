@@ -1,14 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mattar/component/component.dart';
-import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({Key? key}) : super(key: key);
   GlobalKey<RefreshIndicatorState> refreshControl =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,22 @@ class NotificationScreen extends StatelessWidget {
       create: (context) => AppCubit()..getNotificationData(),
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  final dio = Dio();
+                  final cancelToken = CancelToken();
+                  if (dio.options.responseType == 200) {
+                    await dio.get(
+                        'https://admin.rain-app.com/storage/notifications',
+                        cancelToken: cancelToken);
+                  } else {
+                    print(
+                        'Something Went wrong:::::${dio.options.responseType.toString()}');
+                  }
+                },
+                icon: const Icon(Icons.notifications_off))
+          ],
           title: Text(
             "التنبيهات",
             style: Theme.of(context)
@@ -23,7 +39,7 @@ class NotificationScreen extends StatelessWidget {
                 .headline1
                 ?.copyWith(fontWeight: FontWeight.w600, color: Colors.white),
           ),
-          backgroundColor: Color.fromRGBO(66, 105, 129, 1),
+          backgroundColor: const Color.fromRGBO(66, 105, 129, 1),
         ),
         body: SafeArea(
           child: BlocBuilder<AppCubit, ApppState>(
@@ -80,7 +96,7 @@ class NotificationScreen extends StatelessWidget {
                                         content: notiFilterData[index].content,
                                         date: notiFilterData[index].date,
                                         image:
-                                            "https://admin.rain-app.com/storage/notifications/${notiFilterData[index].media}"),
+                                        "https://admin.rain-app.com/storage/notifications/${notiFilterData[index].media}"),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),

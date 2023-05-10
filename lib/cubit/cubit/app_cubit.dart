@@ -20,6 +20,7 @@ import 'package:mattar/network/local/shared_pref.dart';
 
 import '../../component/constants.dart';
 import '../../models/ads/ads_helper.dart';
+import '../../module/SpecialModel.dart';
 import '../../module/notification model.dart';
 import '../../module/user shared model.dart';
 
@@ -264,7 +265,7 @@ class AppCubit extends Cubit<ApppState> {
 
   List<WeatherModel> post = [];
   List<WeatherModel> posts = [];
-  List<WeatherModel> selectedPosts = [];
+  List<SpecialModel> selectedPosts = [];
   List postComments = [];
   List ind = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49];
   bool? a = false;
@@ -272,7 +273,8 @@ class AppCubit extends Cubit<ApppState> {
   void getWeatherPostes() {
     a = false;
     emit(GetWeatherPostsLoading());
-    ShopDioHelper.getData(url: "outlooks/").then((value) {
+    ShopDioHelper.getData(url: "https://admin.rain-app.com/api/outlooks/")
+        .then((value) {
       value.data.forEach((element) => post.add(WeatherModel.fromJson(element)));
 
       for (int i = 0; i < post.length; i++) {
@@ -293,16 +295,14 @@ class AppCubit extends Cubit<ApppState> {
     });
   }
 
-  void getSelectedWeatherPosts({
-    required int countryId
-   }) {
-
+  void getSelectedWeatherPosts({required int countryId}) {
     a = false;
     emit(GetWeatherPostsLoading());
-    ShopDioHelper.getData(url: "v2/outlooks/${countryId}").then((value) {
-
-
-      value.data.forEach((element) => selectedPosts.add(WeatherModel.fromJson(element)));
+    ShopDioHelper.getData(
+            url: "https://admin.rain-app.com/api/outlooks/${countryId}")
+        .then((value) {
+      value.data.forEach(
+          (element) => selectedPosts.add(SpecialModel.fromJson(element)));
 
       print('------------------------------------------------');
       print(value.data[0]['title']);
@@ -773,8 +773,6 @@ class AppCubit extends Cubit<ApppState> {
       print("Name in idToken ${credential.idToken}");
       print("Name in id ${googleSignInAccount.id}");
 
-
-
       // AppStrings.uId=googleSignInAccount.id;
       // CashHelper.saveDataSharedPreference(key: 'googleEmail', value: googleSignInAccount.email);
       // CashHelper.saveDataSharedPreference(key: 'displayName', value: googleSignInAccount.displayName);
@@ -785,8 +783,7 @@ class AppCubit extends Cubit<ApppState> {
       //     MaterialPageRoute(builder: (context)=>const EnterPhoneScreen())
       // );
 
-       emit(LoginWithGoogleSuccessState());
-
+      emit(LoginWithGoogleSuccessState());
     } on FirebaseAuthException catch(e){
 
       var content ='';

@@ -76,7 +76,7 @@ class LogIn extends StatelessWidget {
                                       hintText: "البريد الالكتروني",
                                       prefixIcon: Icon(
                                         Icons.email,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: _emailController,
                                       type: TextInputType.emailAddress),
@@ -90,7 +90,7 @@ class LogIn extends StatelessWidget {
                                       hintText: " الرقم السري",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: _passwordController,
                                       validate: (String? value) {

@@ -69,9 +69,9 @@ class SendLinke extends StatelessWidget {
                                   height: 50,
                                   child: defaultFormField(
                                       hintText: "البريد الالكتروني",
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.email,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: _emailController,
                                       type: TextInputType.emailAddress),
@@ -93,8 +93,7 @@ class SendLinke extends StatelessWidget {
                                       }
                                     },
                                     textButton: "ارسال",
-                                    backgroundColor:
-                                        const Color.fromRGBO(66, 105, 129, 1),
+                                    backgroundColor: secondColor,
                                     isUpperCase: false,
                                     radius: 15,
                                     width: 150),

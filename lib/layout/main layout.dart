@@ -5,7 +5,6 @@ import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
-import 'package:flutter/foundation.dart';
 
 class MainLayout extends StatelessWidget {
   const MainLayout({Key? key}) : super(key: key);
@@ -150,12 +149,6 @@ class MainLayout extends StatelessWidget {
                           defaultDrawerContainer(
                               context: context,
                               title: "تابعنا عبر وسائل التواصل الاجتماعي ",
-                              onpressed: () => Navigator.of(context)
-                                  .pushReplacementNamed("social")),
-
-                          defaultDrawerContainer(
-                              context: context,
-                              title: "اعاده تعين كلمه المرور",
                               onpressed: () => Navigator.of(context)
                                   .pushReplacementNamed("social")),
                         ],

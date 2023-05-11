@@ -318,11 +318,17 @@ class _UserAccountState extends State<UserAccount> {
                                 builder: (context) {
                                   List<Widget> Action = [
                                     TextButton(
-                                      onPressed: () async {
+                                      onPressed: () {
                                         ShopDioHelper.deleteData(
                                             token:
                                                 '${AppCubit.caller(context).login?.token}',
-                                            url: '/api/request-delete-account');
+                                            url:
+                                                'https://admin.rain-app.com/request-delete-account/');
+
+                                        print(
+                                            "-----------------------------------------");
+                                        print("Account Deleted");
+
                                         Navigator.pop(context);
                                         Navigator.of(context)
                                             .pushReplacementNamed("signup");

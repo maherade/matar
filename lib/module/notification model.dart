@@ -24,15 +24,15 @@ class NotificationModel {
   late final String media;
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    subject = json['subject'];
-    content = json['content'];
-    date = json['date'];
-    country = json['country'] ?? "عام";
-    appearanceFor = json['appearance_for'];
-    appearanceAs = json['appearance_as'];
-    redirect = json['redirect'];
-    schedule = json['schedule'];
-    media = json['media'];
+    id = json['id'] ?? "";
+    subject = json['subject'] ?? "";
+    content = json['content'] ?? "";
+    date = json['date'] ?? "";
+    country = json['country'] ?? "عام" ?? "";
+    appearanceFor = json['appearance_for'] ?? "";
+    appearanceAs = json['appearance_as'] ?? "";
+    redirect = json['redirect'] ?? "";
+    schedule = json['schedule'] ?? "";
+    media = json['media'] ?? "";
   }
 }

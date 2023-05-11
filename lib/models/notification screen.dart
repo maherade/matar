@@ -5,10 +5,16 @@ import 'package:mattar/component/component.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   NotificationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
   GlobalKey<RefreshIndicatorState> refreshControl =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +27,11 @@ class NotificationScreen extends StatelessWidget {
                 onPressed: () async {
                   final dio = Dio();
                   final cancelToken = CancelToken();
-                  if (dio.options.responseType == 200) {
-                    await dio.get(
-                        'https://admin.rain-app.com/storage/notifications',
-                        cancelToken: cancelToken);
-                  } else {
-                    print(
-                        'Something Went wrong:::::${dio.options.responseType.toString()}');
-                  }
+                  await dio.get(
+                      'https://admin.rain-app.com/api/all-notifications',
+                      cancelToken: cancelToken);
+                  buildToast(text: "تم ايقاف التنبيهات", color: Colors.black);
+                  setState(() {});
                 },
                 icon: const Icon(Icons.notifications_off))
           ],

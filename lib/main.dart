@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/dio%20helper/dio_helper.dart';
 import 'package:mattar/layout/main%20layout.dart';
+import 'package:mattar/layout/subscribing_screen.dart';
 import 'package:mattar/models/country/counteryScreen2.dart';
 import 'package:mattar/models/country/cubit/cubit/country_cubit.dart';
 import 'package:mattar/models/drawer_screens/aboutScreen.dart';
@@ -88,15 +89,6 @@ class MyApp extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-            // textButtonTheme: TextButtonThemeData(
-            //
-            //     style: TextButton.styleFrom(
-            //       foregroundColor:Colors.white ,
-            //       backgroundColor: const Color(0xff814269),
-            //       textStyle: const TextStyle(
-            //         color: Colors.white,
-            //       ),
-            //     )),
           ),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -126,6 +118,7 @@ class MyApp extends StatelessWidget {
             "myCopons": (context) => const MyCopons(),
             "noti details": (context) => const NotiDetails(),
             'ads': (context) => adsScreen(),
+            'sub': (context) => SubscribingScreen(),
             "map": (context) => Maps(),
             "send linke": (context) => const SendLinke(),
             "code ver": (context) => const CodeVer(),
@@ -133,41 +126,3 @@ class MyApp extends StatelessWidget {
         ));
   }
 }
-//  defaultTextButton(
-//                                                                             text:
-//                                                                                 "رد",
-//                                                                             onPressed:
-//                                                                                 () {
-//                                                                               showDialog(
-//                                                                                   context: context,
-//                                                                                   builder: (BuildContext context) {
-//                                                                                     TextEditingController replayController = TextEditingController();
-//                                                                                     return AlertDialog(
-//                                                                                       actions: [
-//                                                                                         Form(
-//                                                                                           child: Row(
-//                                                                                             mainAxisAlignment: MainAxisAlignment.center,
-//                                                                                             children: [
-//                                                                                               Container(
-//                                                                                                 color: Colors.white,
-//                                                                                                 width: MediaQuery.of(context).size.width * 0.7,
-//                                                                                                 margin: const EdgeInsets.only(top: 1, right: 10),
-//                                                                                                 child: defaultFormField(prefixIcon: const Icon(Icons.comment), controller: replayController, type: TextInputType.text),
-//                                                                                               ),
-//                                                                                               defaultIconButton(
-//                                                                                                   onPressed: () {
-//                                                                                                     cubit.sendReplay(outlookId: cubit.posts[index].id, commentId: cubit.posts[index].comments[ind].id.toInt(), reply: replayController.text);
-//                                                                                                     Navigator.pop(context);
-//                                                                                                   },
-//                                                                                                   icon: Icons.send,
-//                                                                                                   color: mainColor)
-//                                                                                             ],
-//                                                                                           ),
-//                                                                                         )
-//                                                                                       ],
-//                                                                                     );
-//                                                                                   });
-//                                                                             },
-//                                                                             color:
-//                                                                                 Colors.black,
-//                                                                             isUpperCase: false)

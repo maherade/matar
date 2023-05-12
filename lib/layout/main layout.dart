@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
+import 'package:mattar/layout/subscribing_screen.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
 class MainLayout extends StatelessWidget {
@@ -110,8 +111,8 @@ class MainLayout extends StatelessWidget {
                           defaultDrawerContainer(
                               context: context,
                               title: "إشتراك",
-                              onpressed: () =>
-                                  Navigator.of(context).pushNamed("ads")),
+                              onpressed: () => Navigator.of(context)
+                                  .pushNamed(SubscribingScreen.routeName)),
                           defaultDrawerContainer(
                               context: context,
                               title: "الكوبونات",

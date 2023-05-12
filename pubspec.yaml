@@ -47,7 +47,7 @@ dependencies:
   intl: ^0.17.0
   url_launcher: ^6.1.5
   admob_flutter: ^3.0.0
-  flutter_html: ^2.2.1
+  flutter_html:
   animated_splash_screen: ^1.2.0
   flutter_share: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
@@ -62,7 +62,7 @@ dependencies:
   google_sign_in:
 
   #Firebase
-  firebase_core:
+  firebase_core: ^1.24.0
   firebase_auth:
   cloud_firestore:
   firebase_storage:
@@ -73,6 +73,10 @@ dependencies:
   internet_connectivity_checker: ^1.0.0
   firebase_analytics:
   tutorial_coach_mark: ^1.2.8
+  pay:
+  pay_android:
+  flutter_svg:
+  provider: ^6.0.5
 
 
 

@@ -14,8 +14,6 @@ import '../../dio helper/dio_helper.dart';
 import '../../network/local/shared_pref.dart';
 import 'consumable_store.dart';
 
-// Auto-consume must be true on iOS.
-// To try without auto-consume on another platform, change `true` to `false` here.
 final bool _kAutoConsume = Platform.isIOS || true;
 
 const String _kConsumableId = 'product1';
@@ -203,7 +201,7 @@ class adsScreenState extends State<adsScreen> {
             : CacheHelper.getData(key: "subscibtion") != null
                 ? Center(
                     child: Container(
-                      child: Text(
+                      child: const Text(
                         "انت مشترك بالفعل",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -304,7 +302,7 @@ class adsScreenState extends State<adsScreen> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
                         child: Column(
-                          children: [
+                          children: const [
                             Text(
                                 style: TextStyle(
                                     fontSize: 18,
@@ -366,14 +364,14 @@ class adsScreenState extends State<adsScreen> {
                                 purchaseParam: purchaseParam);
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           "اشتراك",
                           style: TextStyle(
                             fontSize: 20,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       )
                     ],
@@ -384,7 +382,7 @@ class adsScreenState extends State<adsScreen> {
     ));
 
     return Card(
-        margin: EdgeInsets.all(15),
+        margin: const EdgeInsets.all(15),
         child: Center(
           child: Column(children: <Widget>[productHeader] + productList),
         ));

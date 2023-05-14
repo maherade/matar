@@ -282,11 +282,44 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        const Text(
-                                          "مخصص",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700),
+                                        Expanded(
+                                          child: Container(
+                                            margin:
+                                            const EdgeInsets.only(
+                                                top: 8),
+                                            padding: const EdgeInsets
+                                                .symmetric(
+                                                vertical: 5,
+                                                horizontal: 20),
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    12)),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  "${CacheHelper.getData(key: "country")}",
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors
+                                                          .black,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .bold),
+                                                ),
+                                                SizedBox(width: 15,),
+                                                Image.network(
+                                                  "https://admin.rain-app.com/storage/countries/${CacheHelper.getData(key: "country")}.png",
+                                                  height: 50,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                         IconButton(
                                             onPressed: () {

@@ -313,25 +313,10 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                 ),
                                                 Offset.zero & overlay.size,
                                               );
-                                              showMenu(
-                                                  context: context,
-                                                  position: position,
-                                                  items: [
-                                                    PopupMenuItem(
-                                                        child: Text("fdf")),
-                                                    PopupMenuItem(
-                                                        child: Text("fdf")),
-                                                    PopupMenuItem(
-                                                        child: Text("fdf")),
-                                                    PopupMenuItem(
-                                                        child: Text("fdf")),
-                                                    PopupMenuItem(
-                                                        child: Text("fdf")),
-                                                  ]);
                                             },
-                                            icon: Icon(
+                                            icon: const Icon(
                                               Icons.arrow_drop_down,
-                                              color: Colors.black,
+                                              color: Colors.white,
                                             ))
                                       ],
                                     );

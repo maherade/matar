@@ -54,9 +54,9 @@ class CodeVer extends StatelessWidget {
                                 children: [
                                   defaultFormField(
                                       hintText: "البريد الالكتروني",
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.email,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: _emailController,
                                       type: TextInputType.emailAddress),
@@ -67,9 +67,9 @@ class CodeVer extends StatelessWidget {
                                     child: defaultFormField(
                                         hintText:
                                             " الرمز المرسل عبر البريد الالكتروني",
-                                        prefixIcon: Icon(
+                                        prefixIcon: const Icon(
                                           Icons.email,
-                                          color: mainColor,
+                                          color: Colors.grey,
                                         ),
                                         controller: _code,
                                         type: TextInputType.emailAddress),
@@ -79,9 +79,9 @@ class CodeVer extends StatelessWidget {
                                   ),
                                   defaultFormField(
                                       hintText: "كلمة السر الجديده",
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.password,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: _password,
                                       type: TextInputType.emailAddress),
@@ -100,7 +100,7 @@ class CodeVer extends StatelessWidget {
                                       },
                                       textButton: "تاكيد",
                                       backgroundColor:
-                                          const Color.fromRGBO(66, 105, 129, 1),
+                                      secondColor,
                                       isUpperCase: false,
                                       radius: 15,
                                       width: 150),

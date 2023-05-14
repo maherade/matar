@@ -154,16 +154,18 @@ class LogIn extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(12)
                                   ),
                                   color: Color(0xFF3B5998),
-                                  onPressed: (){},
+                                  onPressed: (){
+                                    AppCubit.caller(context).fblogin(context);
+                                  },
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('فيس بوك',style: const TextStyle(color: Colors.white, fontSize: 18),),
+                                      const Text('فيس بوك',style: TextStyle(color: Colors.white, fontSize: 18),),
                                       SizedBox(width: MediaQuery.of(context).size.height*.02,),
                                       Image(
                                         height: MediaQuery.of(context).size.height*.06,
-                                        image: AssetImage('images/facebook.png'),
+                                        image: const AssetImage('images/facebook.png'),
                                       )
                                     ],
                                   ),

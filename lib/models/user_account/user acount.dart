@@ -87,19 +87,19 @@ class _UserAccountState extends State<UserAccount> {
               }
               if (state is GetProfileSuccessful || state is UpdateUserError) {
                 final TextEditingController _nameController =
-                TextEditingController(text: cubit.profile?.name);
+                    TextEditingController(text: cubit.profile?.name);
                 final TextEditingController _emailController =
-                TextEditingController(text: cubit.profile?.email);
+                    TextEditingController(text: cubit.profile?.email);
                 final TextEditingController _countryControler =
-                TextEditingController(text: cubit.profile?.country);
+                    TextEditingController(text: cubit.profile?.country);
                 final TextEditingController _phoneControler =
-                TextEditingController(text: cubit.profile?.phone);
+                    TextEditingController(text: cubit.profile?.phone);
                 final TextEditingController _passwordControler =
-                TextEditingController();
+                    TextEditingController();
 
                 return Container(
                   margin:
-                  const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -114,7 +114,7 @@ class _UserAccountState extends State<UserAccount> {
                           child: Stack(children: [
                             CachedNetworkImage(
                                 imageUrl:
-                                "https://admin.rain-app.com/storage/users/${cubit.profile?.pic}",
+                                    "https://admin.rain-app.com/storage/users/${cubit.profile?.pic}",
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
                                       width: 100,
@@ -128,7 +128,7 @@ class _UserAccountState extends State<UserAccount> {
                                       ),
                                     ),
                                 placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(
+                                        child: CircularProgressIndicator(
                                       color: Color.fromRGBO(66, 105, 129, 1),
                                     )),
                                 errorWidget: (_, __, ___) =>
@@ -162,39 +162,39 @@ class _UserAccountState extends State<UserAccount> {
                                             return AlertDialog(
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(
-                                                      20)),
+                                                      BorderRadius.circular(
+                                                          20)),
                                               content: SizedBox(
                                                 height: 150,
                                                 child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     defaultButton(
                                                       onPressed: () {
                                                         cubit.picImage(
                                                             fromWhere:
-                                                            ImageSource
-                                                                .camera,
+                                                                ImageSource
+                                                                    .camera,
                                                             name: _nameController
                                                                 .text,
                                                             email:
-                                                            _emailController
-                                                                .text,
+                                                                _emailController
+                                                                    .text,
                                                             phone:
-                                                            _phoneControler
-                                                                .text,
+                                                                _phoneControler
+                                                                    .text,
                                                             location:
-                                                            _countryControler
-                                                                .text,
+                                                                _countryControler
+                                                                    .text,
                                                             password:
-                                                            _passwordControler
-                                                                .text);
+                                                                _passwordControler
+                                                                    .text);
                                                         Navigator.pop(context);
                                                       },
                                                       textButton: "الكاميرا",
                                                       backgroundColor:
-                                                      secondColor,
+                                                          secondColor,
                                                       width: 100,
                                                       radius: 12,
                                                     ),
@@ -203,27 +203,27 @@ class _UserAccountState extends State<UserAccount> {
                                                       onPressed: () {
                                                         cubit.picImage(
                                                             fromWhere:
-                                                            ImageSource
-                                                                .gallery,
+                                                                ImageSource
+                                                                    .gallery,
                                                             name: _nameController
                                                                 .text,
                                                             email:
-                                                            _emailController
-                                                                .text,
+                                                                _emailController
+                                                                    .text,
                                                             phone:
-                                                            _phoneControler
-                                                                .text,
+                                                                _phoneControler
+                                                                    .text,
                                                             location:
-                                                            _countryControler
-                                                                .text,
+                                                                _countryControler
+                                                                    .text,
                                                             password:
-                                                            _passwordControler
-                                                                .text);
+                                                                _passwordControler
+                                                                    .text);
                                                         Navigator.pop(context);
                                                       },
                                                       textButton: "المعرض",
                                                       backgroundColor:
-                                                      secondColor,
+                                                          secondColor,
                                                       width: 100,
                                                       radius: 12,
                                                     ),
@@ -243,12 +243,12 @@ class _UserAccountState extends State<UserAccount> {
                         ),
                         CacheHelper.getData(key: "token") != null
                             ? Text(
-                          " ${cubit.profile?.name}",
-                          style: const TextStyle(fontSize: 20),
-                        )
+                                " ${cubit.profile?.name}",
+                                style: const TextStyle(fontSize: 20),
+                              )
                             : const SizedBox(
-                          height: 1,
-                        ),
+                                height: 1,
+                              ),
                         const SizedBox(
                           height: 15,
                         ),
@@ -318,21 +318,24 @@ class _UserAccountState extends State<UserAccount> {
                                 builder: (context) {
                                   List<Widget> Action = [
                                     TextButton(
-                                      onPressed: () {
-                                        ShopDioHelper.deleteData(
-                                            token:
-                                                '${AppCubit.caller(context).login?.token}',
-                                            url:
-                                                'https://admin.rain-app.com/request-delete-account/');
+                                      onPressed: () async {
+                                        await ShopDioHelper.deleteUser(
+                                                token:
+                                                    '${CacheHelper.getData(key: "token")}',
+                                                url:
+                                                    'https://admin.rain-app.com/api/request-delete-account')
+                                            .then((value) {
+                                          print(
+                                              'Delete finished successfully');
+                                          buildToast(text: "تم حذف الحساب بنجاح", color: Colors.black);
 
-                                        print(
-                                            "-----------------------------------------");
-                                        print("Account Deleted");
-
-                                        Navigator.pop(context);
-                                        Navigator.of(context)
-                                            .pushReplacementNamed("signup");
-                                        setState(() {});
+                                          Navigator.pop(context);
+                                          Navigator.of(context)
+                                              .pushReplacementNamed("signup");
+                                        }).catchError((error) {
+                                          print(
+                                              'Something went wrong  with ${error.toString()}');
+                                        });
                                       },
                                       child: const Text(
                                         'نعم',
@@ -376,9 +379,9 @@ class _UserAccountState extends State<UserAccount> {
 
               return const Center(
                   child: Text(
-                    "حدث خطاء ما!",
-                    style: TextStyle(fontSize: 18),
-                  ));
+                "حدث خطاء ما!",
+                style: TextStyle(fontSize: 18),
+              ));
             },
           ),
         ),

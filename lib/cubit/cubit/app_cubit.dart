@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
@@ -692,22 +694,22 @@ class AppCubit extends Cubit<ApppState> {
 // }
 
   // Delete User
-  void deleteUser({
-    required String? token,
-  }) {
-    emit(DeleteUserLoadingState());
-    ShopDioHelper.deleteData(url: '/api/request-delete-account', token: token)
-        .then((value) {
-      if (value.statusCode == 200) {
-        print("User Deleted Successfully");
-      } else if (value.statusCode == 404) {
-        print("email is not found");
-      }
-      emit(DeleteUserSuccessState());
-    }).catchError((error) {
-      emit(DeleteUserErrorState(error.toString()));
-    });
-  }
+  // void deleteUser({
+  //   required String? token,
+  // }) {
+  //   emit(DeleteUserLoadingState());
+  //   ShopDioHelper.deleteData(url: 'https://admin.rain-app.com/api/request-delete-account', token: token)
+  //       .then((value) {
+  //     if (value.statusCode == 200) {
+  //       print("User Deleted Successfully");
+  //     } else if (value.statusCode == 404) {
+  //       print("email is not found");
+  //     }
+  //     emit(DeleteUserSuccessState());
+  //   }).catchError((error) {
+  //     emit(DeleteUserErrorState(error.toString()));
+  //   });
+  // }
 
   void loginWithGoogle({
     required String? name,
@@ -823,4 +825,121 @@ class AppCubit extends Cubit<ApppState> {
   }
 
 
-}
+  // void loginWithFacebook({
+  //   required String? name,
+  //   required String? email,
+  //   required String? facebookToken,
+  // }) {
+  //   ShopDioHelper.postData(
+  //     url: "auth/social/facebook",
+  //     data: {
+  //       'name': name,
+  //       'email': email,
+  //       'facebook_token': facebookToken,
+  //     },
+  //   ).then((value) {
+  //     // print(value.data);
+  //
+  //     print(value.statusCode);
+  //     login = LoginModel.fromJson(value.data);
+  //
+  //     print('----------------------------------------');
+  //     print(login!.name);
+  //     print(login!.email);
+  //     print('----------------------------------------');
+  //
+  //     emit(LoginWithFaceBookSuccessState());
+  //   }).catchError((error) {
+  //     print('Error');
+  //
+  //     print("Error in google login in postman is ${error.toString()}");
+  //
+  //     emit(LoginWithFaceBookErrorState());
+  //   });
+  // }
+
+  // Future<void> facebookFunction() async {
+  //   FacebookLogin facebookLogin = FacebookLogin();
+  //
+  //   final result = await facebookLogin.logIn();
+  //
+  //   switch (result.status) {
+  //     case FacebookLoginStatus.loggedIn:
+  //       print('Logged in with Facebook: ${result.accessToken?.token}');
+  //       break;
+  //     case FacebookLoginStatus.cancelledByUser:
+  //       print('Facebook login cancelled by user');
+  //       break;
+  //     case FacebookLoginStatus.error:
+  //       print('Facebook login error: ${result.error.toString()}');
+  //       break;
+  //   }
+  // }
+
+
+  void loginWithFaceBook({
+    required String? name,
+    required String? email,
+    required String? facebookToken,
+  }) {
+    ShopDioHelper.postData(
+      url: "api/auth/social/facebook",
+      data: {
+        'name': name,
+        'email': email,
+        'facebook_token': facebookToken,
+      },
+    ).then((value) {
+      // print(value.data);
+
+      print(value.statusCode);
+      login = LoginModel.fromJson(value.data);
+
+      print('----------------------------------------');
+      print(login!.name);
+      print(login!.email);
+      print('----------------------------------------');
+
+      emit(LoginWithFaceBookSuccessState());
+    }).catchError((error) {
+      print('Error');
+
+      print("Error in facebook login in postman is ${error.toString()}");
+
+      emit(LoginWithFaceBookErrorState());
+    });
+  }
+
+  // Future<UserCredential> faceBookFunction(context) async {
+  //   // Trigger the sign-in flow
+  //   final LoginResult loginResult = await FacebookAuth.instance.login(permissions: ['email'],);
+  //
+  //   // Create a credential from the access token
+  //   final OAuthCredential facebookAuthCredential =
+  //   FacebookAuthProvider.credential(login!.facebookToken);
+  //
+  //   // Once signed in, return the UserCredential
+  //   return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  // }
+  fblogin(context) async {
+    final facebookLogin =  FacebookLogin();
+    final result = await facebookLogin.logIn();
+    // final result = await facebookLogin.logInWithReadPermissions(['email']);
+    switch (result.status) {
+      case FacebookLoginStatus.success:
+        print(result.accessToken!.token);
+        break;
+      case FacebookLoginStatus.cancel:
+        print('CANCELED BY USER');
+        break;
+      case FacebookLoginStatus.error:
+        print(result.error);
+        break;
+      case FacebookLoginStatus.success:
+        // TODO: Handle this case.
+        break;
+    }
+  }
+
+  }
+

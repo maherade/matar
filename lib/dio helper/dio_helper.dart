@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class ShopDioHelper {
   static late Dio dio;
@@ -50,6 +51,25 @@ class ShopDioHelper {
     return res;
   }
 
+  static Future<Response> postPass({
+    required String url,
+    var data,
+    String? language,
+    Map<String, dynamic>? query,
+    String? token,
+  }) async {
+    var res = await dio.post(
+      url,
+      data: data,
+      queryParameters: query,
+    ).then((value) {
+      print('-------------------------Posted finished successfully ${value.toString()}');
+    }).catchError((error) {
+      print('------------------------Something went wrong  with ${error.toString()}');
+    });
+    return res;
+  }
+
   static Future<Response> putData({
     required String url,
     Map<String, dynamic> ?data,
@@ -85,18 +105,25 @@ class ShopDioHelper {
       url,
     );
   }
-// /static Future<String> deleteUser(String apiUrl, String userId, String token) async {
-//   final dio = Dio();
-//   dio.options.headers = {'Authorization': 'Bearer $token'};
-//   try {
-//     final response = await dio.delete('$apiUrl/users/$userId');
-//     if (response.statusCode == 200) {
-//       return 'User with ID $userId was deleted successfully';
-//     } else {
-//       return 'Error deleting user with ID $userId: ${response.data}';
-//     }
-//   } on DioError catch (e) {
-//     return 'Error deleting user with ID $userId: ${e.message}';
-//   }
-// }
+
+  static Future<void> deleteUser({
+    required String url,
+    Map<String, dynamic>? data,
+    String? language,
+    Map<String, dynamic>? query,
+    required String? token,
+  }) async {
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': language,
+      'Authorization': token,
+    };
+    return await dio.post(
+      url,
+    ).then((value) {
+      print('Delete finished successfully ${value.toString()}');
+    }).catchError((error) {
+      print('Something went wrong  with ${error.toString()}');
+    });
+  }
 }

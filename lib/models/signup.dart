@@ -93,7 +93,7 @@ class SignUp extends StatelessWidget {
                                       labelText: "اسمك",
                                       prefixIcon: Icon(
                                         Icons.person,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: nameControl,
                                       validate: (String? value) {
@@ -116,7 +116,7 @@ class SignUp extends StatelessWidget {
                                       },
                                       prefixIcon: Icon(
                                         Icons.email,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: emailControl,
                                       type: TextInputType.emailAddress),
@@ -130,7 +130,7 @@ class SignUp extends StatelessWidget {
                                       labelText: " الرقم السري",
                                       prefixIcon: Icon(
                                         Icons.lock,
-                                        color: mainColor,
+                                        color: Colors.grey,
                                       ),
                                       controller: passwordControler,
                                       validate: (String? value) {
@@ -151,7 +151,7 @@ class SignUp extends StatelessWidget {
                                           children: [
                                             Icon(
                                               Icons.location_on,
-                                              color: mainColor,
+                                              color: Colors.grey,
                                             ),
                                             SizedBox(
                                               width: 15,

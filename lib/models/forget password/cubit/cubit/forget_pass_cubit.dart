@@ -11,9 +11,9 @@ class ForgetPassCubit extends Cubit<ForgetPassState> {
 
   void sendVerLinke(String email) {
     emit(SendLinkeLoading());
-    ShopDioHelper.postData(url: "send-reset-password", data: {"email": email})
+    ShopDioHelper.postPass(url: "https://admin.rain-app.com/api/send-reset-password", data: {"email": email})
         .then((value) {
-      print("linke sendede");
+      print("link sent");
       emit(SendLinkeSuccess());
     }).catchError((e) {
       emit(SendLinkeError());
@@ -22,8 +22,8 @@ class ForgetPassCubit extends Cubit<ForgetPassState> {
 
   void changePassword(String password, String email) {
     emit(ChangePasswordLoading());
-    ShopDioHelper.postData(
-            url: "reset-password",
+    ShopDioHelper.postPass(
+            url: "https://admin.rain-app.com/api/reset-password",
             data: {"email": email, "code": code, "password": password})
         .then((value) {
       emit(ChangePasswordSuccess());
@@ -36,8 +36,8 @@ class ForgetPassCubit extends Cubit<ForgetPassState> {
 
   void checkCode(String c, String password, String email) {
     emit(CheckCodeLoading());
-    ShopDioHelper.postData(
-        url: "check-reset-code",
+    ShopDioHelper.postPass(
+        url: "https://admin.rain-app.com/api/check-reset-code",
         data: {"email": email, "code": c}).then((value) {
       code = c;
       changePassword(password, email);

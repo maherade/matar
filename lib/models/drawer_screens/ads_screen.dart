@@ -301,8 +301,8 @@ class adsScreenState extends State<adsScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: Column(
-                          children: const [
+                        child: const Column(
+                          children: [
                             Text(
                                 style: TextStyle(
                                     fontSize: 18,

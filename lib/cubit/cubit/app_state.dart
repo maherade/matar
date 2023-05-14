@@ -127,3 +127,9 @@ class LoginWithGoogleLoadingState extends ApppState {}
 class LoginWithGoogleSuccessState extends ApppState {}
 
 class LoginWithGoogleErrorState extends ApppState {}
+
+class LoginWithFaceBookLoadingState extends ApppState {}
+
+class LoginWithFaceBookSuccessState extends ApppState {}
+
+class LoginWithFaceBookErrorState extends ApppState {}

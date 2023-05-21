@@ -184,6 +184,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                   defaultButton(
                       onPressed: () {
                         checkConnection();
+                        Navigator.of(context)
+                            .pushReplacementNamed("main layout");
                       },
                       textButton: "اعادة المحاولة",
                       width: 150,
@@ -252,13 +254,14 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                           tabs: [
                             InkWell(
                               onTap: () {
-                                showTutorial();
+                                // showTutorial();
                               },
                               child: Tab(
                                 key: publicKey,
-                                child: Text(
+                                child: const Text(
                                   "عام",
                                   style: TextStyle(
+                                      fontSize: 18,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -269,92 +272,33 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                             //   return adsScreen();
                             //
                             // }));
-                            InkWell(
-                              onTap: () {
-                                showTutorial();
-                              },
-                              child: Tab(
-                                key: specialKey,
-                                child:
-                                    BlocBuilder<CountriesCubit, CountryModel?>(
-                                  builder: (context, state) {
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                            Tab(
+                              key: specialKey,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
                                       children: [
                                         Expanded(
-                                          child: Container(
-                                            margin:
-                                            const EdgeInsets.only(
-                                                top: 8),
-                                            padding: const EdgeInsets
-                                                .symmetric(
-                                                vertical: 5,
-                                                horizontal: 20),
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    12)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  "${CacheHelper.getData(key: "country")}",
-                                                  style: const TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors
-                                                          .black,
-                                                      fontWeight:
-                                                      FontWeight
-                                                          .bold),
-                                                ),
-                                                SizedBox(width: 15,),
-                                                Image.network(
-                                                  "https://admin.rain-app.com/storage/countries/${CacheHelper.getData(key: "country")}.png",
-                                                  height: 50,
-                                                ),
-                                              ],
-                                            ),
+                                          flex: 1,
+                                          child: Text(
+                                            "${CacheHelper.getData(key: "country")}",
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700),
                                           ),
                                         ),
-                                        IconButton(
-                                            onPressed: () {
-                                              Offset offs = Offset(0, 0);
-                                              final RenderBox button =
-                                                  context.findRenderObject()!
-                                                      as RenderBox;
-                                              final RenderBox overlay =
-                                                  Navigator.of(context)
-                                                          .overlay!
-                                                          .context
-                                                          .findRenderObject()!
-                                                      as RenderBox;
-                                              final RelativeRect position =
-                                                  RelativeRect.fromRect(
-                                                Rect.fromPoints(
-                                                  button.localToGlobal(offs,
-                                                      ancestor: overlay),
-                                                  button.localToGlobal(
-                                                      button.size.bottomRight(
-                                                              Offset.zero) +
-                                                          offs,
-                                                      ancestor: overlay),
-                                                ),
-                                                Offset.zero & overlay.size,
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                              color: Colors.white,
-                                            ))
+                                        Expanded(
+                                          flex: 3,
+                                          child: Image.network(
+                                            "https://admin.rain-app.com/storage/countries/${CacheHelper.getData(key: "country")}.png",
+                                          ),
+                                        ),
                                       ],
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -371,7 +315,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                               itemBuilder: (ctx, index) {
                                 return Scaffold(
                                     body: ind.contains(index) &&
-                                            cubit.profile?.sub != true
+                                        cubit.profile?.sub != true
                                         ? PageView.builder(
                                             itemCount: 1,
                                             itemBuilder: (c, n) {
@@ -482,8 +426,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                         AdsHelper
                                                                             .getBunnerAd(),
                                                                     adSize: AdmobBannerSize
-                                                                        .SMART_BANNER(
-                                                                            ctx)),
+                                                                        .MEDIUM_RECTANGLE),
                                                               ),
                                                             );
                                                           }),
@@ -863,7 +806,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                               itemBuilder: (ctx, index) {
                                 return Scaffold(
                                     body: ind.contains(index) &&
-                                            cubit.profile?.sub != true
+                                        cubit.profile?.sub != true
                                         ? PageView.builder(
                                             itemCount: 1,
                                             itemBuilder: (c, n) {
@@ -974,8 +917,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                         AdsHelper
                                                                             .getBunnerAd(),
                                                                     adSize: AdmobBannerSize
-                                                                        .SMART_BANNER(
-                                                                            ctx)),
+                                                                        .MEDIUM_RECTANGLE),
                                                               ),
                                                             );
                                                           }),

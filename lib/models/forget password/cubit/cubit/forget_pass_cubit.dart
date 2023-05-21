@@ -9,10 +9,11 @@ class ForgetPassCubit extends Cubit<ForgetPassState> {
 
   static ForgetPassCubit caller(context) => BlocProvider.of(context);
 
-  void sendVerLinke(String email) {
+  void sendVerLinke(String email) async {
     emit(SendLinkeLoading());
-    ShopDioHelper.postPass(url: "https://admin.rain-app.com/api/send-reset-password", data: {"email": email})
-        .then((value) {
+    await ShopDioHelper.postPass(
+        url: "https://admin.rain-app.com/api/send-reset-password",
+        data: {"email": email}).then((value) {
       print("link sent");
       emit(SendLinkeSuccess());
     }).catchError((e) {
@@ -20,23 +21,25 @@ class ForgetPassCubit extends Cubit<ForgetPassState> {
     });
   }
 
-  void changePassword(String password, String email) {
+  void changePassword(String password, String email) async {
     emit(ChangePasswordLoading());
-    ShopDioHelper.postPass(
-            url: "https://admin.rain-app.com/api/reset-password",
+    await ShopDioHelper.postPass(
+            url: "https://https://admin.rain-app.com/api/reset-password",
             data: {"email": email, "code": code, "password": password})
         .then((value) {
       emit(ChangePasswordSuccess());
+      print("-----------------------password changed");
     }).catchError((e) {
       emit(ChangePasswordError());
+      print("-----------------------couldn't change password ${e.toString()}");
     });
   }
 
   String? code;
 
-  void checkCode(String c, String password, String email) {
+  void checkCode(String c, String password, String email) async {
     emit(CheckCodeLoading());
-    ShopDioHelper.postPass(
+    await ShopDioHelper.postPass(
         url: "https://admin.rain-app.com/api/check-reset-code",
         data: {"email": email, "code": c}).then((value) {
       code = c;

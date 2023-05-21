@@ -1,9 +1,11 @@
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'package:mattar/dio%20helper/dio_helper.dart';
 import 'package:mattar/layout/main%20layout.dart';
@@ -24,6 +26,7 @@ import 'package:mattar/models/notification%20screen.dart';
 import 'package:mattar/models/signup.dart';
 import 'package:mattar/models/starting_page.dart';
 import 'package:mattar/models/user_account/user%20acount.dart';
+import 'package:provider/provider.dart';
 
 import 'component/constants.dart';
 import 'models/country/country screen.dart';
@@ -33,8 +36,8 @@ import 'models/mattar video and image/cubit/cubit/video_cubit.dart';
 import 'network/local/shared_pref.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   ShopDioHelper.shopDioInit();
   await CacheHelper.init();
@@ -125,6 +128,4 @@ class MyApp extends StatelessWidget {
           },
         ));
   }
-
-
 }

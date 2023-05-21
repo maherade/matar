@@ -16,11 +16,11 @@ import 'consumable_store.dart';
 
 final bool _kAutoConsume = Platform.isIOS || true;
 
-const String _kConsumableId = 'product1';
-const String _kUpgradeId = 'product1';
-const String _kSilverSubscriptionId = 'product1';
-const String _kGoldSubscriptionId = 'product1';
-const List<String> _kProductIds = <String>[
+const String _kConsumableId = 'Remove Ads';
+const String _kUpgradeId = 'Remove Ads';
+const String _kSilverSubscriptionId = 'Remove Ads';
+const String _kGoldSubscriptionId = 'Remove Ads';
+const List<String> _kProductIds = [
   _kConsumableId,
   _kUpgradeId,
   _kSilverSubscriptionId,
@@ -35,10 +35,10 @@ class adsScreen extends StatefulWidget {
 class adsScreenState extends State<adsScreen> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<String> _notFoundIds = <String>[];
-  List<ProductDetails> _products = <ProductDetails>[];
-  List<PurchaseDetails> _purchases = <PurchaseDetails>[];
-  List<String> _consumables = <String>[];
+  List<String> _notFoundIds = [];
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+  List<String> _consumables = [];
   bool _isAvailable = false;
   bool _purchasePending = false;
   bool _loading = true;
@@ -65,10 +65,10 @@ class adsScreenState extends State<adsScreen> {
     if (!isAvailable) {
       setState(() {
         _isAvailable = isAvailable;
-        _products = <ProductDetails>[];
-        _purchases = <PurchaseDetails>[];
-        _notFoundIds = <String>[];
-        _consumables = <String>[];
+        _products = [];
+        _purchases = [];
+        _notFoundIds = [];
+        _consumables = [];
         _purchasePending = false;
         _loading = false;
       });
@@ -143,10 +143,10 @@ class adsScreenState extends State<adsScreen> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // _buildConnectionCheckTile(),
+            _buildConnectionCheckTile(),
             _buildProductList(),
-            // _buildConsumableBox(),
-            // _buildRestoreButton(),
+            _buildConsumableBox(),
+            _buildRestoreButton(),
           ],
         ),
       );
@@ -157,8 +157,8 @@ class adsScreenState extends State<adsScreen> {
     }
     if (_purchasePending) {
       stack.add(
-        Stack(
-          children: const <Widget>[
+        const Stack(
+          children: <Widget>[
             Opacity(
               opacity: 0.3,
               child: ModalBarrier(dismissible: false, color: Colors.grey),
@@ -175,7 +175,7 @@ class adsScreenState extends State<adsScreen> {
       home: Scaffold(
         body: CacheHelper.getData(key: "login") == null
             ? Container(
-                margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -186,7 +186,7 @@ class adsScreenState extends State<adsScreen> {
                           .headline1
                           ?.copyWith(color: Colors.grey, fontSize: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     defaultButton(
@@ -255,7 +255,7 @@ class adsScreenState extends State<adsScreen> {
       return const Card();
     }
     Column productHeader =
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: []);
+        const Column(mainAxisAlignment: MainAxisAlignment.center, children: []);
     final List<Column> productList = <Column>[];
     if (_notFoundIds.isNotEmpty) {
       productList.add(Column(
@@ -498,9 +498,8 @@ class adsScreenState extends State<adsScreen> {
     // handle invalid purchase here if  _verifyPurchase` failed.
   }
 
-  Future<void> _listenToPurchaseUpdated(
-      List<PurchaseDetails> purchaseDetailsList) async {
-    for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         showPendingUI();
       } else {
@@ -508,41 +507,18 @@ class adsScreenState extends State<adsScreen> {
           handleError(purchaseDetails.error!);
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
-          final bool valid = await _verifyPurchase(purchaseDetails);
+          bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);
           } else {
             _handleInvalidPurchase(purchaseDetails);
-            return;
-          }
-        }
-        if (Platform.isAndroid) {
-          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
-            final InAppPurchaseAndroidPlatformAddition androidAddition =
-                _inAppPurchase.getPlatformAddition<
-                    InAppPurchaseAndroidPlatformAddition>();
-            await androidAddition.consumePurchase(purchaseDetails);
           }
         }
         if (purchaseDetails.pendingCompletePurchase) {
-          await _inAppPurchase.completePurchase(purchaseDetails);
-          ShopDioHelper.postData(
-              token: CacheHelper.getData(key: "token"),
-              url: "record-subscribe",
-              data: {
-                "amount": "14.99",
-                "start_date": DateTime.now().toString(),
-                "expire_date":
-                    DateTime.now().add(Duration(days: 360)).toString(),
-                "pay_method": Platform.isAndroid ? "google-pay" : "apple pay"
-              }).then((value) {
-            CacheHelper.saveData(key: "subscibtion", value: true);
-            Navigator.of(context).pushReplacementNamed("main layout");
-            print("sub done");
-          });
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
         }
       }
-    }
+    });
   }
 
   Future<void> confirmPriceChange(BuildContext context) async {

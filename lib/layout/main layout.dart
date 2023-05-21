@@ -111,8 +111,8 @@ class MainLayout extends StatelessWidget {
                           defaultDrawerContainer(
                               context: context,
                               title: "إشتراك",
-                              onpressed: () => Navigator.of(context)
-                                  .pushNamed(SubscribingScreen.routeName)),
+                              onpressed: () =>
+                                  Navigator.of(context).pushNamed("ads")),
                           defaultDrawerContainer(
                               context: context,
                               title: "الكوبونات",

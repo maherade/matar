@@ -21,7 +21,7 @@ class SendLinke extends StatelessWidget {
             Navigator.of(context).pushReplacementNamed("code ver");
           }
           if (state is SendLinkeError) {
-            buildToast(text: "فشل", color: Colors.black);
+            // buildToast(text: "فشل", color: Colors.black);
           }
           if (state is SendLinkeLoading) {
             buildToast(text: "جار ارسال الرمز", color: Colors.black);
@@ -90,6 +90,8 @@ class SendLinke extends StatelessWidget {
                                         ForgetPassCubit.caller(context)
                                             .sendVerLinke(
                                                 _emailController.text);
+                                        Navigator.pushNamed(
+                                            context, "code ver");
                                       }
                                     },
                                     textButton: "ارسال",

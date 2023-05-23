@@ -157,8 +157,8 @@ class adsScreenState extends State<adsScreen> {
     }
     if (_purchasePending) {
       stack.add(
-        const Stack(
-          children: <Widget>[
+         Stack(
+          children: const <Widget>[
             Opacity(
               opacity: 0.3,
               child: ModalBarrier(dismissible: false, color: Colors.grey),
@@ -255,7 +255,7 @@ class adsScreenState extends State<adsScreen> {
       return const Card();
     }
     Column productHeader =
-        const Column(mainAxisAlignment: MainAxisAlignment.center, children: []);
+         Column(mainAxisAlignment: MainAxisAlignment.center, children: const []);
     final List<Column> productList = <Column>[];
     if (_notFoundIds.isNotEmpty) {
       productList.add(Column(
@@ -301,8 +301,8 @@ class adsScreenState extends State<adsScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: const Column(
-                          children: [
+                        child:  Column(
+                          children: const [
                             Text(
                                 style: TextStyle(
                                     fontSize: 18,

@@ -58,7 +58,7 @@ Widget defaultButton({
         onPressed: onPressed,
         child: Text(
           isUpperCase ? textButton.toUpperCase() : textButton,
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+          style: const TextStyle(color: Colors.white, fontSize: 15),
         ),
       ),
     );

@@ -1,381 +1,393 @@
-// // import 'dart:io';
-// //
-// // import 'package:easy_ads_flutter/easy_ads_flutter.dart';
-// //
-// // class TestAdIdManager extends IAdIdManager {
-// //   const TestAdIdManager();
-// //
-// //   @override
-// //   AppAdIds? get admobAdIds => AppAdIds(
-// //     appId: Platform.isAndroid
-// //         ? 'ca-app-pub-3940256099942544~3347511713'
-// //         : 'ca-app-pub-3940256099942544~1458002511',
-// //     appOpenId: Platform.isAndroid
-// //         ? 'ca-app-pub-3940256099942544/3419835294'
-// //         : 'ca-app-pub-3940256099942544/5662855259',
-// //     bannerId: 'ca-app-pub-3940256099942544/6300978111',
-// //     interstitialId: 'ca-app-pub-3940256099942544/1033173712',
-// //     rewardedId: 'ca-app-pub-3940256099942544/5224354917',
-// //   );
-// //
-// //   @override
-// //   AppAdIds? get unityAdIds => AppAdIds(
-// //     appId: Platform.isAndroid ? 'ca-app-pub-2342851934476929~6420048433' : 'ca-app-pub-2342851934476929~7202377561',
-// //     bannerId: Platform.isAndroid ? 'Banner_Android' : 'Banner_iOS',
-// //     interstitialId:
-// //     Platform.isAndroid ? 'Interstitial_Android' : 'Interstitial_iOS',
-// //     rewardedId: Platform.isAndroid ? 'Rewarded_Android' : 'Rewarded_iOS',
-// //   );
-// //
-// //   @override
-// //   AppAdIds? get appLovinAdIds => AppAdIds(
-// //     appId: Platform.isAndroid ? 'ca-app-pub-2342851934476929~6420048433' : 'ca-app-pub-2342851934476929~7202377561',
-// //     bannerId: Platform.isAndroid ? 'ca-app-pub-2342851934476929/8822850492' : 'a-app-pub-2342851934476929/9636969213',
-// //     interstitialId:
-// //     Platform.isAndroid ? 'ca-app-pub-2342851934476929/2139368510' : 'ca-app-pub-2342851934476929/4957103548',
-// //     rewardedId:
-// //     Platform.isAndroid ? 'ca-app-pub-2342851934476929/3015974131' : 'ca-app-pub-2342851934476929/8747889335',
-// //   );
-// //
-// //   @override
-// //   AppAdIds? get fbAdIds => const AppAdIds(
-// //     appId: 'ca-app-pub-2342851934476929~6420048433',
-// //     interstitialId: 'ca-app-pub-2342851934476929/2139368510',
-// //     bannerId: 'ca-app-pub-2342851934476929/8822850492',
-// //     rewardedId: 'ca-app-pub-2342851934476929/3015974131',
-// //   );
-// // }
-//
-// // Copyright 2021 Google LLC
-// //
-// // Licensed under the Apache License, Version 2.0 (the "License");
-// // you may not use this file except in compliance with the License.
-// // You may obtain a copy of the License at
-// //
-// // https://www.apache.org/licenses/LICENSE-2.0
-// //
-// // Unless required by applicable law or agreed to in writing, software
-// // distributed under the License is distributed on an "AS IS" BASIS,
-// // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// // See the License for the specific language governing permissions and
-// // limitations under the License.
-//
-// // ignore_for_file: public_member_api_docs
-//
-// import 'dart:io' show Platform;
-//
-// import 'package:flutter/material.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
-// import 'package:mattar/layout/main%20layout.dart';
-//
-//
-//
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   MobileAds.instance.initialize();
-//   runApp(MyApp());
-// }
-//
-// // You can also test with your own ad unit IDs by registering your device as a
-// // test device. Check the logs for your device's ID value.
-// const String testDevice = 'YOUR_DEVICE_ID';
-// const int maxFailedLoadAttempts = 3;
-//
-// class MyApp extends StatefulWidget {
-//   @override
-//   _MyAppState createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   static final AdRequest request = AdRequest(
-//     keywords: <String>['foo', 'bar'],
-//     contentUrl: 'http://foo.com/bar.html',
-//     nonPersonalizedAds: true,
-//   );
-//
-//   static const interstitialButtonText = 'InterstitialAd';
-//   static const rewardedButtonText = 'RewardedAd';
-//   static const rewardedInterstitialButtonText = 'RewardedInterstitialAd';
-//   static const fluidButtonText = 'Fluid';
-//   static const inlineAdaptiveButtonText = 'Inline adaptive';
-//   static const anchoredAdaptiveButtonText = 'Anchored adaptive';
-//   static const nativeTemplateButtonText = 'Native template';
-//   static const webviewExampleButtonText = 'Register WebView';
-//
-//   InterstitialAd? _interstitialAd;
-//   int _numInterstitialLoadAttempts = 0;
-//
-//   RewardedAd? _rewardedAd;
-//   int _numRewardedLoadAttempts = 0;
-//
-//   RewardedInterstitialAd? _rewardedInterstitialAd;
-//   int _numRewardedInterstitialLoadAttempts = 0;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _createInterstitialAd();
-//     _createRewardedAd();
-//     _createRewardedInterstitialAd();
-//   }
-//
-//   void _createInterstitialAd() {
-//     InterstitialAd.load(
-//         adUnitId: Platform.isAndroid
-//             ? 'ca-app-pub-3940256099942544/1033173712'
-//             : 'ca-app-pub-3940256099942544/4411468910',
-//         request: request,
-//         adLoadCallback: InterstitialAdLoadCallback(
-//           onAdLoaded: (InterstitialAd ad) {
-//             print('$ad loaded');
-//             _interstitialAd = ad;
-//             _numInterstitialLoadAttempts = 0;
-//             _interstitialAd!.setImmersiveMode(true);
-//           },
-//           onAdFailedToLoad: (LoadAdError error) {
-//             print('InterstitialAd failed to load: $error.');
-//             _numInterstitialLoadAttempts += 1;
-//             _interstitialAd = null;
-//             if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
-//               _createInterstitialAd();
-//             }
-//           },
-//         ));
-//   }
-//
-//   void _showInterstitialAd() {
-//     if (_interstitialAd == null) {
-//       print('Warning: attempt to show interstitial before loaded.');
-//       return;
-//     }
-//     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-//       onAdShowedFullScreenContent: (InterstitialAd ad) =>
-//           print('ad onAdShowedFullScreenContent.'),
-//       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-//         print('$ad onAdDismissedFullScreenContent.');
-//         ad.dispose();
-//         _createInterstitialAd();
-//       },
-//       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-//         print('$ad onAdFailedToShowFullScreenContent: $error');
-//         ad.dispose();
-//         _createInterstitialAd();
-//       },
-//     );
-//     _interstitialAd!.show();
-//     _interstitialAd = null;
-//   }
-//
-//   void _createRewardedAd() {
-//     RewardedAd.load(
-//         adUnitId: Platform.isAndroid
-//             ? 'ca-app-pub-3940256099942544/5224354917'
-//             : 'ca-app-pub-3940256099942544/1712485313',
-//         request: request,
-//         rewardedAdLoadCallback: RewardedAdLoadCallback(
-//           onAdLoaded: (RewardedAd ad) {
-//             print('$ad loaded.');
-//             _rewardedAd = ad;
-//             _numRewardedLoadAttempts = 0;
-//           },
-//           onAdFailedToLoad: (LoadAdError error) {
-//             print('RewardedAd failed to load: $error');
-//             _rewardedAd = null;
-//             _numRewardedLoadAttempts += 1;
-//             if (_numRewardedLoadAttempts < maxFailedLoadAttempts) {
-//               _createRewardedAd();
-//             }
-//           },
-//         ));
-//   }
-//
-//   void _showRewardedAd() {
-//     if (_rewardedAd == null) {
-//       print('Warning: attempt to show rewarded before loaded.');
-//       return;
-//     }
-//     _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-//       onAdShowedFullScreenContent: (RewardedAd ad) =>
-//           print('ad onAdShowedFullScreenContent.'),
-//       onAdDismissedFullScreenContent: (RewardedAd ad) {
-//         print('$ad onAdDismissedFullScreenContent.');
-//         ad.dispose();
-//         _createRewardedAd();
-//       },
-//       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-//         print('$ad onAdFailedToShowFullScreenContent: $error');
-//         ad.dispose();
-//         _createRewardedAd();
-//       },
-//     );
-//
-//     _rewardedAd!.setImmersiveMode(true);
-//     _rewardedAd!.show(
-//         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-//           print('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
-//         });
-//     _rewardedAd = null;
-//   }
-//
-//   void _createRewardedInterstitialAd() {
-//     RewardedInterstitialAd.load(
-//         adUnitId: Platform.isAndroid
-//             ? 'ca-app-pub-3940256099942544/5354046379'
-//             : 'ca-app-pub-3940256099942544/6978759866',
-//         request: request,
-//         rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
-//           onAdLoaded: (RewardedInterstitialAd ad) {
-//             print('$ad loaded.');
-//             _rewardedInterstitialAd = ad;
-//             _numRewardedInterstitialLoadAttempts = 0;
-//           },
-//           onAdFailedToLoad: (LoadAdError error) {
-//             print('RewardedInterstitialAd failed to load: $error');
-//             _rewardedInterstitialAd = null;
-//             _numRewardedInterstitialLoadAttempts += 1;
-//             if (_numRewardedInterstitialLoadAttempts < maxFailedLoadAttempts) {
-//               _createRewardedInterstitialAd();
-//             }
-//           },
-//         ));
-//   }
-//
-//   void _showRewardedInterstitialAd() {
-//     if (_rewardedInterstitialAd == null) {
-//       print('Warning: attempt to show rewarded interstitial before loaded.');
-//       return;
-//     }
-//     _rewardedInterstitialAd!.fullScreenContentCallback =
-//         FullScreenContentCallback(
-//           onAdShowedFullScreenContent: (RewardedInterstitialAd ad) =>
-//               print('$ad onAdShowedFullScreenContent.'),
-//           onAdDismissedFullScreenContent: (RewardedInterstitialAd ad) {
-//             print('$ad onAdDismissedFullScreenContent.');
-//             ad.dispose();
-//             _createRewardedInterstitialAd();
-//           },
-//           onAdFailedToShowFullScreenContent:
-//               (RewardedInterstitialAd ad, AdError error) {
-//             print('$ad onAdFailedToShowFullScreenContent: $error');
-//             ad.dispose();
-//             _createRewardedInterstitialAd();
-//           },
-//         );
-//
-//     _rewardedInterstitialAd!.setImmersiveMode(true);
-//     _rewardedInterstitialAd!.show(
-//         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-//           print('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
-//         });
-//     _rewardedInterstitialAd = null;
-//   }
-//
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _interstitialAd?.dispose();
-//     _rewardedAd?.dispose();
-//     _rewardedInterstitialAd?.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Builder(builder: (BuildContext context) {
-//         return Scaffold(
-//           appBar: AppBar(
-//             title: const Text('AdMob Plugin example app'),
-//             actions: <Widget>[
-//               PopupMenuButton<String>(
-//                 onSelected: (String result) {
-//                   switch (result) {
-//                     case interstitialButtonText:
-//                       _showInterstitialAd();
-//                       break;
-//                     case rewardedButtonText:
-//                       _showRewardedAd();
-//                       break;
-//                     case rewardedInterstitialButtonText:
-//                       _showRewardedInterstitialAd();
-//                       break;
-//                     case fluidButtonText:
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(builder: (context) => const MainLayout()),
-//                       );
-//                       break;
-//                     case inlineAdaptiveButtonText:
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => const MainLayout()),
-//                       );
-//                       break;
-//                     case anchoredAdaptiveButtonText:
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => MainLayout()),
-//                       );
-//                       break;
-//                     case nativeTemplateButtonText:
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => MainLayout()),
-//                       );
-//                       break;
-//                     case webviewExampleButtonText:
-//                       Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => MainLayout()),
-//                       );
-//                       break;
-//                     default:
-//                       throw AssertionError('unexpected button: $result');
-//                   }
-//                 },
-//                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-//                   PopupMenuItem<String>(
-//                     value: interstitialButtonText,
-//                     child: Text(interstitialButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: rewardedButtonText,
-//                     child: Text(rewardedButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: rewardedInterstitialButtonText,
-//                     child: Text(rewardedInterstitialButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: fluidButtonText,
-//                     child: Text(fluidButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: inlineAdaptiveButtonText,
-//                     child: Text(inlineAdaptiveButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: anchoredAdaptiveButtonText,
-//                     child: Text(anchoredAdaptiveButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: nativeTemplateButtonText,
-//                     child: Text(nativeTemplateButtonText),
-//                   ),
-//                   PopupMenuItem<String>(
-//                     value: webviewExampleButtonText,
-//                     child: Text(webviewExampleButtonText),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//           body: SafeArea(child: MainLayout()),
-//         );
-//       }),
-//     );
-//   }
-// }
+
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:mattar/layout/main%20layout.dart';
+import 'package:mattar/models/login.dart';
+
+
+class MyMaterialApp extends StatefulWidget {
+  @override
+  _MyMaterialAppState createState() => _MyMaterialAppState();
+}
+
+class _MyMaterialAppState extends State<MyMaterialApp> {
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
+  AdmobBannerSize? bannerSize;
+  late AdmobInterstitial interstitialAd;
+  late AdmobReward rewardAd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
+
+    bannerSize = AdmobBannerSize.BANNER;
+
+    interstitialAd = AdmobInterstitial(
+      adUnitId: getInterstitialAdUnitId()!,
+      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+        if (event == AdmobAdEvent.closed) interstitialAd.load();
+        handleEvent(event, args, 'Interstitial');
+      },
+    );
+
+    rewardAd = AdmobReward(
+      adUnitId: getRewardBasedVideoAdUnitId()!,
+      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+
+    interstitialAd.load();
+    rewardAd.load();
+  }
+
+  void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        showSnackBar('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        showSnackBar('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        showSnackBar('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        showSnackBar('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+        showDialog(
+          context: scaffoldState.currentContext!,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                return true;
+              },
+              child: AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Reward callback fired. Thanks Andrew!'),
+                    Text('Type: ${args!['type']}'),
+                    Text('Amount: ${args['amount']}'),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+        break;
+      default:
+    }
+  }
+
+  void showSnackBar(String content) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
+      ),
+      home: Builder(
+        builder: (BuildContext context) => Scaffold(
+          key: scaffoldState,
+          appBar: AppBar(
+            title: const Text('AdmobFlutter'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) {
+                        return ShowMainPage();
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  'FullscreenDialog',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ), // .withBottomAdmobBanner(context),
+          bottomNavigationBar: Builder(
+            builder: (BuildContext context) {
+              return Container(
+                color: Colors.blueGrey,
+                child: SafeArea(
+                  child: SizedBox(
+                    height: 60,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () async {
+                              final isLoaded = await interstitialAd.isLoaded;
+                              if (isLoaded ?? false) {
+                                interstitialAd.show();
+                              } else {
+                                showSnackBar(
+                                    'Interstitial ad is still loading...');
+                              }
+                            },
+                            child: Text(
+                              'Show Interstitial',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () async {
+                              if (await rewardAd.isLoaded) {
+                                rewardAd.show();
+                              } else {
+                                showSnackBar('Reward ad is still loading...');
+                              }
+                            },
+                            child: Text(
+                              'Show Reward',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: PopupMenuButton(
+                            initialValue: bannerSize,
+                            offset: Offset(0, 20),
+                            onSelected: (AdmobBannerSize newSize) {
+                              setState(() {
+                                bannerSize = newSize;
+                              });
+                            },
+                            itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<AdmobBannerSize>>[
+                              PopupMenuItem(
+                                value: AdmobBannerSize.BANNER,
+                                child: Text('BANNER'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.LARGE_BANNER,
+                                child: Text('LARGE_BANNER'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.MEDIUM_RECTANGLE,
+                                child: Text('MEDIUM_RECTANGLE'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.FULL_BANNER,
+                                child: Text('FULL_BANNER'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.LEADERBOARD,
+                                child: Text('LEADERBOARD'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.SMART_BANNER(context),
+                                child: Text('SMART_BANNER'),
+                              ),
+                              PopupMenuItem(
+                                value: AdmobBannerSize.ADAPTIVE_BANNER(
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width
+                                      .toInt() -
+                                      40, // considering EdgeInsets.all(20.0)
+                                ),
+                                child: Text('ADAPTIVE_BANNER'),
+                              ),
+                            ],
+                            child: Center(
+                              child: Text(
+                                'Banner size',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return ShowMainPage();
+                                    }),
+                              );
+                            },
+                            child: Text(
+                              'Push Page',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Scrollbar(
+                  child: ListView.builder(
+                    padding: EdgeInsets.all(20.0),
+                    itemCount: 1000,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index != 0 && index % 6 == 0) {
+                        return Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(bottom: 20.0),
+                              child: AdmobBanner(
+                                adUnitId: getBannerAdUnitId()!,
+                                adSize: bannerSize!,
+                                listener: (AdmobAdEvent event,
+                                    Map<String, dynamic>? args) {
+                                  handleEvent(event, args, 'Banner');
+                                },
+                                onBannerCreated:
+                                    (AdmobBannerController controller) {
+                                  // Dispose is called automatically for you when Flutter removes the banner from the widget tree.
+                                  // Normally you don't need to worry about disposing this yourself, it's handled.
+                                  // If you need direct access to dispose, this is your guy!
+                                  // controller.dispose();
+                                },
+                              ),
+                            ),
+                            Container(
+                              height: 100.0,
+                              margin: EdgeInsets.only(bottom: 20.0),
+                              color: Colors.cyan,
+                            ),
+                          ],
+                        );
+                      }
+                      return Container(
+                        height: 100.0,
+                        margin: EdgeInsets.only(bottom: 20.0),
+                        color: Colors.cyan,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              // Another option is to fix a banner ad to the top or bottom of your content.
+              // Notice that banners are not scrolling, which is a violation of admob policy.
+              //
+              // See: https://github.com/kmcgill88/admob_flutter/issues/194
+              // "banner ads should not move as a user scrolls, as users may try to
+              // click on the menu but end up clicking on the ad accidentally instead.
+              // This specific implementation is against policy and we reserve the right
+              // to disable ad serving to your app."
+
+              // Builder(
+              //   builder: (BuildContext context) {
+              //     final size = MediaQuery.of(context).size;
+              //     final height = max(size.height * .05, 50.0);
+              //     return Container(
+              //       width: size.width,
+              //       height: height,
+              //       child: AdmobBanner(
+              //         adUnitId: getBannerAdUnitId(),
+              //         adSize: AdmobBannerSize.ADAPTIVE_BANNER(
+              //           width: size.width.toInt(),
+              //         ),
+              //         listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              //           handleEvent(event, args, 'Banner');
+              //         },
+              //       ),
+              //     );
+              //   },
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+    // .withBottomAdmobBanner(context);
+  }
+
+  @override
+  void dispose() {
+    interstitialAd.dispose();
+    rewardAd.dispose();
+
+    super.dispose();
+  }
+}
+
+/*
+Test Id's from:
+https://developers.google.com/admob/ios/banner
+https://developers.google.com/admob/android/banner
+
+App Id - See README where these Id's go
+Android: ca-app-pub-3940256099942544~3347511713
+iOS: ca-app-pub-3940256099942544~1458002511
+
+Banner
+Android: ca-app-pub-3940256099942544/6300978111
+iOS: ca-app-pub-3940256099942544/2934735716
+
+Interstitial
+Android: ca-app-pub-3940256099942544/1033173712
+iOS: ca-app-pub-3940256099942544/4411468910
+
+Reward Video
+Android: ca-app-pub-3940256099942544/5224354917
+iOS: ca-app-pub-3940256099942544/1712485313
+*/
+
+String? getBannerAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/2934735716';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/6300978111';
+  }
+  return null;
+}
+
+String? getInterstitialAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/4411468910';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/1033173712';
+  }
+  return null;
+}
+
+String? getRewardBasedVideoAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/1712485313';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/5224354917';
+  }
+  return null;
+}

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,12 +8,117 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
-import 'package:mattar/layout/subscribing_screen.dart';
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:mattar/layout/main%20layout.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-class ShowMainPage extends StatelessWidget {
-  const ShowMainPage({Key? key}) : super(key: key);
+late AdmobReward rewardAd;
+late AdmobInterstitial interstitialAd;
+
+class ShowMainPage extends StatefulWidget {
+
+   ShowMainPage({Key? key}) : super(key: key);
+
+  @override
+  State<ShowMainPage> createState() => _ShowMainPageState();
+}
+
+class _ShowMainPageState extends State<ShowMainPage> {
+  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
+
+  AdmobBannerSize? bannerSize;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
+
+    bannerSize = AdmobBannerSize.BANNER;
+
+    interstitialAd = AdmobInterstitial(
+      adUnitId: getInterstitialAdUnitId()!,
+      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+        if (event == AdmobAdEvent.closed) interstitialAd.load();
+        handleEvent(event, args, 'Interstitial');
+      },
+    );
+
+    @override
+    void dispose() {
+      interstitialAd.dispose();
+      rewardAd.dispose();
+      super.dispose();
+    }
+    rewardAd = AdmobReward(
+      adUnitId: getRewardBasedVideoAdUnitId()!,
+      listener: (AdmobAdEvent event, Map<String, dynamic>? args) {
+        if (event == AdmobAdEvent.closed) rewardAd.load();
+        handleEvent(event, args, 'Reward');
+      },
+    );
+
+    interstitialAd.load();
+    rewardAd.load();
+  }
+
+
+  void handleEvent(
+      AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        showSnackBar('New Admob $adType Ad loaded!');
+        break;
+      case AdmobAdEvent.opened:
+        showSnackBar('Admob $adType Ad opened!');
+        break;
+      case AdmobAdEvent.closed:
+        showSnackBar('Admob $adType Ad closed!');
+        break;
+      case AdmobAdEvent.failedToLoad:
+        showSnackBar('Admob $adType failed to load. :(');
+        break;
+      case AdmobAdEvent.rewarded:
+        showDialog(
+          context: scaffoldState.currentContext!,
+          builder: (BuildContext context) {
+            return WillPopScope(
+              onWillPop: () async {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                return true;
+              },
+              child: AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text('Reward callback fired. Thanks Andrew!'),
+                    Text('Type: ${args!['type']}'),
+                    Text('Amount: ${args['amount']}'),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+        break;
+      default:
+    }
+  }
+
+  void showSnackBar(String content) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +295,7 @@ class _MainLayoutState extends State<MainLayout> {
                                   context: context,
                                   title: "زيارة الملف الشخصي",
                                   onpressed: () {
+
                                     Navigator.of(context)
                                         .pushReplacementNamed("user acount");
                                   }),
@@ -458,6 +565,7 @@ class NewMainLayout extends StatelessWidget {
                                 context: context,
                                 title: "زيارة الملف الشخصي",
                                 onpressed: () {
+
                                   Navigator.of(context)
                                       .pushReplacementNamed("user acount");
                                 }),
@@ -465,6 +573,7 @@ class NewMainLayout extends StatelessWidget {
                               context: context,
                               title: "إشتراك",
                               onpressed: () =>
+
                                   Navigator.of(context).pushNamed("sub")),
                           defaultDrawerContainer(
                               context: context,
@@ -595,4 +704,34 @@ class NewMainLayout extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+
+String? getBannerAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/2934735716';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/6300978111';
+  }
+  return null;
+}
+
+String? getInterstitialAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/4411468910';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/1033173712';
+  }
+  return null;
+}
+
+String? getRewardBasedVideoAdUnitId() {
+  if (Platform.isIOS) {
+    return 'ca-app-pub-3940256099942544/1712485313';
+  } else if (Platform.isAndroid) {
+    return 'ca-app-pub-3940256099942544/5224354917';
+  }
+  return null;
 }

@@ -27,6 +27,7 @@ import 'package:mattar/models/notification%20screen.dart';
 import 'package:mattar/models/signup.dart';
 import 'package:mattar/models/starting_page.dart';
 import 'package:mattar/models/user_account/user%20acount.dart';
+import 'package:mattar/testscreen.dart';
 import 'package:provider/provider.dart';
 
 import 'component/constants.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
         widget = const StartingPage();
       } else {
         if (countrySkaped != null) {
-          widget = const ShowMainPage();
+          widget =  ShowMainPage();
         } else {
           widget = const CountryScreen();
         }
@@ -101,7 +102,8 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [Locale("ar", "AE")],
           locale: const Locale("ar", "AE"),
-          home: AnimatedSplashScreen(
+          home:
+          AnimatedSplashScreen(
               backgroundColor: mainColor,
               splash: 'images/splash.png',
               nextScreen: widget,
@@ -109,7 +111,7 @@ class MyApp extends StatelessWidget {
           routes: {
             "login": (context) => LogIn(),
             "signup": (context) => SignUp(),
-            "main layout": (context) => const ShowMainPage(),
+            "main layout": (context) =>  ShowMainPage(),
             "country page": (context) => const CountryScreen(),
             "country page2": (context) => const CountryScreen2(),
             "notification": (context) => NotificationScreen(),

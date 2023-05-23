@@ -407,7 +407,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                 Navigator.of(
                                                                         context)
                                                                     .pushNamed(
-                                                                        "ads");
+                                                                        "sub");
                                                               },
                                                               textButton:
                                                                   "الغاء الاعلانات"),

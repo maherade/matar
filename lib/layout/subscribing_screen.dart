@@ -35,6 +35,14 @@ class _SubscribingScreenState extends State<SubscribingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(' عند الاشتراك ستحصل على تطبيق خالي من الاعلانات أمكانية أختيار الدولة المناسبة لك لتلقى التوقعات الخاصة بها'
+                ,style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold
+                ),
+                  textAlign: TextAlign.center
+                ,),
+              SizedBox(height: 20,),
               Platform.isAndroid
                   ? GooglePayButton(
                       width: double.infinity,

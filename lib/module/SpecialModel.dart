@@ -62,6 +62,7 @@ class SpecialModel {
   int? shares;
   List<Files>? files;
   List<dynamic>? comments;
+  bool? liked = false;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

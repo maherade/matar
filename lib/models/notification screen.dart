@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mattar/component/component.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
+import 'package:mattar/models/notificatin_settings.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -25,15 +26,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  final dio = Dio();
-                  final cancelToken = CancelToken();
-                  await dio.get(
-                      'https://admin.rain-app.com/api/all-notifications',
-                      cancelToken: cancelToken);
-                  buildToast(text: "تم ايقاف التنبيهات", color: Colors.black);
-                  setState(() {});
+                  // final dio = Dio();
+                  // final cancelToken = CancelToken();
+                  // await dio.get(
+                  //     'https://admin.rain-app.com/api/all-notifications',
+                  //     cancelToken: cancelToken);
+                  // buildToast(text: "تم ايقاف التنبيهات", color: Colors.black);
+                  // setState(() {});
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return NotificationSettings();
+                  }));
                 },
-                icon: const Icon(Icons.notifications_off))
+                icon: const Icon(Icons.settings)),
           ],
           title: Text(
             "التنبيهات",

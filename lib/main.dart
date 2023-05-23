@@ -22,6 +22,7 @@ import 'package:mattar/models/forget%20password/send_link_screen.dart';
 import 'package:mattar/models/login.dart';
 import 'package:mattar/models/map/maps.dart';
 import 'package:mattar/models/mattar%20video%20and%20image/add_video.dart';
+import 'package:mattar/models/mattar%20video%20and%20image/video.dart';
 import 'package:mattar/models/notification%20screen.dart';
 import 'package:mattar/models/signup.dart';
 import 'package:mattar/models/starting_page.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
         widget = const StartingPage();
       } else {
         if (countrySkaped != null) {
-          widget = const MainLayout();
+          widget = const ShowMainPage();
         } else {
           widget = const CountryScreen();
         }
@@ -108,7 +109,7 @@ class MyApp extends StatelessWidget {
           routes: {
             "login": (context) => LogIn(),
             "signup": (context) => SignUp(),
-            "main layout": (context) => const MainLayout(),
+            "main layout": (context) => const ShowMainPage(),
             "country page": (context) => const CountryScreen(),
             "country page2": (context) => const CountryScreen2(),
             "notification": (context) => NotificationScreen(),
@@ -125,6 +126,7 @@ class MyApp extends StatelessWidget {
             "map": (context) => Maps(),
             "send linke": (context) => const SendLinke(),
             "code ver": (context) => const CodeVer(),
+            "video": (context) => Videos(),
           },
         ));
   }

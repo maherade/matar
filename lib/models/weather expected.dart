@@ -646,19 +646,30 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                               context);
                                                           return;
                                                         }
-                                                        cubit.posts[index]
-                                                            .liked = true;
-                                                        cubit.sendLike(
-                                                            outlookId: cubit
-                                                                .posts[index]
-                                                                .id);
+                                                        if (cubit.posts[index]
+                                                                .liked ==
+                                                            true) {
+                                                          cubit.posts[index]
+                                                              .liked = false;
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .posts[index]
+                                                                  .id);
+                                                        } else {
+                                                          cubit.posts[index]
+                                                              .liked = true;
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .posts[index]
+                                                                  .id);
+                                                        }
                                                       },
                                                       child: cubit.posts[index]
-                                                              .liked!
+                                                                  .liked ==
+                                                              true
                                                           ? const Icon(
-                                                              Icons.favorite,
-                                                              color: Colors
-                                                                  .redAccent,
+                                                        Icons.favorite,
+                                                              color: Colors.red,
                                                               size: 25,
                                                             )
                                                           : const Icon(
@@ -1163,18 +1174,38 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                               context);
                                                           return;
                                                         }
-                                                        // cubit.selectedPosts[index].likes = true;
-                                                        cubit.sendLike(
-                                                            outlookId: cubit
+
+                                                        if (cubit
                                                                 .selectedPosts[
                                                                     index]
-                                                                .id!);
+                                                                .liked ==
+                                                            true) {
+                                                          cubit
+                                                              .selectedPosts[
+                                                                  index]
+                                                              .liked = false;
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .selectedPosts[
+                                                                      index]
+                                                                  .id!);
+                                                        } else {
+                                                          cubit
+                                                              .selectedPosts[
+                                                                  index]
+                                                              .liked = true;
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .selectedPosts[
+                                                                      index]
+                                                                  .id!);
+                                                        }
                                                       },
                                                       child: cubit
                                                                   .selectedPosts[
                                                                       index]
-                                                                  .likes ==
-                                                              null
+                                                                  .liked ==
+                                                              false
                                                           ? const Icon(
                                                               Icons.favorite,
                                                               color: Colors
@@ -1352,41 +1383,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
     }
   }
 
-  void showTutorial() {
-    TutorialCoachMark tutorial = TutorialCoachMark(
-        targets: targets,
-        // List<TargetFocus>
-        colorShadow: Colors.red,
-        // DEFAULT Colors.black
-        // alignSkip: Alignment.bottomRight,
-        // textSkip: "SKIP",
-        // paddingFocus: 10,
-        // focusAnimationDuration: Duration(milliseconds: 500),
-        // unFocusAnimationDuration: Duration(milliseconds: 500),
-        // pulseAnimationDuration: Duration(milliseconds: 500),
-        // pulseVariation: Tween(begin: 1.0, end: 0.99),
-        // showSkipInLastTarget: false,
-        onFinish: () {
-          print("finish");
-        },
-        onClickTargetWithTapPosition: (target, tapDetails) {
-          print("target: $target");
-          print(
-              "clicked at position local: ${tapDetails.localPosition} - global: ${tapDetails.globalPosition}");
-        },
-        onClickTarget: (target) {
-          print(target);
-        },
-        onSkip: () {
-          print("skip");
-        })
-      ..show(context: context);
-
-    // tutorial.skip();
-    // tutorial.finish();
-    // tutorial.next(); // call next target programmatically
-    // tutorial.previous(); // call previous target programmatically
-  }
 
   Widget _buildBottomSheet(BuildContext context,
       ScrollController scrollController, AppCubit cubit, int postIndex) {
@@ -1619,15 +1615,15 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                             CrossAxisAlignment
                                                 .start,
                                             children: [
-                                              Text("ادمن",
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Color
-                                                          .fromRGBO(
-                                                          66,
-                                                          105,
-                                                          129,
-                                                          1))),
+                                              const Text("ادمن",
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          66,
+                                                                          105,
+                                                                          129,
+                                                                          1))),
                                               Text(
                                                   "${cubit.post[postIndex].comments[ind].reply}",
                                                   style: TextStyle(

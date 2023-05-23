@@ -55,7 +55,7 @@ class AppCubit extends Cubit<ApppState> {
   List<Widget> bottomNavScreen = [
     WeatehrExpected(),
     Maps(),
-    const Videos(),
+    Videos(),
   ];
 
   void changeBottomNavIndex(int index) {

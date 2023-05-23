@@ -196,7 +196,7 @@ class _MainLayoutState extends State<MainLayout> {
                                 context: context,
                                 title: "إشتراك",
                                 onpressed: () =>
-                                    Navigator.of(context).pushNamed("ads")),
+                                    Navigator.of(context).pushNamed("sub")),
                             defaultDrawerContainer(
                                 context: context,
                                 title: "الكوبونات",
@@ -465,7 +465,7 @@ class NewMainLayout extends StatelessWidget {
                               context: context,
                               title: "إشتراك",
                               onpressed: () =>
-                                  Navigator.of(context).pushNamed("ads")),
+                                  Navigator.of(context).pushNamed("sub")),
                           defaultDrawerContainer(
                               context: context,
                               title: "الكوبونات",

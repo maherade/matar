@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
             "myCopons": (context) => const MyCopons(),
             "noti details": (context) => const NotiDetails(),
             'ads': (context) => adsScreen(),
-            'sub': (context) => SubscribingScreen(),
+            'sub': (context) => const SubscribingScreen(),
             "map": (context) => Maps(),
             "send linke": (context) => const SendLinke(),
             "code ver": (context) => const CodeVer(),

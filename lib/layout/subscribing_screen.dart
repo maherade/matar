@@ -16,8 +16,8 @@ class _SubscribingScreenState extends State<SubscribingScreen> {
   String os = Platform.operatingSystem;
   final paymentItems = [
     const PaymentItem(
-      label: 'Total',
-      amount: '99.99',
+      label: 'للإشتراك',
+      amount: '14.99',
       status: PaymentItemStatus.final_price,
     )
   ];

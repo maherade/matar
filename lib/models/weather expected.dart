@@ -25,7 +25,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../component/component.dart';
 import '../cubit/cubit/app_cubit.dart';
 import '../layout/main layout.dart';
-import '../module/country model.dart';
 import 'ads/ads_helper.dart';
 
 // ignore: must_be_immutable
@@ -491,40 +490,37 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                               )
                                                             : InkWell(
                                                                 onTap: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (_) {
-                                                                    return FullMapScreen(
-                                                                      index:
-                                                                          index,
-                                                                      image:
-                                                                          "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
-                                                                    );
-                                                                  }));
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (
+                                                                            _) {
+                                                                          return FullMapScreen(
+                                                                            index: index,
+                                                                            image: "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                                .posts[index]
+                                                                                .files[photoind]
+                                                                                .file}",
+                                                                          );
+                                                                        }),
+                                                                  );
                                                                 },
-                                                                child:
-                                                                    Container(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.35,
-                                                                        child:
-                                                                            InteractiveViewer(
-                                                                          child:
-                                                                              ImageZoomOnMove(
-                                                                            image:
-                                                                                Image.network(
-                                                                              "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
-                                                                              fit: BoxFit.cover,
-                                                                              errorBuilder: (context, error, stackTrace) {
-                                                                                return Text("can not load image");
-                                                                              },
-                                                                            ),
-                                                                          ),
-                                                                        )),
-                                                              );
+                                                          child: Image.network(
+                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                .posts[index]
+                                                                .files[photoind]
+                                                                .file}",
+                                                            fit: BoxFit.cover,
+                                                            errorBuilder: (
+                                                                context, error,
+                                                                stackTrace) {
+                                                              return Text(
+                                                                  "can not load image");
+                                                            },
+                                                          ),
+
+                                                        );
                                                       })),
                                               // Row(
                                               //   mainAxisAlignment:
@@ -1033,47 +1029,48 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                       context,
                                                                       MaterialPageRoute(
                                                                           builder:
-                                                                              (_) {
-                                                                    return FullMapScreen(
-                                                                      index:
-                                                                          index,
-                                                                      image:
-                                                                          "https://admin.rain-app.com/storage/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
-                                                                    );
-                                                                  }));
+                                                                              (
+                                                                              _) {
+                                                                            return FullMapScreen(
+                                                                              index:
+                                                                              index,
+                                                                              image:
+                                                                              "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                                  .selectedPosts[index]
+                                                                                  .files?[photoind]
+                                                                                  .file}",
+                                                                            );
+                                                                          }));
                                                                 },
-                                                                child:
-                                                                    Container(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.35,
-                                                                        child:
-                                                                            InteractiveViewer(
-                                                                          child:
-                                                                              ImageZoomOnMove(
-                                                                            image:
-                                                                                Image.network(
-                                                                              "https://admin.rain-app.com/storage/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
-                                                                              fit: BoxFit.cover,
-                                                                              errorBuilder: (context, error, stackTrace) {
-                                                                                return Text("can not load image");
-                                                                              },
-                                                                            ),
-                                                                          ),
-                                                                        )),
-                                                              );
-                                                      })),
+                                                          child: Image.network(
+                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                .selectedPosts[index]
+                                                                .files?[photoind]
+                                                                .file}",
+                                                            fit: BoxFit.cover,
+                                                            errorBuilder: (
+                                                                context, error,
+                                                                stackTrace) {
+                                                              return Text(
+                                                                  "can not load image");
+                                                            },
+                                                          ),
+
+                                                        );
+                                                          })),
+
+
+                                              //تغيير القسم و البلد ---------------------------
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
+                                                MainAxisAlignment
+                                                    .spaceEvenly,
                                                 children: [
                                                   Expanded(
                                                     child: Container(
                                                       margin:
-                                                          const EdgeInsets.only(
-                                                              top: 8),
+                                                      const EdgeInsets.only(
+                                                          top: 8),
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           vertical: 5,
@@ -1110,7 +1107,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 15,
                                                   ),
                                                   Expanded(

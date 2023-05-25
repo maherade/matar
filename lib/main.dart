@@ -111,11 +111,11 @@ class MyApp extends StatelessWidget {
           routes: {
             "login": (context) => LogIn(),
             "signup": (context) => SignUp(),
-            "main layout": (context) =>  ShowMainPage(),
+            "main layout": (context) => ShowMainPage(),
             "country page": (context) => const CountryScreen(),
             "country page2": (context) => const CountryScreen2(),
             "notification": (context) => NotificationScreen(),
-            "user acount": (context) => UserAccount(),
+            "user acount": (context) => const UserAccount(),
             "addvideo": (context) => AddVideo(),
             "problem": (context) => ProblemsScreen(),
             "about": (context) => const AboutScreen(),

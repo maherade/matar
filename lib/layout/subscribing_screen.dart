@@ -35,24 +35,25 @@ class _SubscribingScreenState extends State<SubscribingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(' عند الاشتراك ستحصل على تطبيق خالي من الاعلانات أمكانية أختيار الدولة المناسبة لك لتلقى التوقعات الخاصة بها'
-                ,style: TextStyle(
-                  fontSize: 17,
+              const Text(
+                'عند الاشتراك ستحصل على تطبيق خالي من الإعلانات لمدة سنة بسعر 14.99 دولار'
+                , style: TextStyle(
+                  fontSize: 22,
                   fontWeight: FontWeight.bold
-                ),
-                  textAlign: TextAlign.center
+              ),
+                textAlign: TextAlign.center
                 ,),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Platform.isAndroid
                   ? GooglePayButton(
-                      width: double.infinity,
-                      paymentConfigurationAsset: 'gpay.json',
-                      paymentItems: paymentItems,
-                      type: GooglePayButtonType.subscribe,
-                      // margin: const EdgeInsets.only(top: 15.0),
-                      onPaymentResult: onGooglePayResult,
-                      loadingIndicator: const Center(
-                        child: CircularProgressIndicator(),
+                width: double.infinity,
+                paymentConfigurationAsset: 'gpay.json',
+                paymentItems: paymentItems,
+                type: GooglePayButtonType.subscribe,
+                // margin: const EdgeInsets.only(top: 15.0),
+                onPaymentResult: onGooglePayResult,
+                loadingIndicator: const Center(
+                  child: CircularProgressIndicator(),
                       ),
                     )
                   : ApplePayButton(

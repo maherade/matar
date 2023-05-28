@@ -40,7 +40,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
 
   bool commentEntered = false;
 
-  Future<void> share(String? title, String? text, String? url, String? chooserTitle) async {
+  Future<void> share(String? title, String? text, String? url,
+      String? chooserTitle) async {
     await FlutterShare.share(
         title: title ?? "",
         text: text,
@@ -50,7 +51,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
 
   List<TargetFocus> targets = [];
 
-  bool sub=false;
+  bool sub = false;
   final specialKey = GlobalKey();
   final publicKey = GlobalKey();
   String statues = 'online';
@@ -83,10 +84,10 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       TargetContent(
           align: ContentAlign.bottom,
           child: Container(
-            child: Column(
+            child: const Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   "قسم عام",
                   style: TextStyle(
@@ -110,10 +111,10 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       TargetContent(
           align: ContentAlign.bottom,
           child: Container(
-            child: Column(
+            child: const Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   "قسم خاص",
                   style: TextStyle(
@@ -253,11 +254,11 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                         backgroundColor: Colors.white,
                         leadingWidth: double.infinity,
                         leading: TabBar(
-                          onTap: (value){
+                          onTap: (value) {
                             print('/////////////////////////////');
                             print(value);
-                            if(value==1){
-                              sub=false;
+                            if (value == 1) {
+                              sub = false;
                             }
                           },
                           tabs: [
@@ -271,7 +272,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                     fontWeight: FontWeight.w700),
                               ),
                             ),
-
                             Tab(
                               key: specialKey,
                               child: Row(
@@ -494,11 +494,14 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                       .push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                        builder: (
+                                                                        builder:
+                                                                            (
                                                                             _) {
                                                                           return FullMapScreen(
-                                                                            index: index,
-                                                                            image: "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                            index:
+                                                                            index,
+                                                                            image:
+                                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
                                                                                 .posts[index]
                                                                                 .files[photoind]
                                                                                 .file}",
@@ -506,20 +509,22 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                         }),
                                                                   );
                                                                 },
-                                                          child: Image.network(
+                                                          child: Image
+                                                              .network(
                                                             "https://admin.rain-app.com/storage/outlooks/${cubit
                                                                 .posts[index]
                                                                 .files[photoind]
                                                                 .file}",
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder: (
-                                                                context, error,
+                                                            fit: BoxFit
+                                                                .cover,
+                                                            errorBuilder:
+                                                                (context,
+                                                                error,
                                                                 stackTrace) {
                                                               return Text(
                                                                   "can not load image");
                                                             },
                                                           ),
-
                                                         );
                                                       })),
                                               // Row(
@@ -638,43 +643,47 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                     defaultWeatherExpectedRowIcon(
                                                       onPressed: () async {
                                                         if (CacheHelper.getData(
-                                                                key: "login") ==
+                                                            key: "login") ==
                                                             null) {
                                                           await LogInDialog(
                                                               context);
                                                           return;
                                                         }
                                                         if (cubit.posts[index]
-                                                                .liked ==
-                                                            true) {
+                                                            .liked == false) {
                                                           cubit.posts[index]
-                                                              .liked = false;
+                                                              .liked = true;
+                                                          CacheHelper.saveData(
+                                                              key: 'liked',
+                                                              value: true);
                                                           cubit.sendLike(
                                                               outlookId: cubit
                                                                   .posts[index]
                                                                   .id);
                                                         } else {
                                                           cubit.posts[index]
-                                                              .liked = true;
+                                                              .liked = false;
+                                                          CacheHelper.saveData(
+                                                              key: 'liked',
+                                                              value: false);
                                                           cubit.sendLike(
                                                               outlookId: cubit
                                                                   .posts[index]
                                                                   .id);
                                                         }
                                                       },
-                                                      child: cubit.posts[index]
-                                                                  .liked ==
-                                                              true
+                                                      child: CacheHelper
+                                                          .getData(key: 'liked')
                                                           ? const Icon(
                                                         Icons.favorite,
-                                                              color: Colors.red,
-                                                              size: 25,
-                                                            )
+                                                        color: Colors.red,
+                                                        size: 25,
+                                                      )
                                                           : const Icon(
-                                                              Icons
-                                                                  .favorite_border,
-                                                              color:
-                                                                  Colors.white,
+                                                        Icons
+                                                            .favorite_border,
+                                                        color:
+                                                        Colors.white,
                                                               size: 25,
                                                             ),
                                                     ),
@@ -803,591 +812,648 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                 ),
                                               ),
                                             )
-                                          ]));
+                                    ]));
                               }),
 
                           //   ---------------------------  مخصص ----------------------------------
-                          sub==false?
-                          Container(
+                          sub == false
+                              ? Container(
                             child: Column(
                               children: [
-                                Lottie.asset('images/phone.json',height: 300,width:250),
-                                const SizedBox(height: 25,),
+                                Lottie.asset('images/phone.json',
+                                    height: 300, width: 250),
+                                const SizedBox(
+                                  height: 25,
+                                ),
                                 defaultButton(
                                   onPressed: () async {
                                     if (await rewardAd.isLoaded) {
                                       rewardAd.show();
-                                      sub=true;
+                                      sub = true;
                                     } else {
-                                      print('Reward ad is still loading...');
+                                      //   print(
+                                      //       'Reward ad is still loading...');
                                     }
                                   },
                                   textButton: 'شاهد الإعلان أولاً',
                                   backgroundColor: secondColor,
                                   radius: 8,
-                                  width: MediaQuery.of(context).size.width*.5,
+                                  width:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width *
+                                      .5,
                                 ),
-                                const SizedBox(height: 25,),
+                                const SizedBox(
+                                  height: 25,
+                                ),
                                 defaultButton(
-                                  onPressed: ()  {
-                                    Navigator.of(context).pushNamed("sub");
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed("sub");
                                   },
-                                  textButton: 'اشتراك لاستخدام بدون اعلانات',
+                                  textButton:
+                                  'اشتراك لاستخدام بدون اعلانات',
                                   backgroundColor: secondColor,
                                   radius: 8,
-                                  width: MediaQuery.of(context).size.width*.7,
+                                  width:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width *
+                                      .7,
                                 ),
                               ],
                             ),
-                          ):
-                          PageView.builder(
-
+                          )
+                              : PageView.builder(
                               controller: controller,
                               scrollDirection: Axis.vertical,
                               itemCount: cubit.selectedPosts.length,
                               pageSnapping: true,
                               itemBuilder: (ctx, index) {
                                 return Scaffold(
-                                    body: ind.contains(index) &&
+                                    body:
+                                    ind.contains(index) &&
                                         cubit.profile?.sub != true
                                         ? PageView.builder(
-                                            itemCount: 1,
-                                            itemBuilder: (c, n) {
-                                              return cubit.adsModel
-                                                          .isNotEmpty &&
-                                                      index == 1
-                                                  ? Column(
-                                                      children: [
-                                                        const SizedBox(
-                                                            height: 20),
-                                                        Text(
-                                                            cubit.adsModel[n]
-                                                                .title,
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline1
-                                                                ?.copyWith(
-                                                                    color: Colors
-                                                                            .grey[
-                                                                        600])),
-                                                        Expanded(
-                                                          child: Container(
-                                                            height: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height *
-                                                                3,
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                .5,
-                                                            color: Colors.white,
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .all(10),
-                                                            child: Image.network(
-                                                                "https://admin.rain-app.com/storage/ads/${cubit.adsModel[n].media}",
-                                                                errorBuilder: (BuildContext
-                                                                        context,
-                                                                    Object
-                                                                        exception,
-                                                                    StackTrace?
-                                                                        stackTrace) {
-                                                              return const Text(
-                                                                  'Your error widget...');
-                                                            }),
-                                                          ),
-                                                        ),
-                                                        defaultButton(
-                                                            onPressed:
-                                                                () async {
-                                                              cubit.increaseAdsClick(
-                                                                  cubit
-                                                                      .adsModel[
-                                                                          n]
-                                                                      .id);
-                                                              try {
-                                                                await canLaunch(cubit
-                                                                        .adsModel[
-                                                                            n]
-                                                                        .redirect)
-                                                                    ? await launch(cubit
-                                                                        .adsModel[
-                                                                            n]
-                                                                        .redirect)
-                                                                    : throw "could not fiend";
-                                                              } catch (e) {
-                                                                return;
-                                                              }
-                                                            },
-                                                            textButton: "اذهب",
-                                                            width: 150,
-                                                            radius: 15),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        )
-                                                      ],
-                                                    )
-                                                  : Column(
-                                                      children: [
-                                                        Flexible(
-                                                          flex: 0,
-                                                          child: defaultButton(
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pushNamed(
-                                                                        "ads");
-                                                              },
-                                                              textButton:
-                                                                  "الغاء الاعلانات"),
-                                                        ),
-                                                        Flexible(
-                                                          child: Builder(
-                                                              builder: (ctx) {
-                                                            return Container(
-                                                              decoration: BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .pink)),
-                                                              width: double
-                                                                  .infinity,
-                                                              child: Center(
-                                                                child: AdmobBanner(
-                                                                    adUnitId:
-                                                                        AdsHelper
-                                                                            .getBunnerAd(),
-                                                                    adSize: AdmobBannerSize
-                                                                        .MEDIUM_RECTANGLE),
-                                                              ),
-                                                            );
-                                                          }),
-                                                        ),
-                                                      ],
-                                                    );
-                                            })
-                                        : Column(children: [
-                                            Stack(children: [
-                                              SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.35,
-                                                  // color: Colors.black,
-                                                  child: PageView.builder(
-                                                      controller:
-                                                          photoController,
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      itemCount: cubit
-                                                          .selectedPosts[index]
-                                                          .files!
-                                                          .length,
-                                                      itemBuilder:
-                                                          (ctx, photoind) {
-                                                        final extension =
-                                                            p.extension(cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .files![
-                                                                    photoind]
-                                                                .file!);
-
-                                                        return extension ==
-                                                                ".mp4"
-                                                            ? InkWell(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (_) {
-                                                                    return FullMapScreen(
-                                                                      index:
-                                                                          index,
-                                                                      image:
-                                                                          "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].files![photoind].file}",
-                                                                    );
-                                                                  }));
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.5,
-                                                                        child:
-                                                                            PlayV(
-                                                                          "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
-                                                                        )),
-                                                              )
-                                                            : InkWell(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (
-                                                                              _) {
-                                                                            return FullMapScreen(
-                                                                              index:
-                                                                              index,
-                                                                              image:
-                                                                              "https://admin.rain-app.com/storage/outlooks/${cubit
-                                                                                  .selectedPosts[index]
-                                                                                  .files?[photoind]
-                                                                                  .file}",
-                                                                            );
-                                                                          }));
-                                                                },
-                                                          child: Image.network(
-                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
-                                                                .selectedPosts[index]
-                                                                .files?[photoind]
-                                                                .file}",
-                                                            fit: BoxFit.cover,
-                                                            errorBuilder: (
-                                                                context, error,
-                                                                stackTrace) {
-                                                              return Text(
-                                                                  "can not load image");
-                                                            },
-                                                          ),
-
-                                                        );
-                                                          })),
-
-
-                                              //تغيير القسم و البلد ---------------------------
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceEvenly,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      margin:
-                                                      const EdgeInsets.only(
-                                                          top: 8),
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 5,
-                                                          horizontal: 20),
-                                                      height: 50,
-                                                      decoration: BoxDecoration(
-                                                          color: const Color
-                                                                  .fromRGBO(
-                                                              66, 105, 129, 1),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12)),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        children: [
-                                                          Text(
-                                                            "${CacheHelper.getData(key: "country")}",
-                                                            style: const TextStyle(
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Image.network(
-                                                            "https://admin.rain-app.com/storage/countries/${CacheHelper.getData(key: "country")}.png",
-                                                            height: 50,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pushReplacementNamed(
-                                                                "country page");
-                                                      },
-                                                      child: Container(
-                                                        margin: const EdgeInsets
-                                                            .only(top: 8),
-                                                        width: 120,
-                                                        height: 50,
-                                                        decoration: BoxDecoration(
-                                                            color: whiteColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12)),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            "تغيير القسم",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                        itemCount: 1,
+                                        itemBuilder: (c, n) {
+                                          return cubit.adsModel
+                                              .isNotEmpty &&
+                                              index == 1
+                                              ? Column(
+                                            children: [
+                                              const SizedBox(
+                                                  height: 20),
+                                              Text(
+                                                  cubit
+                                                      .adsModel[
+                                                  n]
+                                                      .title,
+                                                  style: Theme
+                                                      .of(
+                                                      context)
+                                                      .textTheme
+                                                      .headline1
+                                                      ?.copyWith(
+                                                      color:
+                                                      Colors.grey[600])),
+                                              Expanded(
+                                                child:
+                                                Container(
+                                                  height: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .height *
+                                                      3,
+                                                  width: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .width *
+                                                      .5,
+                                                  color: Colors
+                                                      .white,
+                                                  margin:
+                                                  const EdgeInsets.all(
+                                                      10),
+                                                  child: Image.network(
+                                                      "https://admin.rain-app.com/storage/ads/${cubit
+                                                          .adsModel[n].media}",
+                                                      errorBuilder: (
+                                                          BuildContext
+                                                          context,
+                                                          Object
+                                                          exception,
+                                                          StackTrace?
+                                                          stackTrace) {
+                                                        return const Text(
+                                                            'Your error widget...');
+                                                      }),
+                                                ),
                                               ),
-                                              cubit.selectedPosts[index].files!
-                                                          .length >
-                                                      1
-                                                  ? SizedBox(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.34,
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        child: SmoothPageIndicator(
-                                                            axisDirection: Axis
-                                                                .horizontal,
-                                                            effect:
-                                                                const WormEffect(
-                                                                    dotHeight:
-                                                                        12,
-                                                                    dotWidth:
-                                                                        12),
-                                                            controller:
-                                                                photoController,
-                                                            count: cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .files!
-                                                                .length),
-                                                      ),
-                                                    )
-                                                  : const SizedBox()
-                                            ]),
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      66, 105, 129, 1)),
-                                              height: 42,
-                                              width: double.infinity,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              // color: const Color.fromRGBO(66, 105, 129, 1),
-                                              child: FittedBox(
-                                                fit: BoxFit.cover,
-                                                child: Row(
-                                                  children: [
-                                                    defaultWeatherExpectedRowIcon(
-                                                        text: cubit
-                                                            .selectedPosts[
-                                                                index]
-                                                            .date,
-                                                        icon: Icons
-                                                            .access_time_rounded),
-                                                    defaultWeatherExpectedRowIcon(
-                                                      onPressed: () async {
-                                                        if (CacheHelper.getData(
-                                                                key: "login") ==
-                                                            null) {
-                                                          await LogInDialog(
-                                                              context);
-                                                          return;
-                                                        }
+                                              defaultButton(
+                                                  onPressed:
+                                                      () async {
+                                                    cubit.increaseAdsClick(cubit
+                                                        .adsModel[
+                                                    n]
+                                                        .id);
+                                                    try {
+                                                      await canLaunch(
+                                                          cubit.adsModel[n]
+                                                              .redirect)
+                                                          ? await launch(
+                                                          cubit.adsModel[n]
+                                                              .redirect)
+                                                          : throw "could not fiend";
+                                                    } catch (e) {
+                                                      return;
+                                                    }
+                                                  },
+                                                  textButton:
+                                                  "اذهب",
+                                                  width: 150,
+                                                  radius: 15),
+                                              const SizedBox(
+                                                height: 10,
+                                              )
+                                            ],
+                                          )
+                                              : Column(
+                                            children: [
+                                              Flexible(
+                                                flex: 0,
+                                                child:
+                                                defaultButton(
+                                                    onPressed:
+                                                        () {
+                                                      Navigator.of(context)
+                                                          .pushNamed("ads");
+                                                    },
+                                                    textButton:
+                                                    "الغاء الاعلانات"),
+                                              ),
+                                              Flexible(
+                                                child: Builder(
+                                                    builder:
+                                                        (ctx) {
+                                                      return Container(
+                                                        decoration:
+                                                        BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .pink)),
+                                                        width: double
+                                                            .infinity,
+                                                        child:
+                                                        Center(
+                                                          child: AdmobBanner(
+                                                              adUnitId:
+                                                              AdsHelper
+                                                                  .getBunnerAd(),
+                                                              adSize: AdmobBannerSize
+                                                                  .MEDIUM_RECTANGLE),
+                                                        ),
+                                                      );
+                                                    }),
+                                              ),
+                                            ],
+                                          );
+                                        })
+                                        : Column(children: [
+                                      Stack(children: [
+                                        SizedBox(
+                                            height: MediaQuery
+                                                .of(
+                                                context)
+                                                .size
+                                                .height *
+                                                0.35,
+                                            // color: Colors.black,
+                                            child:
+                                            PageView.builder(
+                                                controller:
+                                                photoController,
+                                                scrollDirection:
+                                                Axis
+                                                    .horizontal,
+                                                itemCount: cubit
+                                                    .selectedPosts[
+                                                index]
+                                                    .files!
+                                                    .length,
+                                                itemBuilder: (ctx,
+                                                    photoind) {
+                                                  final extension = p.extension(
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .files![
+                                                      photoind]
+                                                          .file!);
 
-                                                        if (cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .liked ==
-                                                            true) {
-                                                          cubit
-                                                              .selectedPosts[
-                                                                  index]
-                                                              .liked = false;
-                                                          cubit.sendLike(
-                                                              outlookId: cubit
-                                                                  .selectedPosts[
-                                                                      index]
-                                                                  .id!);
-                                                        } else {
-                                                          cubit
-                                                              .selectedPosts[
-                                                                  index]
-                                                              .liked = true;
-                                                          cubit.sendLike(
-                                                              outlookId: cubit
-                                                                  .selectedPosts[
-                                                                      index]
-                                                                  .id!);
-                                                        }
+                                                  return extension ==
+                                                      ".mp4"
+                                                      ? InkWell(
+                                                    onTap:
+                                                        () {
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) {
+                                                                return FullMapScreen(
+                                                                  index: index,
+                                                                  image: "https://admin.rain-app.com/api/outlooks/${cubit
+                                                                      .selectedPosts[index]
+                                                                      .files![photoind]
+                                                                      .file}",
+                                                                );
+                                                              }));
+                                                    },
+                                                    child: Container(
+                                                        width: double.infinity,
+                                                        height: MediaQuery
+                                                            .of(context)
+                                                            .size
+                                                            .height * 0.5,
+                                                        child: PlayV(
+                                                          "https://admin.rain-app.com/api/outlooks/${cubit
+                                                              .selectedPosts[index]
+                                                              .files?[photoind]
+                                                              .file}",
+                                                        )),
+                                                  )
+                                                      : InkWell(
+                                                    onTap:
+                                                        () {
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) {
+                                                                return FullMapScreen(
+                                                                  index: index,
+                                                                  image: "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                                      .selectedPosts[index]
+                                                                      .files?[photoind]
+                                                                      .file}",
+                                                                );
+                                                              }));
+                                                    },
+                                                    child:
+                                                    Image.network(
+                                                      "https://admin.rain-app.com/storage/outlooks/${cubit
+                                                          .selectedPosts[index]
+                                                          .files?[photoind]
+                                                          .file}",
+                                                      fit: BoxFit.cover,
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return const Text(
+                                                            "can not load image");
                                                       },
-                                                      child: cubit
-                                                                  .selectedPosts[
-                                                                      index]
-                                                                  .liked ==
-                                                              false
-                                                          ? const Icon(
-                                                              Icons.favorite,
-                                                              color: Colors
-                                                                  .redAccent,
-                                                              size: 25,
-                                                            )
-                                                          : const Icon(
-                                                              Icons
-                                                                  .favorite_border,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 25,
-                                                            ),
                                                     ),
-                                                    defaultWeatherExpectedRowIcon(
-                                                        icon: Icons.comment,
-                                                        onPressed: () {
-                                                          showFlexibleBottomSheet(
-                                                            minHeight: 0,
-                                                            initHeight: 0.5,
-                                                            maxHeight: 1,
-                                                            bottomSheetColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            context: context,
-                                                            builder: (context,
-                                                                    scrollController,
-                                                                    offset) =>
-                                                                _buildBottomSheet(
-                                                                    context,
-                                                                    scrollController,
-                                                                    cubit,
-                                                                    index),
-                                                            anchors: [
-                                                              0,
-                                                              0.5,
-                                                              1
-                                                            ],
-                                                            isSafeArea: true,
-                                                          );
-                                                        }),
-                                                    defaultWeatherExpectedRowIcon(
-                                                      onPressed: () {
-                                                        cubit.sendShare(
-                                                            outlookId: cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .id!);
-                                                        share(
-                                                            cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .title,
-                                                            cubit
-                                                                .selectedPosts[
-                                                                    index]
-                                                                .details,
-                                                            "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].id}",
-                                                            "");
-                                                      },
-                                                      icon: Icons.share,
+                                                  );
+                                                })),
+
+                                        //تغيير القسم و البلد ---------------------------
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceEvenly,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                margin:
+                                                const EdgeInsets
+                                                    .only(
+                                                    top: 8),
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    vertical: 5,
+                                                    horizontal:
+                                                    20),
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    color: const Color
+                                                        .fromRGBO(
+                                                        66,
+                                                        105,
+                                                        129,
+                                                        1),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        12)),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      "${CacheHelper.getData(
+                                                          key: "country")}",
+                                                      style: const TextStyle(
+                                                          fontSize:
+                                                          16,
+                                                          color: Colors
+                                                              .white,
+                                                          fontWeight:
+                                                          FontWeight.bold),
+                                                    ),
+                                                    Image.network(
+                                                      "https://admin.rain-app.com/storage/countries/${CacheHelper
+                                                          .getData(
+                                                          key: "country")}.png",
+                                                      height: 50,
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             ),
-                                            cubit.profile?.sub != true
-                                                ? AdmobBanner(
-                                                    adUnitId:
-                                                        AdsHelper.getBunnerAd(),
-                                                    adSize: AdmobBannerSize
-                                                        .FULL_BANNER)
-                                                : const SizedBox(),
                                             const SizedBox(
-                                              height: 10,
+                                              width: 15,
                                             ),
-
-                                            /// description
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: backgroundColor,
-                                                ),
-                                                //  color: backgroundColor,
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 2,
-                                                        horizontal: 8),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.of(
+                                                      context)
+                                                      .pushReplacementNamed(
+                                                      "country page");
+                                                },
                                                 child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  width: double.infinity,
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 15),
+                                                  margin:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      top: 8),
+                                                  width: 120,
+                                                  height: 50,
                                                   decoration: BoxDecoration(
-                                                      color: whiteColor,
+                                                      color:
+                                                      whiteColor,
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      boxShadow: [shadow()]),
-                                                  child: SingleChildScrollView(
-                                                    child: Column(
-                                                      children: [
-                                                        cubit
-                                                                    .selectedPosts[
-                                                                        index]
-                                                                    .title !=
-                                                                ""
-                                                            ? Text(
-                                                                cubit
-                                                                    .selectedPosts[
-                                                                        index]
-                                                                    .title!,
-                                                                style: const TextStyle(
-                                                                    fontSize:
-                                                                        24,
-                                                                    color: Colors
-                                                                        .pink,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w700))
-                                                            : const SizedBox(),
-                                                        ReadMoreText(
-                                                          cubit
-                                                              .selectedPosts[
-                                                                  index]
-                                                              .details!,
-                                                          colorClickableText:
-                                                              Colors.pink,
-                                                          trimMode:
-                                                              TrimMode.Line,
-                                                          style: const TextStyle(
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                          trimLines: 4,
-                                                          trimCollapsedText:
-                                                              'قراءة المزيد',
-                                                          trimExpandedText:
-                                                              'قراءة اقل',
-                                                        ),
-                                                      ],
+                                                      BorderRadius.circular(
+                                                          12)),
+                                                  child:
+                                                  const Center(
+                                                    child: Text(
+                                                      "تغيير القسم",
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .black,
+                                                          fontSize:
+                                                          16,
+                                                          fontWeight:
+                                                          FontWeight.bold),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            )
-                                          ]));
+                                            ),
+                                          ],
+                                        ),
+                                        cubit
+                                            .selectedPosts[
+                                        index]
+                                            .files!
+                                            .length >
+                                            1
+                                            ? SizedBox(
+                                          height: MediaQuery
+                                              .of(
+                                              context)
+                                              .size
+                                              .height *
+                                              0.34,
+                                          child: Align(
+                                            alignment: Alignment
+                                                .bottomCenter,
+                                            child: SmoothPageIndicator(
+                                                axisDirection:
+                                                Axis
+                                                    .horizontal,
+                                                effect: const WormEffect(
+                                                    dotHeight:
+                                                    12,
+                                                    dotWidth:
+                                                    12),
+                                                controller:
+                                                photoController,
+                                                count: cubit
+                                                    .selectedPosts[
+                                                index]
+                                                    .files!
+                                                    .length),
+                                          ),
+                                        )
+                                            : const SizedBox()
+                                      ]),
+                                      Container(
+                                        decoration:
+                                        const BoxDecoration(
+                                            color: Color
+                                                .fromRGBO(
+                                                66,
+                                                105,
+                                                129,
+                                                1)),
+                                        height: 42,
+                                        width: double.infinity,
+                                        padding: const EdgeInsets
+                                            .symmetric(
+                                            horizontal: 10),
+                                        // color: const Color.fromRGBO(66, 105, 129, 1),
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: Row(
+                                            children: [
+                                              defaultWeatherExpectedRowIcon(
+                                                  text: cubit
+                                                      .selectedPosts[
+                                                  index]
+                                                      .date,
+                                                  icon: Icons
+                                                      .access_time_rounded),
+                                              defaultWeatherExpectedRowIcon(
+                                                onPressed: () async {
+                                                  if (CacheHelper.getData(
+                                                      key: "login") ==
+                                                      null) {
+                                                    await LogInDialog(
+                                                        context);
+                                                    return;
+                                                  }
+                                                  if (cubit.selectedPosts[index]
+                                                      .liked == false) {
+                                                    cubit.selectedPosts[index]
+                                                        .liked = true;
+                                                    cubit.sendLike(
+                                                        outlookId: cubit
+                                                            .selectedPosts[index]
+                                                            .id!);
+                                                    CacheHelper.saveData(
+                                                        key: 'liked',
+                                                        value: true);
+                                                  } else {
+                                                    cubit.selectedPosts[index]
+                                                        .liked = false;
+                                                    cubit.sendLike(
+                                                        outlookId: cubit
+                                                            .selectedPosts[index]
+                                                            .id!);
+                                                    CacheHelper.saveData(
+                                                        key: 'liked',
+                                                        value: false);
+                                                  }
+                                                },
+                                                child: CacheHelper.getData(
+                                                    key: 'liked')
+                                                    ? const Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.red,
+                                                  size: 25,
+                                                )
+                                                    : const Icon(
+                                                  Icons
+                                                      .favorite_border,
+                                                  color:
+                                                  Colors.white,
+                                                  size: 25,
+                                                ),
+                                              ),
+                                              defaultWeatherExpectedRowIcon(
+                                                  icon: Icons.comment,
+                                                  onPressed: () {
+                                                    showFlexibleBottomSheet(
+                                                      minHeight:
+                                                      0,
+                                                      initHeight:
+                                                      0.5,
+                                                      maxHeight:
+                                                      1,
+                                                      bottomSheetColor:
+                                                      Colors
+                                                          .transparent,
+                                                      context:
+                                                      context,
+                                                      builder: (context,
+                                                          scrollController,
+                                                          offset) =>
+                                                          _buildBottomSheet(
+                                                              context,
+                                                              scrollController,
+                                                              cubit,
+                                                              index),
+                                                      anchors: [
+                                                        0,
+                                                        0.5,
+                                                        1
+                                                      ],
+                                                      isSafeArea:
+                                                      true,
+                                                    );
+                                                  }),
+                                              defaultWeatherExpectedRowIcon(
+                                                onPressed: () {
+                                                  cubit.sendShare(
+                                                      outlookId: cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .id!);
+                                                  share(
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .title,
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .details,
+                                                      "https://admin.rain-app.com/api/outlooks/${cubit
+                                                          .selectedPosts[index]
+                                                          .id}",
+                                                      "");
+                                                },
+                                                icon: Icons.share,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      cubit.profile?.sub != true
+                                          ? AdmobBanner(
+                                          adUnitId: AdsHelper
+                                              .getBunnerAd(),
+                                          adSize:
+                                          AdmobBannerSize
+                                              .FULL_BANNER)
+                                          : const SizedBox(),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+
+                                      /// description
+                                      Expanded(
+                                        child: Container(
+                                          decoration:
+                                          BoxDecoration(
+                                            color:
+                                            backgroundColor,
+                                          ),
+                                          //  color: backgroundColor,
+                                          margin: const EdgeInsets
+                                              .symmetric(
+                                              vertical: 2,
+                                              horizontal: 8),
+                                          child: Container(
+                                            padding:
+                                            const EdgeInsets
+                                                .all(10),
+                                            width:
+                                            double.infinity,
+                                            margin:
+                                            const EdgeInsets
+                                                .only(
+                                                bottom: 15),
+                                            decoration: BoxDecoration(
+                                                color: whiteColor,
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    12),
+                                                boxShadow: [
+                                                  shadow()
+                                                ]),
+                                            child:
+                                            SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  cubit.selectedPosts[index]
+                                                      .title !=
+                                                      ""
+                                                      ? Text(
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .title!,
+                                                      style: const TextStyle(
+                                                          fontSize:
+                                                          24,
+                                                          color:
+                                                          Colors.pink,
+                                                          fontWeight: FontWeight
+                                                              .w700))
+                                                      : const SizedBox(),
+                                                  ReadMoreText(
+                                                    cubit
+                                                        .selectedPosts[
+                                                    index]
+                                                        .details!,
+                                                    colorClickableText:
+                                                    Colors
+                                                        .pink,
+                                                    trimMode:
+                                                    TrimMode
+                                                        .Line,
+                                                    style: const TextStyle(
+                                                        fontSize:
+                                                        22,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w700),
+                                                    trimLines: 4,
+                                                    trimCollapsedText:
+                                                    'قراءة المزيد',
+                                                    trimExpandedText:
+                                                    'قراءة اقل',
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ]));
                               }),
                         ],
                       ),
@@ -1415,7 +1481,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       });
     }
   }
-
 
   Widget _buildBottomSheet(BuildContext context,
       ScrollController scrollController, AppCubit cubit, int postIndex) {
@@ -1455,7 +1520,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
                 child: ListView.builder(
                     controller: scrollController,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: cubit.posts[postIndex].comments.length,
                     itemBuilder: (__, ind) {
                       return Column(
@@ -1542,14 +1607,16 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                             Container(
                                                               color: Colors
                                                                   .white,
-                                                              width: MediaQuery.of(context)
+                                                              width: MediaQuery
+                                                                  .of(context)
                                                                   .size
                                                                   .width *
                                                                   0.6,
                                                               child: defaultFormField(
                                                                   prefixIcon:
-                                                                  const Icon(Icons
-                                                                      .comment),
+                                                                  const Icon(
+                                                                      Icons
+                                                                          .comment),
                                                                   controller:
                                                                   replayController,
                                                                   type: TextInputType
@@ -1559,22 +1626,19 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                           defaultIconButton(
                                                               onPressed:
                                                                   () {
-                                                                cubit.sendReplay(
+                                                                cubit
+                                                                    .sendReplay(
                                                                     outlookId: cubit
-                                                                        .posts[
-                                                                    postIndex]
+                                                                        .posts[postIndex]
                                                                         .id,
                                                                     commentId: cubit
-                                                                        .posts[
-                                                                    postIndex]
-                                                                        .comments[
-                                                                    ind]
+                                                                        .posts[postIndex]
+                                                                        .comments[ind]
                                                                         .id
                                                                         .toInt(),
                                                                     reply: replayController
                                                                         .text,
-                                                                    context:
-                                                                    context);
+                                                                    context: context);
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -1589,7 +1653,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                 );
                                               });
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           "رد",
                                         ),
                                       ),
@@ -1649,17 +1713,18 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                 .start,
                                             children: [
                                               const Text("ادمن",
-                                                              style: TextStyle(
-                                                                  fontSize: 20,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          66,
-                                                                          105,
-                                                                          129,
-                                                                          1))),
-                                              Text(
-                                                  "${cubit.post[postIndex].comments[ind].reply}",
                                                   style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Color
+                                                          .fromRGBO(
+                                                          66,
+                                                          105,
+                                                          129,
+                                                          1))),
+                                              Text(
+                                                  cubit.post[postIndex]
+                                                      .comments[ind].reply,
+                                                  style: const TextStyle(
                                                       color: Colors
                                                           .black,
                                                       fontSize:
@@ -1715,7 +1780,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                         radius: 100,
                                         backgroundImage:
                                         CachedNetworkImageProvider(
-                                            "https://admin.rain-app.com/storage/users/${cubit.profile?.pic}"))
+                                            "https://admin.rain-app.com/storage/users/${cubit
+                                                .profile?.pic}"))
                                         : Image.asset(
                                         "images/avatar.png"),
                                   ),
@@ -1762,10 +1828,11 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                     ),
                                                     Text(
                                                         intl.DateFormat.yMd()
-                                                            .format(DateTime.parse(
-                                                            commentsAndReplay[
-                                                            index]
-                                                                .date)),
+                                                            .format(
+                                                            DateTime.parse(
+                                                                commentsAndReplay[
+                                                                index]
+                                                                    .date)),
                                                         style:
                                                         const TextStyle(
                                                             color: Colors
@@ -1839,7 +1906,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                             CrossAxisAlignment
                                                 .start,
                                             children: [
-                                              Text("ادمن",
+                                              const Text("ادمن",
                                                   style: TextStyle(
                                                       fontSize: 20,
                                                       color: Color
@@ -1849,8 +1916,9 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                           129,
                                                           1))),
                                               Text(
-                                                  "${commentsAndReplay[index].reply}",
-                                                  style: TextStyle(
+                                                  commentsAndReplay[index]
+                                                      .reply,
+                                                  style: const TextStyle(
                                                       color: Colors
                                                           .black,
                                                       fontSize:
@@ -1900,9 +1968,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                               ? () {
                             if (CacheHelper.getData(key: "login") !=
                                 null) {
-                              cubit.profile?.sub != true
-                                  ? cubit.admobInitSt.show()
-                                  : SizedBox();
                               cubit.addComment(
                                   postIndex,
                                   commentController.text,
@@ -1912,6 +1977,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                   outlookId:
                                   cubit.posts[postIndex].id,
                                   comment: commentController.text);
+                              commentController.clear();
                             } else {
                               LogInDialog(context);
                             }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class WeatherModel {
   WeatherModel({
     required this.id,
@@ -24,6 +26,8 @@ class WeatherModel {
   late final int shares;
   late final List<Files> files;
   late final List<Comments> comments;
+
+  // List<bool> liked = List.generate(1000, (index) => Random().nextBool());
   bool? liked = false;
 
   WeatherModel.fromJson(Map<String, dynamic> json) {
@@ -39,6 +43,7 @@ class WeatherModel {
     files = List.from(json['files']).map((e) => Files.fromJson(e)).toList();
     comments =
         List.from(json['comments']).map((e) => Comments.fromJson(e)).toList();
+    liked = json['liked'] ?? false;
   }
 }
 

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,6 @@ import 'package:mattar/component/component.dart';
 import 'package:mattar/component/constants.dart';
 import 'package:mattar/cubit/cubit/app_cubit.dart';
 import 'dart:io';
-
-import 'package:admob_flutter/admob_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:mattar/layout/main%20layout.dart';
 import 'package:mattar/network/local/shared_pref.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -73,16 +68,12 @@ class _ShowMainPageState extends State<ShowMainPage> {
       AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
     switch (event) {
       case AdmobAdEvent.loaded:
-        showSnackBar('New Admob $adType Ad loaded!');
         break;
       case AdmobAdEvent.opened:
-        showSnackBar('Admob $adType Ad opened!');
         break;
       case AdmobAdEvent.closed:
-        showSnackBar('Admob $adType Ad closed!');
         break;
       case AdmobAdEvent.failedToLoad:
-        showSnackBar('Admob $adType failed to load. :(');
         break;
       case AdmobAdEvent.rewarded:
         showDialog(
@@ -111,14 +102,6 @@ class _ShowMainPageState extends State<ShowMainPage> {
     }
   }
 
-  void showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,144 +191,147 @@ class _MainLayoutState extends State<MainLayout> {
           ];
 
           return Scaffold(
-            drawer: Showcase(
-              key: _five,
-              title: "قائمة جانبية",
-              description:
-                  'قائمة يوجد بها العديد من المميزات المفيدة و التي تسهل عليك التجرية',
-              onBarrierClick: () => debugPrint('Barrier clicked'),
-              child: InkWell(
-                onTap: () {},
-                child: Drawer(
-                  backgroundColor: backgroundColor,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 60,
-                      ),
-                      Container(
-                        height: 90,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100)),
-                        child: AppCubit.caller(context).profile?.pic != null &&
-                                AppCubit.caller(context).profile?.pic != ""
-                            ? CachedNetworkImage(
-                                imageUrl:
-                                    "https://admin.rain-app.com/storage/users/${cubit.profile?.pic}",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator(
-                                      color: Color.fromRGBO(66, 105, 129, 1),
-                                    )),
-                                errorWidget: (_, __, ___) =>
-                                    Image.asset("images/avatar.png"))
-                            : const CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.white,
-                                child: Image(
-                                  image: AssetImage("images/avatar.png"),
-                                  height: 55,
+            drawer: InkWell(
+              onTap: () {},
+              child: Drawer(
+                backgroundColor: backgroundColor,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Container(
+                      height: 90,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100)),
+                      child: AppCubit
+                          .caller(context)
+                          .profile
+                          ?.pic != null &&
+                          AppCubit
+                              .caller(context)
+                              .profile
+                              ?.pic != ""
+                          ? CachedNetworkImage(
+                          imageUrl:
+                          "https://admin.rain-app.com/storage/users/${cubit
+                              .profile?.pic}",
+                          imageBuilder: (context, imageProvider) =>
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CacheHelper.getData(key: "token") != null &&
-                              cubit.profile?.name != null
-                          ? Text("مرحبا ${cubit.profile?.name}")
-                          : const SizedBox(
-                              height: 1,
-                            ),
-                      const SizedBox(
-                        height: 0,
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            if (CacheHelper.getData(
-                                      key: "login",
-                                    ) ==
-                                    false ||
-                                CacheHelper.getData(
-                                      key: "login",
-                                    ) ==
-                                    null)
-                              defaultDrawerContainer(
-                                  context: context,
-                                  title: "تسجيل الدخول",
-                                  onpressed: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed("login");
-                                  })
-                            else
-                              defaultDrawerContainer(
-                                  context: context,
-                                  title: "زيارة الملف الشخصي",
-                                  onpressed: () {
-
-                                    Navigator.of(context)
-                                        .pushReplacementNamed("user acount");
-                                  }),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "إشتراك",
-                                onpressed: () =>
-                                    Navigator.of(context).pushNamed("sub")),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "الكوبونات",
-                                onpressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed("myCopons");
-                                }),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "عن التطبيق",
-                                onpressed: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed("about");
-                                }),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "بلغ عن مشكلة",
-                                onpressed: () => Navigator.of(context)
-                                    .pushReplacementNamed("problem")),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "تقييم التطبيق",
-                                onpressed: () {}),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "مشاركة التطبيق",
-                                onpressed: () {}),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "تطبيقات ومواقع مفيدة",
-                                onpressed: () => Navigator.of(context)
-                                    .pushReplacementNamed("apps")),
-                            defaultDrawerContainer(
-                                context: context,
-                                title: "تابعنا عبر وسائل التواصل الاجتماعي ",
-                                onpressed: () => Navigator.of(context)
-                                    .pushReplacementNamed("social")),
-                          ],
+                          placeholder: (context, url) =>
+                          const Center(
+                              child: CircularProgressIndicator(
+                                color: Color.fromRGBO(66, 105, 129, 1),
+                              )),
+                          errorWidget: (_, __, ___) =>
+                              Image.asset("images/avatar.png"))
+                          : const CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.white,
+                        child: Image(
+                          image: AssetImage("images/avatar.png"),
+                          height: 55,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CacheHelper.getData(key: "token") != null &&
+                        cubit.profile?.name != null
+                        ? Text("مرحبا ${cubit.profile?.name}")
+                        : const SizedBox(
+                      height: 1,
+                    ),
+                    const SizedBox(
+                      height: 0,
+                    ),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          if (CacheHelper.getData(
+                            key: "login",
+                          ) ==
+                              false ||
+                              CacheHelper.getData(
+                                key: "login",
+                              ) ==
+                                  null)
+                            defaultDrawerContainer(
+                                context: context,
+                                title: "تسجيل الدخول",
+                                onpressed: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("login");
+                                })
+                          else
+                            defaultDrawerContainer(
+                                context: context,
+                                title: "زيارة الملف الشخصي",
+                                onpressed: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("user acount");
+                                }),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "إشتراك",
+                              onpressed: () =>
+                                  Navigator.of(context).pushNamed("sub")),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "الكوبونات",
+                              onpressed: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed("myCopons");
+                              }),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "عن التطبيق",
+                              onpressed: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed("about");
+                              }),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "بلغ عن مشكلة",
+                              onpressed: () =>
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("problem")),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "تقييم التطبيق",
+                              onpressed: () {}),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "مشاركة التطبيق",
+                              onpressed: () {}),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "تطبيقات ومواقع مفيدة",
+                              onpressed: () =>
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("apps")),
+                          defaultDrawerContainer(
+                              context: context,
+                              title: "تابعنا عبر وسائل التواصل الاجتماعي ",
+                              onpressed: () =>
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("social")),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -50,16 +50,12 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
       AdmobAdEvent event, Map<String, dynamic>? args, String adType) {
     switch (event) {
       case AdmobAdEvent.loaded:
-        showSnackBar('New Admob $adType Ad loaded!');
         break;
       case AdmobAdEvent.opened:
-        showSnackBar('Admob $adType Ad opened!');
         break;
       case AdmobAdEvent.closed:
-        showSnackBar('Admob $adType Ad closed!');
         break;
       case AdmobAdEvent.failedToLoad:
-        showSnackBar('Admob $adType failed to load. :(');
         break;
       case AdmobAdEvent.rewarded:
         showDialog(
@@ -74,7 +70,7 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text('Reward callback fired. Thanks Andrew!'),
+                    const Text('Reward callback fired. Thanks Andrew!'),
                     Text('Type: ${args!['type']}'),
                     Text('Amount: ${args['amount']}'),
                   ],
@@ -86,15 +82,6 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
         break;
       default:
     }
-  }
-
-  void showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
   }
 
   @override
@@ -121,7 +108,7 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                     ),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'FullscreenDialog',
                   style: TextStyle(
                     color: Colors.white,
@@ -147,12 +134,9 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                               final isLoaded = await interstitialAd.isLoaded;
                               if (isLoaded ?? false) {
                                 interstitialAd.show();
-                              } else {
-                                showSnackBar(
-                                    'Interstitial ad is still loading...');
-                              }
+                              } else {}
                             },
-                            child: Text(
+                            child: const Text(
                               'Show Interstitial',
                               style: TextStyle(color: Colors.white),
                             ),
@@ -164,10 +148,9 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                               if (await rewardAd.isLoaded) {
                                 rewardAd.show();
                               } else {
-                                showSnackBar('Reward ad is still loading...');
                               }
                             },
-                            child: Text(
+                            child: const Text(
                               'Show Reward',
                               style: TextStyle(color: Colors.white),
                             ),
@@ -184,42 +167,42 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                             },
                             itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<AdmobBannerSize>>[
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                 value: AdmobBannerSize.BANNER,
                                 child: Text('BANNER'),
                               ),
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                 value: AdmobBannerSize.LARGE_BANNER,
                                 child: Text('LARGE_BANNER'),
                               ),
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                 value: AdmobBannerSize.MEDIUM_RECTANGLE,
                                 child: Text('MEDIUM_RECTANGLE'),
                               ),
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                 value: AdmobBannerSize.FULL_BANNER,
                                 child: Text('FULL_BANNER'),
                               ),
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                 value: AdmobBannerSize.LEADERBOARD,
                                 child: Text('LEADERBOARD'),
                               ),
                               PopupMenuItem(
                                 value: AdmobBannerSize.SMART_BANNER(context),
-                                child: Text('SMART_BANNER'),
+                                child: const Text('SMART_BANNER'),
                               ),
                               PopupMenuItem(
                                 value: AdmobBannerSize.ADAPTIVE_BANNER(
                                   width: MediaQuery.of(context)
-                                      .size
-                                      .width
-                                      .toInt() -
+                                          .size
+                                          .width
+                                          .toInt() -
                                       40, // considering EdgeInsets.all(20.0)
                                 ),
-                                child: Text('ADAPTIVE_BANNER'),
+                                child: const Text('ADAPTIVE_BANNER'),
                               ),
                             ],
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 'Banner size',
                                 style: TextStyle(
@@ -239,7 +222,7 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
                                     }),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Push Page',
                               style: TextStyle(color: Colors.white),
                             ),

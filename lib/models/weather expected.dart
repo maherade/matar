@@ -84,7 +84,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       TargetContent(
           align: ContentAlign.bottom,
           child: Container(
-            child: const Column(
+            child:  Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -111,7 +111,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
       TargetContent(
           align: ContentAlign.bottom,
           child: Container(
-            child: const Column(
+            child:  Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -642,42 +642,22 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                             .access_time_rounded),
                                                     defaultWeatherExpectedRowIcon(
                                                       onPressed: () async {
-                                                        if (CacheHelper.getData(
-                                                            key: "login") ==
-                                                            null) {
-                                                          await LogInDialog(
-                                                              context);
+                                                        if (CacheHelper.getData(key: "login") == null) {
+                                                          await LogInDialog(context);
                                                           return;
                                                         }
-                                                        if (cubit.posts[index]
-                                                            .liked == false) {
-                                                          cubit.posts[index]
-                                                              .liked = true;
-                                                          CacheHelper.saveData(
-                                                              key: 'liked',
-                                                              value: true);
-                                                          cubit.sendLike(
-                                                              outlookId: cubit
-                                                                  .posts[index]
-                                                                  .id);
+                                                        if (cubit.posts[index].liked == false) {
+                                                          cubit.posts[index].liked = true;
+                                                          CacheHelper.saveData(key: 'liked', value: true);
+                                                          cubit.sendLike(outlookId: cubit.posts[index].id);
                                                         } else {
-                                                          cubit.posts[index]
-                                                              .liked = false;
-                                                          CacheHelper.saveData(
-                                                              key: 'liked',
-                                                              value: false);
-                                                          cubit.sendLike(
-                                                              outlookId: cubit
-                                                                  .posts[index]
-                                                                  .id);
+                                                          cubit.posts[index].liked = false;
+                                                          CacheHelper.saveData(key: 'liked', value: false);
+                                                          cubit.sendLike(outlookId: cubit.posts[index].id);
                                                         }
                                                       },
-                                                      child: CacheHelper
-                                                          .getData(key: 'liked')
-                                                          ? const Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.red,
-                                                        size: 25,
+                                                      child: CacheHelper.getData(key: 'liked')==true&&CacheHelper.getData(key: 'liked')!=null
+                                                          ? const Icon(Icons.favorite, color: Colors.red, size: 25,
                                                       )
                                                           : const Icon(
                                                         Icons

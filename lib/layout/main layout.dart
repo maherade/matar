@@ -336,9 +336,16 @@ class _MainLayoutState extends State<MainLayout> {
               ),
             ),
             appBar: AppBar(
-              title: Text(
-                title[cubit.currentIndex],
-                style: const TextStyle(fontSize: 16),
+              title: Showcase(
+                key: _one,
+                title: "التصفح ",
+                description:
+                ' لتصفح المنشورات بقسم التوقعات ومتابعة الحالات وقسم صور ومقاطع الطقس قم بالسحب للأعلى أو الأسفل.',
+                onBarrierClick: () => debugPrint('Barrier clicked'),
+                child: Text(
+                  title[cubit.currentIndex],
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               actions: [
                 CacheHelper.getData(key: "index") == 1
@@ -349,18 +356,11 @@ class _MainLayoutState extends State<MainLayout> {
                               .pushReplacementNamed("main layout");
                         },
                         icon: const Icon(Icons.refresh_rounded)),
-                Showcase(
-                  key: _one,
-                  title: "قسم التنبيهات ",
-                  description:
-                      ' امكانية وصول التنبيهات الي المستخدم عند وجود اشعار جديد',
-                  onBarrierClick: () => debugPrint('Barrier clicked'),
-                  child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed("notification");
-                      },
-                      icon: const Icon(Icons.notifications_active)),
-                )
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("notification");
+                    },
+                    icon: const Icon(Icons.notifications_active))
               ],
               backgroundColor: const Color.fromRGBO(66, 105, 129, 1),
             ),
@@ -382,7 +382,7 @@ class _MainLayoutState extends State<MainLayout> {
                         key: _two,
                         title: "التوقعات و متابعة الحالات الجوية ",
                         description:
-                            'ينقسم الي قسمين (قسم عام, قسم مخصص) قسم عام يحتوي علي أخبار و حالات الجو في جميع البلدان العربية أما قسم مخصص يقوم بعرض الحالات الجوية و الأخبار الخاصه بالدولة المختارة(يجب الإشتراك أو مشاهدة إعلان) ',
+                            'يحتوي على قسمين (قسم عام وقسم مخصص) , القسم العام يحتوي على توقعات عامة لجميع الدول العربية , بينما القسم المخصص يحتوي على توقعات الدولة المختارة. ',
                         onBarrierClick: () => debugPrint('Barrier clicked'),
                         child: InkWell(
                           child: Container(
@@ -405,7 +405,7 @@ class _MainLayoutState extends State<MainLayout> {
                         key: _three,
                         title: "خرائط الطقس",
                         description:
-                            'يتم فيه عرض صور من القمر الصناعي لحالات الجو',
+                            'يحتوي على خرائط طقس متنوعة (حركة السحب , رادار الأمطار , توقعات الأمطار , توقعات الرياح , توقعات درجات الحرارة)',
                         onBarrierClick: () => debugPrint('Barrier clicked'),
                         child: Container(
                           padding: const EdgeInsets.all(10),
@@ -427,7 +427,7 @@ class _MainLayoutState extends State<MainLayout> {
                         key: _four,
                         title: "صور و مقاطع الطقس",
                         description:
-                            'يتم فيه عرض صور و فيديوهات لحالات الطقس من البلاد',
+                            'يحتوي على صور ومقاطع للأمطار والأودية وغيرها.',
                         onBarrierClick: () => debugPrint('Barrier clicked'),
                         child: Container(
                           padding: const EdgeInsets.all(10),

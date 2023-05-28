@@ -13,6 +13,7 @@ import 'package:mattar/network/local/shared_pref.dart';
 class UserAccount extends StatefulWidget {
   const UserAccount({super.key});
 
+
   @override
   State<UserAccount> createState() => _UserAccountState();
 }
@@ -331,7 +332,7 @@ class _UserAccountState extends State<UserAccount> {
 
                                           Navigator.pop(context);
                                           Navigator.of(context)
-                                              .pushReplacementNamed("signup");
+                                              .pushReplacementNamed("main layout");
                                         }).catchError((error) {
                                           print(
                                               'Something went wrong  with ${error.toString()}');

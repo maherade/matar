@@ -48,7 +48,7 @@ Widget defaultButton({
   required String textButton,
 }) =>
     Container(
-      height: 40,
+      height: 60,
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
@@ -58,7 +58,7 @@ Widget defaultButton({
         onPressed: onPressed,
         child: Text(
           isUpperCase ? textButton.toUpperCase() : textButton,
-          style: const TextStyle(color: Colors.white, fontSize: 15),
+          style: const TextStyle(color: Colors.white, fontSize: 22),
         ),
       ),
     );
@@ -76,7 +76,7 @@ Widget defaultTextButton({
         isUpperCase ? text.toUpperCase() : text,
         style: TextStyle(
           color: color,
-          fontSize: 16,
+          fontSize: 18,
         ),
       ),
     );
@@ -130,8 +130,8 @@ Widget defaultFormField({
 Widget myDivider(BuildContext context) => Padding(
       padding: const EdgeInsetsDirectional.only(start: 10),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.3,
-        height: 1,
+        width: MediaQuery.of(context).size.width * 0.32,
+        height: 2,
         color: Colors.grey,
       ),
     );

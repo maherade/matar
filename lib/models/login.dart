@@ -20,7 +20,8 @@ class LogIn extends StatelessWidget {
         listener: (context, state) async {
           var cubit = AppCubit.caller(context);
           // TODO: implement listener
-          if (state is ShopLoginSuccessState || state is LoginWithGoogleSuccessState) {
+          if (state is ShopLoginSuccessState ||
+              state is LoginWithGoogleSuccessState) {
             buildToast(text: "تم  تسجيل الدخول بنجاح", color: Colors.black);
             CacheHelper.saveData(key: "token", value: cubit.login?.token);
             CacheHelper.saveData(key: "login", value: true);
@@ -36,62 +37,66 @@ class LogIn extends StatelessWidget {
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              Image.asset(
-                "images/background.png",
-                fit: BoxFit.cover,
+              Container(
+                decoration: const BoxDecoration(color: Colors.white),
               ),
+              // Image.asset(
+              //   "images/background.png",
+              //   fit: BoxFit.cover,
+              // ),
               Scaffold(
                   backgroundColor: Colors.white.withOpacity(0.8),
                   body: SingleChildScrollView(
                     child: Column(
                       children: [
-                         SizedBox(
-                          height: MediaQuery.of(context).size.height*.2,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * .1,
                         ),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.black,
-                                )),
-                            Text(
-                              "تسجيل الدخول",
-                              style: Theme.of(context).textTheme.headline1,
-                            )
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     IconButton(
+                        //         onPressed: () {
+                        //           Navigator.of(context).pop();
+                        //         },
+                        //         icon: const Icon(
+                        //           Icons.arrow_back_ios,
+                        //           color: Colors.black,
+                        //         )),
+                        //     Text(
+                        //       "تسجيل الدخول",
+                        //       style: Theme.of(context).textTheme.headline1,
+                        //     )
+                        //   ],
+                        // ),
                         Container(
                           margin: const EdgeInsets.all(25),
                           child: Form(
                             key: formKey,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 50,
+                                  height: 60,
                                   child: defaultFormField(
                                       hintText: "البريد الالكتروني",
-                                      prefixIcon: const Icon(
-                                        Icons.email,
-                                        color: Colors.grey,
-                                      ),
+                                      // prefixIcon: const Icon(
+                                      //   Icons.email,
+                                      //   color: Colors.grey,
+                                      // ),
                                       controller: _emailController,
                                       type: TextInputType.emailAddress),
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 25,
                                 ),
                                 Container(
-                                  height: 50,
+                                  height: 60,
                                   child: defaultFormField(
-                                      hintText: " الرقم السري",
-                                      prefixIcon: const Icon(
-                                        Icons.lock,
-                                        color: Colors.grey,
-                                      ),
+                                      hintText: " كلمة المرور",
+                                      // prefixIcon: const Icon(
+                                      //   Icons.lock,
+                                      //   color: Colors.grey,
+                                      // ),
                                       controller: _passwordController,
                                       validate: (String? value) {
                                         if (value!.isEmpty) {
@@ -100,8 +105,19 @@ class LogIn extends StatelessWidget {
                                       },
                                       type: TextInputType.emailAddress),
                                 ),
-                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height*.04,
+
+                                defaultTextButton(
+                                  color: Color(0xff814269),
+                                  isUpperCase: false,
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed("send linke");
+                                  },
+                                  text: " نسيت كلمة المرور؟",
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .01,
                                 ),
 
                                 // تسجيل الدخول
@@ -116,16 +132,36 @@ class LogIn extends StatelessWidget {
                                   textButton: "تسجيل الدخول",
                                   backgroundColor: secondColor,
                                   isUpperCase: false,
-                                  radius: 15,
+                                  radius: 40,
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height*.02,
+                                  height:
+                                      MediaQuery.of(context).size.height * .03,
                                 ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    myDivider(context),
+                                    const Text(
+                                      " أو",
+                                      style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    myDivider(context)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .03,
+                                ),
+
                                 // تسجيل الدخول بجوجل
                                 MaterialButton(
                                   shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.blue.shade700),
                                       borderRadius: BorderRadius.circular(12)),
-                                  color: const Color(0xFFF44336),
                                   onPressed: () {
                                     // AppCubit.caller(context).googleFunction(context);
                                     AppCubit.caller(context)
@@ -136,29 +172,26 @@ class LogIn extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        'جوجل',
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                .02,
-                                      ),
                                       Image(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 .06,
                                         image: const AssetImage(
-                                            'images/gmail.png'),
-                                      )
+                                            'images/google.png'),
+                                      ),
+                                      Text(
+                                        'تسجيل الدخول بواسطة جوجل',
+                                        style: TextStyle(
+                                            color: Colors.blue.shade700,
+                                            fontSize: 20),
+                                      ),
                                     ],
                                   ),
                                 ),
 
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height*.02,
+                                  height:
+                                      MediaQuery.of(context).size.height * .03,
                                 ),
                                 // تسجيل الدخول بالفيس بوك
                                 MaterialButton(
@@ -170,25 +203,27 @@ class LogIn extends StatelessWidget {
                                   },
                                   child: Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      Image(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .06,
+                                        image: const AssetImage(
+                                            'images/facebook.png'),
+                                      ),
                                       const Text(
-                                        'فيس بوك',
+                                        'تسجيل الدخول بواسطة الفيسبوك',
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 18),
                                       ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                .02,
-                                      ),
-                                      Image(
-                                        height: MediaQuery.of(context).size.height*.06,
-                                        image: const AssetImage('images/facebook.png'),
-                                      )
                                     ],
                                   ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .03,
                                 ),
 
                                 // Row(
@@ -226,29 +261,21 @@ class LogIn extends StatelessWidget {
                                     const Text(
                                       "ليس لديك حساب ؟",
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
+                                        color: Color(0xff814269),
+                                        fontSize: 20,
                                       ),
                                     ),
                                     defaultTextButton(
-                                        color: const Color.fromRGBO(
-                                            66, 105, 129, 1),
-                                        isUpperCase: false,
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .pushNamed("signup");
-                                        },
-                                        text: "انشاء حساب"),
+                                      color: Color(0xff814269),
+                                      isUpperCase: false,
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pushNamed("signup");
+                                      },
+                                      text: "انشاء حساب",
+                                    ),
                                   ],
                                 ),
-                                defaultTextButton(
-                                    color: Colors.black,
-                                    isUpperCase: false,
-                                    onPressed: () {
-                                      Navigator.of(context)
-                                          .pushNamed("send linke");
-                                    },
-                                    text: "هل نسيت كلمة السر ؟"),
                               ],
                             ),
                           ),

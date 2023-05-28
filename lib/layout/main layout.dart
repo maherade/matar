@@ -88,7 +88,7 @@ class _ShowMainPageState extends State<ShowMainPage> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text('Reward callback fired. Thanks Andrew!'),
+                    const Text('Reward callback fired. Thanks Andrew!'),
                     Text('Type: ${args!['type']}'),
                     Text('Amount: ${args['amount']}'),
                   ],

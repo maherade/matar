@@ -1280,7 +1280,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                   Colors.white,
                                                   size: 25,
                                                 ),
-                                              ),
+                                                            ),
                                               defaultWeatherExpectedRowIcon(
                                                   icon: Icons.comment,
                                                   onPressed: () {

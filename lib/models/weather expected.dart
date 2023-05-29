@@ -280,7 +280,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          flex: 1,
+                                          flex: 2,
                                           child: Text(
                                             "${CacheHelper.getData(key: "country")}",
                                             style: const TextStyle(
@@ -807,6 +807,13 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                 ),
                                 defaultButton(
                                   onPressed: () async {
+                                    if (CacheHelper.getData(
+                                        key: "login") ==
+                                        null) {
+                                      await LogInDialog(
+                                          context);
+                                      return;
+                                    }
                                     if (await rewardAd.isLoaded) {
                                       rewardAd.show();
                                       sub = true;
@@ -868,33 +875,13 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                               const SizedBox(
                                                   height: 20),
                                               Text(
-                                                  cubit
-                                                      .adsModel[
-                                                  n]
-                                                      .title,
-                                                  style: Theme
-                                                      .of(
-                                                      context)
-                                                      .textTheme
-                                                      .headline1
-                                                      ?.copyWith(
-                                                      color:
-                                                      Colors.grey[600])),
-                                              Expanded(
-                                                child:
-                                                Container(
-                                                  height: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .height *
-                                                      3,
-                                                  width: MediaQuery
-                                                      .of(context)
-                                                      .size
-                                                      .width *
-                                                      .5,
-                                                  color: Colors
-                                                      .white,
+                                                  cubit.adsModel[n].title,
+                                                  style: Theme.of(context).textTheme.headline1?.copyWith(
+                                                      color: Colors.grey[600])),
+                                              Expanded(child:
+                                                Container(height: MediaQuery.of(context).size.height * 3,
+                                                  width: MediaQuery.of(context).size.width * .5,
+                                                  color: Colors.white,
                                                   margin:
                                                   const EdgeInsets.all(
                                                       10),
@@ -1076,102 +1063,102 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                 })),
 
                                         //تغيير القسم و البلد ---------------------------
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceEvenly,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                margin:
-                                                const EdgeInsets
-                                                    .only(
-                                                    top: 8),
-                                                padding: const EdgeInsets
-                                                    .symmetric(
-                                                    vertical: 5,
-                                                    horizontal:
-                                                    20),
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                    color: const Color
-                                                        .fromRGBO(
-                                                        66,
-                                                        105,
-                                                        129,
-                                                        1),
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        12)),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceEvenly,
-                                                  children: [
-                                                    Text(
-                                                      "${CacheHelper.getData(
-                                                          key: "country")}",
-                                                      style: const TextStyle(
-                                                          fontSize:
-                                                          16,
-                                                          color: Colors
-                                                              .white,
-                                                          fontWeight:
-                                                          FontWeight.bold),
-                                                    ),
-                                                    Image.network(
-                                                      "https://admin.rain-app.com/storage/countries/${CacheHelper
-                                                          .getData(
-                                                          key: "country")}.png",
-                                                      height: 50,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
-                                            ),
-                                            Expanded(
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.of(
-                                                      context)
-                                                      .pushReplacementNamed(
-                                                      "country page");
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      top: 8),
-                                                  width: 120,
-                                                  height: 50,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                      whiteColor,
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          12)),
-                                                  child:
-                                                  const Center(
-                                                    child: Text(
-                                                      "تغيير القسم",
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .black,
-                                                          fontSize:
-                                                          16,
-                                                          fontWeight:
-                                                          FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //   MainAxisAlignment
+                                        //       .spaceEvenly,
+                                        //   children: [
+                                        //     Expanded(
+                                        //       child: Container(
+                                        //         margin:
+                                        //         const EdgeInsets
+                                        //             .only(
+                                        //             top: 8),
+                                        //         padding: const EdgeInsets
+                                        //             .symmetric(
+                                        //             vertical: 5,
+                                        //             horizontal:
+                                        //             20),
+                                        //         height: 50,
+                                        //         decoration: BoxDecoration(
+                                        //             color: const Color
+                                        //                 .fromRGBO(
+                                        //                 66,
+                                        //                 105,
+                                        //                 129,
+                                        //                 1),
+                                        //             borderRadius:
+                                        //             BorderRadius
+                                        //                 .circular(
+                                        //                 12)),
+                                        //         child: Row(
+                                        //           mainAxisAlignment:
+                                        //           MainAxisAlignment
+                                        //               .spaceEvenly,
+                                        //           children: [
+                                        //             Text(
+                                        //               "${CacheHelper.getData(
+                                        //                   key: "country")}",
+                                        //               style: const TextStyle(
+                                        //                   fontSize:
+                                        //                   16,
+                                        //                   color: Colors
+                                        //                       .white,
+                                        //                   fontWeight:
+                                        //                   FontWeight.bold),
+                                        //             ),
+                                        //             Image.network(
+                                        //               "https://admin.rain-app.com/storage/countries/${CacheHelper
+                                        //                   .getData(
+                                        //                   key: "country")}.png",
+                                        //               height: 50,
+                                        //             ),
+                                        //           ],
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     const SizedBox(
+                                        //       width: 15,
+                                        //     ),
+                                        //     // Expanded(
+                                        //     //   child: InkWell(
+                                        //     //     onTap: () {
+                                        //     //       Navigator.of(
+                                        //     //           context)
+                                        //     //           .pushReplacementNamed(
+                                        //     //           "country page");
+                                        //     //     },
+                                        //     //     child: Container(
+                                        //     //       margin:
+                                        //     //       const EdgeInsets
+                                        //     //           .only(
+                                        //     //           top: 8),
+                                        //     //       width: 120,
+                                        //     //       height: 50,
+                                        //     //       decoration: BoxDecoration(
+                                        //     //           color:
+                                        //     //           whiteColor,
+                                        //     //           borderRadius:
+                                        //     //           BorderRadius.circular(
+                                        //     //               12)),
+                                        //     //       child:
+                                        //     //       const Center(
+                                        //     //         child: Text(
+                                        //     //           "تغيير القسم",
+                                        //     //           style: TextStyle(
+                                        //     //               color: Colors
+                                        //     //                   .black,
+                                        //     //               fontSize:
+                                        //     //               16,
+                                        //     //               fontWeight:
+                                        //     //               FontWeight.bold),
+                                        //     //         ),
+                                        //     //       ),
+                                        //     //     ),
+                                        //     //   ),
+                                        //     // ),
+                                        //   ],
+                                        // ),
                                         cubit
                                             .selectedPosts[
                                         index]
@@ -1243,14 +1230,9 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                         context);
                                                     return;
                                                   }
-                                                  if (cubit.selectedPosts[index]
-                                                      .liked == false) {
-                                                    cubit.selectedPosts[index]
-                                                        .liked = true;
-                                                    cubit.sendLike(
-                                                        outlookId: cubit
-                                                            .selectedPosts[index]
-                                                            .id!);
+                                                  if (cubit.selectedPosts[index].liked == false) {
+                                                    cubit.selectedPosts[index].liked = true;
+                                                    cubit.sendLike(outlookId: cubit.selectedPosts[index].id!);
                                                     CacheHelper.saveData(
                                                         key: 'liked',
                                                         value: true);
@@ -1266,8 +1248,7 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                         value: false);
                                                   }
                                                 },
-                                                child: CacheHelper.getData(
-                                                    key: 'liked')
+                                                child:  CacheHelper.getData(key: 'liked')==true&&CacheHelper.getData(key: 'liked')!=null
                                                     ? const Icon(
                                                   Icons.favorite,
                                                   color: Colors.red,
@@ -1280,7 +1261,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                   Colors.white,
                                                   size: 25,
                                                 ),
-                                                            ),
+                                              ),
+
                                               defaultWeatherExpectedRowIcon(
                                                   icon: Icons.comment,
                                                   onPressed: () {

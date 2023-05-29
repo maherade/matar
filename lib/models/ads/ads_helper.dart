@@ -34,9 +34,9 @@ class AdsHelper {
     //   return AdmobReward.testAdUnitId;
     // }
     if (Platform.isAndroid) {
-      return "ca-app-pub-2342851934476929/3015974131";
+      return "ca-app-pub-2342851934476929/7882032206";
     } else if (Platform.isIOS) {
-      return "-----------------------------------";
+      return "ca-app-pub-2342851934476929/4360130728";
     } else {
       return "UnSuported platForm";
     }

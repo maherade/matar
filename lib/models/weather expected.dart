@@ -462,32 +462,17 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
 
                                                         return extension ==
                                                                 ".mp4"
-                                                            ? InkWell(
-                                                                onTap: () {
-                                                                  Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (_) {
-                                                                    return FullMapScreen(
-                                                                      index:
-                                                                          index,
-                                                                      image:
-                                                                          "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
-                                                                    );
-                                                                  }));
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.5,
-                                                                        child:
-                                                                            PlayV(
-                                                                          "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
-                                                                        )),
-                                                              )
+                                                            ? Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.5,
+                                                                child: PlayV(
+                                                                  "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
+                                                                ))
                                                             : InkWell(
                                                                 onTap: () {
                                                                   Navigator
@@ -495,10 +480,9 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                     context,
                                                                     MaterialPageRoute(
                                                                         builder:
-                                                                            (
-                                                                            _) {
-                                                                          return FullMapScreen(
-                                                                            index:
+                                                                            (_) {
+                                                                      return FullMapScreen(
+                                                                        index:
                                                                             index,
                                                                             image:
                                                                             "https://admin.rain-app.com/storage/outlooks/${cubit
@@ -1298,24 +1282,22 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                               defaultWeatherExpectedRowIcon(
                                                 onPressed: () {
                                                   cubit.sendShare(
-                                                      outlookId: cubit
-                                                          .selectedPosts[
-                                                      index]
-                                                          .id!);
-                                                  share(
-                                                      cubit
-                                                          .selectedPosts[
-                                                      index]
-                                                          .title,
-                                                      cubit
-                                                          .selectedPosts[
-                                                      index]
-                                                          .details,
-                                                      "https://admin.rain-app.com/api/outlooks/${cubit
-                                                          .selectedPosts[index]
-                                                          .id}",
-                                                      "");
-                                                },
+                                                                    outlookId: cubit
+                                                                        .selectedPosts[
+                                                                            index]
+                                                                        .id!);
+                                                                share(
+                                                                    cubit
+                                                                        .selectedPosts[
+                                                                            index]
+                                                                        .title,
+                                                                    cubit
+                                                                        .selectedPosts[
+                                                                            index]
+                                                                        .details,
+                                                                    "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].id}",
+                                                                    "");
+                                                              },
                                                 icon: Icons.share,
                                               ),
                                             ],

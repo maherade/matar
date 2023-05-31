@@ -40,10 +40,6 @@ class LogIn extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(color: Colors.white),
               ),
-              // Image.asset(
-              //   "images/background.png",
-              //   fit: BoxFit.cover,
-              // ),
               Scaffold(
                   backgroundColor: Colors.white.withOpacity(0.8),
                   body: SingleChildScrollView(
@@ -52,22 +48,23 @@ class LogIn extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * .1,
                         ),
-                        // Row(
-                        //   children: [
-                        //     IconButton(
-                        //         onPressed: () {
-                        //           Navigator.of(context).pop();
-                        //         },
-                        //         icon: const Icon(
-                        //           Icons.arrow_back_ios,
-                        //           color: Colors.black,
-                        //         )),
-                        //     Text(
-                        //       "تسجيل الدخول",
-                        //       style: Theme.of(context).textTheme.headline1,
-                        //     )
-                        //   ],
-                        // ),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("main layout");
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.black,
+                                )),
+                            Text(
+                              "تسجيل الدخول",
+                              style: Theme.of(context).textTheme.headline1,
+                            )
+                          ],
+                        ),
                         Container(
                           margin: const EdgeInsets.all(25),
                           child: Form(

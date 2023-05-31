@@ -326,13 +326,20 @@ class _UserAccountState extends State<UserAccount> {
                                                 url:
                                                     'https://admin.rain-app.com/api/request-delete-account')
                                             .then((value) {
-                                          print(
-                                              'Delete finished successfully');
-                                          buildToast(text: "تم حذف الحساب بنجاح", color: Colors.black);
-
+                                          print('Delete finished successfully');
+                                          buildToast(
+                                              text: "تم حذف الحساب بنجاح",
+                                              color: Colors.black);
+                                          CacheHelper.removeData(key: "login");
+                                          CacheHelper.removeData(key: "token");
+                                          CacheHelper.removeData(
+                                              key: "subscibtion");
+                                          print(CacheHelper.getData(
+                                              key: "login"));
                                           Navigator.pop(context);
                                           Navigator.of(context)
-                                              .pushReplacementNamed("main layout");
+                                              .pushReplacementNamed(
+                                                  "main layout");
                                         }).catchError((error) {
                                           print(
                                               'Something went wrong  with ${error.toString()}');

@@ -54,9 +54,8 @@ class SignUp extends StatelessWidget {
           return Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              Image.asset(
-                "images/background.png",
-                fit: BoxFit.cover,
+              Container(
+                decoration: BoxDecoration(color: Colors.white),
               ),
               Scaffold(
                   backgroundColor: Colors.white.withOpacity(0.8),
@@ -90,11 +89,7 @@ class SignUp extends StatelessWidget {
                               children: [
                                 Container(
                                   child: defaultFormField(
-                                      labelText: "اسمك",
-                                      prefixIcon: Icon(
-                                        Icons.person,
-                                        color: Colors.grey,
-                                      ),
+                                      labelText: "الاسم",
                                       controller: nameControl,
                                       validate: (String? value) {
                                         if (value!.isEmpty) {
@@ -114,10 +109,6 @@ class SignUp extends StatelessWidget {
                                           return "يجب عليك ادخال بريدك الالكتروني";
                                         }
                                       },
-                                      prefixIcon: Icon(
-                                        Icons.email,
-                                        color: Colors.grey,
-                                      ),
                                       controller: emailControl,
                                       type: TextInputType.emailAddress),
                                 ),
@@ -127,11 +118,7 @@ class SignUp extends StatelessWidget {
                                 ),
                                 Container(
                                   child: defaultFormField(
-                                      labelText: " الرقم السري",
-                                      prefixIcon: Icon(
-                                        Icons.lock,
-                                        color: Colors.grey,
-                                      ),
+                                      labelText: "كلمة المرور",
                                       controller: passwordControler,
                                       validate: (String? value) {
                                         if (value!.isEmpty) {
@@ -143,21 +130,32 @@ class SignUp extends StatelessWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Container(
+                                  child: defaultFormField(
+                                      labelText: "اعادة كتابة كلمة المرور",
+                                      controller: passwordControler,
+                                      validate: (String? value) {
+                                        if (value!.isEmpty) {
+                                          return "يجب عليك ادخال كلمة سر قوية";
+                                        }
+                                      },
+                                      type: TextInputType.emailAddress),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+
                                 BlocBuilder<CountriesCubit, CountryModel?>(
                                   builder: (context, state) {
                                     return DropdownButtonHideUnderline(
                                       child: DropdownButton2<CountryModel>(
                                         hint: Row(
                                           children: [
-                                            Icon(
-                                              Icons.location_on,
-                                              color: Colors.grey,
-                                            ),
                                             SizedBox(
                                               width: 15,
                                             ),
                                             Text(
-                                              'دولتك',
+                                              'اختر الدولة',
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color:
@@ -223,7 +221,7 @@ class SignUp extends StatelessWidget {
                                   },
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 defaultButton(
                                   onPressed: () {
@@ -242,10 +240,13 @@ class SignUp extends StatelessWidget {
                                               ?.country);
                                     }
                                   },
-                                  textButton: "انشاء حساب",
+                                  textButton: "تسجيل",
                                   backgroundColor: secondColor,
                                   isUpperCase: false,
-                                  radius: 15,
+                                  radius: 40,
+                                ),
+                                const SizedBox(
+                                  height: 20,
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -273,24 +274,95 @@ class SignUp extends StatelessWidget {
                                 //         text: "فيسبوك"),
                                 //   ],
                                 // ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .02,
+                                ),
+                                MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.blue.shade700),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  onPressed: () {
+                                    // AppCubit.caller(context).googleFunction(context);
+                                    AppCubit.caller(context)
+                                        .googleFunction(context);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .06,
+                                        image: const AssetImage(
+                                            'images/google.png'),
+                                      ),
+                                      Text(
+                                        'تسجيل بواسطة جوجل',
+                                        style: TextStyle(
+                                            color: Colors.blue.shade700,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .02,
+                                ),
+                                // تسجيل الدخول بالفيس بوك
+                                MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  color: const Color(0xFF3B5998),
+                                  onPressed: () {
+                                    AppCubit.caller(context).fblogin(context);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .06,
+                                        image: const AssetImage(
+                                            'images/facebook.png'),
+                                      ),
+                                      const Text(
+                                        'تسجيل بواسطة الفيسبوك',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .03,
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const Text(
-                                      "هل لديك حساب ؟",
+                                      "لديك حساب ؟",
                                       style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
+                                        color: Color(0xff814269),
+                                        fontSize: 20,
                                       ),
                                     ),
                                     defaultTextButton(
-                                        color: mainColor,
+                                        color: Color(0xff814269),
                                         isUpperCase: false,
                                         onPressed: () {
                                           Navigator.of(context)
                                               .pushReplacementNamed("login");
                                         },
-                                        text: "تسجيل الدخول")
+                                        text: "قم بتسجيل الدخول")
                                   ],
                                 ),
                               ],

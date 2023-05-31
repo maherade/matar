@@ -19,6 +19,13 @@ class CountryScreen extends StatelessWidget {
             backgroundColor: backgroundColor,
             appBar: AppBar(
               elevation: 0,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'main layout');
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+              iconTheme: const IconThemeData(color: Colors.black),
               backgroundColor: backgroundColor,
             ),
             body: Center(

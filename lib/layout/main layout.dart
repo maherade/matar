@@ -348,6 +348,20 @@ class _MainLayoutState extends State<MainLayout> {
                 ),
               ),
               actions: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacementNamed("country page");
+                  },
+                  child: Image(
+                    height: 15,
+                    width: 25,
+                    color: Colors.white,
+                    image: AssetImage('images/earth.png'),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
                 CacheHelper.getData(key: "index") == 1
                     ? SizedBox()
                     : IconButton(
@@ -356,33 +370,6 @@ class _MainLayoutState extends State<MainLayout> {
                               .pushReplacementNamed("main layout");
                         },
                         icon: const Icon(Icons.refresh_rounded)),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(
-                        context)
-                        .pushReplacementNamed(
-                        "country page");
-                  },
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Text(
-                        "تغيير القسم",
-                        style: TextStyle(
-                            color: Colors
-                                .black,
-                            fontSize:
-                            14,
-                            fontWeight:
-                            FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed("notification");
@@ -638,6 +625,20 @@ class NewMainLayout extends StatelessWidget {
                 style: const TextStyle(fontSize: 16),
               ),
               actions: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushReplacementNamed("country page");
+                  },
+                  child: Image(
+                    height: 15,
+                    width: 25,
+                    color: Colors.white,
+                    image: AssetImage('images/earth.png'),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
                 CacheHelper.getData(key: "index") == 1
                     ? SizedBox()
                     : IconButton(
@@ -646,34 +647,6 @@ class NewMainLayout extends StatelessWidget {
                               .pushReplacementNamed("main layout");
                         },
                         icon: const Icon(Icons.refresh_rounded)),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(
-                        context)
-                        .pushReplacementNamed(
-                        "country page");
-                  },
-                  child: Center(
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Text(
-                        "تغيير القسم",
-                        style: TextStyle(
-                            color: Colors
-                                .black,
-                            fontSize:
-                            14,
-                            fontWeight:
-                            FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                ),
-
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed("notification");

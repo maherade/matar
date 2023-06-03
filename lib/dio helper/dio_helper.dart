@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:mattar/layout/main%20layout.dart';
 
 class ShopDioHelper {
   static late Dio dio;
@@ -118,12 +121,57 @@ class ShopDioHelper {
       'lang': language,
       'Authorization': token,
     };
-    return await dio.post(
+    return await dio
+        .post(
       url,
-    ).then((value) {
+    )
+        .then((value) {
       print('Delete finished successfully ${value.toString()}');
     }).catchError((error) {
       print('Something went wrong  with ${error.toString()}');
     });
+  }
+
+  static void startCountdown() {
+    const twoHours = Duration(hours: 2);
+    int remainingSeconds = twoHours.inSeconds;
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingSeconds <= 0) {
+        timer.cancel();
+        rewardAd.dispose();
+        print('Countdown complete!');
+
+        // Add any code here that you want to be executed when the countdown is complete
+      } else {
+        remainingSeconds--;
+        print('Time remaining: ${Duration(seconds: remainingSeconds)}');
+        // Add any code here that you want to be executed each second during the countdown
+      }
+    });
+  }
+
+  static Future<Response> setTimer({
+    required String url,
+    var data,
+    required String? countryId,
+    Map<String, dynamic>? query,
+    required String? token,
+  }) async {
+    dio.options.headers = {
+      'Authorization': token,
+    };
+    var res = await dio
+        .post(
+      url,
+      queryParameters: query,
+    )
+        .then((value) {
+      print(
+          '-------------------------Timer set successfully ${value.toString()}');
+    }).catchError((error) {
+      print(
+          '------------------------Something went wrong  with ${error.toString()}');
+    });
+    return res;
   }
 }

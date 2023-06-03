@@ -79,6 +79,8 @@ dependencies:
   flutter_login_facebook: ^1.8.0
   http_parser: ^4.0.2
   flutter_facebook_auth: '^3.5.0'
+  slide_countdown: ^0.6.0
+  http: ^0.13.6
 
 dependency_overrids:
   flutter_facebook_login: ^3.0.0

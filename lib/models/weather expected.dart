@@ -7,7 +7,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:image_zoom_on_move/image_zoom_on_move.dart';
 import 'package:internet_connectivity_checker/internet_connectivity_checker.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:lottie/lottie.dart';
@@ -19,7 +18,6 @@ import 'package:mattar/network/local/shared_pref.dart';
 import 'package:path/path.dart' as p;
 import 'package:readmore/readmore.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../component/component.dart';
@@ -40,8 +38,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
 
   bool commentEntered = false;
 
-  Future<void> share(String? title, String? text, String? url,
-      String? chooserTitle) async {
+  Future<void> share(
+      String? title, String? text, String? url, String? chooserTitle) async {
     await FlutterShare.share(
         title: title ?? "",
         text: text,
@@ -49,9 +47,9 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
         chooserTitle: chooserTitle);
   }
 
-  List<TargetFocus> targets = [];
-
+  bool isShowed = false;
   bool sub = false;
+
   final specialKey = GlobalKey();
   final publicKey = GlobalKey();
   String statues = 'online';
@@ -61,7 +59,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     checkConnection();
     subscribtion = Connectivity().onConnectivityChanged.listen((event) {
       if (event == ConnectivityResult.mobile) {
@@ -78,61 +75,6 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
         });
       }
     });
-
-    targets
-        .add(TargetFocus(identify: "Target 1", keyTarget: publicKey, contents: [
-      TargetContent(
-          align: ContentAlign.bottom,
-          child: Container(
-            child:  Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "قسم عام",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "يقوم بعرض أخبار الطقس و الخريطة  بشكل عام ",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                )
-              ],
-            ),
-          ))
-    ]));
-    targets.add(
-        TargetFocus(identify: "Target 2", keyTarget: specialKey, contents: [
-      TargetContent(
-          align: ContentAlign.bottom,
-          child: Container(
-            child:  Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "قسم خاص",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "يقوم بعرض الأخبار  و الخريطة الخاصة بالبلد المختارة من قبل  المستخدم  ",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                )
-              ],
-            ),
-          ))
-    ]));
   }
 
   @override
@@ -484,32 +426,26 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                       return FullMapScreen(
                                                                         index:
                                                                             index,
-                                                                            image:
-                                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
-                                                                                .posts[index]
-                                                                                .files[photoind]
-                                                                                .file}",
-                                                                          );
-                                                                        }),
+                                                                        image:
+                                                                            "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
+                                                                      );
+                                                                    }),
                                                                   );
                                                                 },
-                                                          child: Image
-                                                              .network(
-                                                            "https://admin.rain-app.com/storage/outlooks/${cubit
-                                                                .posts[index]
-                                                                .files[photoind]
-                                                                .file}",
-                                                            fit: BoxFit
-                                                                .cover,
-                                                            errorBuilder:
-                                                                (context,
-                                                                error,
-                                                                stackTrace) {
-                                                              return Text(
-                                                                  "can not load image");
-                                                            },
-                                                          ),
-                                                        );
+                                                                child: Image
+                                                                    .network(
+                                                                  "https://admin.rain-app.com/storage/outlooks/${cubit.posts[index].files[photoind].file}",
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  errorBuilder:
+                                                                      (context,
+                                                                          error,
+                                                                          stackTrace) {
+                                                                    return Text(
+                                                                        "can not load image");
+                                                                  },
+                                                                ),
+                                                              );
                                                       })),
                                               // Row(
                                               //   mainAxisAlignment:
@@ -626,30 +562,58 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                             .access_time_rounded),
                                                     defaultWeatherExpectedRowIcon(
                                                       onPressed: () async {
-                                                        if (CacheHelper.getData(key: "login") == null) {
-                                                          await LogInDialog(context);
+                                                        if (CacheHelper.getData(
+                                                            key: "login") ==
+                                                            null) {
+                                                          await LogInDialog(
+                                                              context);
                                                           return;
                                                         }
-                                                        if (cubit.posts[index].liked == false) {
-                                                          cubit.posts[index].liked = true;
-                                                          CacheHelper.saveData(key: 'liked', value: true);
-                                                          cubit.sendLike(outlookId: cubit.posts[index].id);
+                                                        if (cubit.posts[index]
+                                                            .liked ==
+                                                            false) {
+                                                          cubit.posts[index]
+                                                              .liked = true;
+                                                          CacheHelper.saveData(
+                                                              key: 'liked',
+                                                              value: true);
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .posts[index]
+                                                                  .id);
                                                         } else {
-                                                          cubit.posts[index].liked = false;
-                                                          CacheHelper.saveData(key: 'liked', value: false);
-                                                          cubit.sendLike(outlookId: cubit.posts[index].id);
+                                                          cubit.posts[index]
+                                                              .liked = false;
+                                                          CacheHelper.saveData(
+                                                              key: 'liked',
+                                                              value: false);
+                                                          cubit.sendLike(
+                                                              outlookId: cubit
+                                                                  .posts[index]
+                                                                  .id);
                                                         }
                                                       },
-                                                      child: CacheHelper.getData(key: 'liked')==true&&CacheHelper.getData(key: 'liked')!=null
-                                                          ? const Icon(Icons.favorite, color: Colors.red, size: 25,
+                                                      child: CacheHelper
+                                                          .getData(
+                                                          key:
+                                                          'liked') ==
+                                                          true &&
+                                                          CacheHelper.getData(
+                                                              key:
+                                                              'liked') !=
+                                                              null
+                                                          ? const Icon(
+                                                        Icons.favorite,
+                                                        color: Colors.red,
+                                                        size: 25,
                                                       )
                                                           : const Icon(
                                                         Icons
                                                             .favorite_border,
                                                         color:
                                                         Colors.white,
-                                                              size: 25,
-                                                            ),
+                                                        size: 25,
+                                                      ),
                                                     ),
                                                     defaultWeatherExpectedRowIcon(
                                                         icon: Icons.comment,
@@ -766,9 +730,9 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                       .w700),
                                                           trimLines: 4,
                                                           trimCollapsedText:
-                                                              'قراءة المزيد',
+                                                          'قراءة المزيد',
                                                           trimExpandedText:
-                                                              'قراءة اقل',
+                                                          'قراءة اقل',
                                                         ),
                                                       ],
                                                     ),
@@ -780,63 +744,497 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                               }),
 
                           //   ---------------------------  مخصص ----------------------------------
-                          sub == false
-                              ? Container(
-                            child: Column(
-                              children: [
-                                Lottie.asset('images/phone.json',
-                                    height: 300, width: 250),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                defaultButton(
-                                  onPressed: () async {
-                                    if (CacheHelper.getData(
-                                        key: "login") ==
-                                        null) {
-                                      await LogInDialog(
-                                          context);
-                                      return;
-                                    }
-                                    if (await rewardAd.isLoaded) {
+                          CacheHelper.getData(key: "isShowed") == false
+                              ? Column(
+                            children: [
+                              Lottie.asset('images/phone.json',
+                                  height: 300, width: 250),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              defaultButton(
+                                onPressed: () async {
+                                  if (CacheHelper.getData(
+                                      key: "login") ==
+                                      null) {
+                                    await LogInDialog(context);
+                                    return;
+                                  }
+                                  if (await rewardAd.isLoaded) {
+                                    if (isShowed == false) {
                                       rewardAd.show();
+                                      isShowed = true;
                                       sub = true;
-                                    } else {
-                                      //   print(
-                                      //       'Reward ad is still loading...');
+                                      CacheHelper.saveData(
+                                          key: "isShowed", value: true);
+                                      Timer(const Duration(hours: 2), () {
+                                        setState(() {
+                                          CacheHelper.saveData(
+                                              key: "isShowed", value: false);
+                                        });
+                                      });
                                     }
-                                  },
-                                  textButton: 'شاهد الإعلان أولاً',
-                                  backgroundColor: secondColor,
-                                  radius: 8,
-                                  width:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width *
-                                      .5,
-                                ),
-                                const SizedBox(
-                                  height: 25,
-                                ),
-                                defaultButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed("sub");
-                                  },
-                                  textButton:
-                                  'اشتراك لاستخدام بدون اعلانات',
-                                  backgroundColor: secondColor,
-                                  radius: 8,
-                                  width:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width *
-                                      .7,
-                                ),
-                              ],
-                            ),
+                                    // SlideCountdown(
+                                    //   duration:
+                                    //       const Duration(seconds: 30),
+                                    //   padding:
+                                    //       const EdgeInsets.symmetric(
+                                    //           horizontal: 50,
+                                    //           vertical: 10),
+                                    //   decoration: BoxDecoration(
+                                    //     color: secondColor,
+                                    //     borderRadius:
+                                    //         const BorderRadius.all(
+                                    //             Radius.circular(5)),
+                                    //   ),
+                                    //   replacement: PageView.builder(
+                                    //       controller: controller,
+                                    //       scrollDirection:
+                                    //           Axis.vertical,
+                                    //       itemCount: cubit
+                                    //           .selectedPosts.length,
+                                    //       pageSnapping: true,
+                                    //       itemBuilder: (ctx, index) {
+                                    //         return Scaffold(
+                                    //             body: ind.contains(
+                                    //                         index) &&
+                                    //                     cubit.profile
+                                    //                             ?.sub !=
+                                    //                         true
+                                    //                 ? PageView.builder(
+                                    //                     itemCount: 1,
+                                    //                     itemBuilder:
+                                    //                         (c, n) {
+                                    //                       return cubit.adsModel
+                                    //                                   .isNotEmpty &&
+                                    //                               index ==
+                                    //                                   1
+                                    //                           ? Column(
+                                    //                               children: [
+                                    //                                 const SizedBox(height: 20),
+                                    //                                 Text(cubit.adsModel[n].title,
+                                    //                                     style: Theme.of(context).textTheme.headline1?.copyWith(color: Colors.grey[600])),
+                                    //                                 Expanded(
+                                    //                                   child: Container(
+                                    //                                     height: MediaQuery.of(context).size.height * 3,
+                                    //                                     width: MediaQuery.of(context).size.width * .5,
+                                    //                                     color: Colors.white,
+                                    //                                     margin: const EdgeInsets.all(10),
+                                    //                                     child: Image.network("https://admin.rain-app.com/storage/ads/${cubit.adsModel[n].media}", errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                    //                                       return const Text('Your error widget...');
+                                    //                                     }),
+                                    //                                   ),
+                                    //                                 ),
+                                    //                                 defaultButton(
+                                    //                                     onPressed: () async {
+                                    //                                       cubit.increaseAdsClick(cubit.adsModel[n].id);
+                                    //                                       try {
+                                    //                                         await canLaunch(cubit.adsModel[n].redirect) ? await launch(cubit.adsModel[n].redirect) : throw "could not fiend";
+                                    //                                       } catch (e) {
+                                    //                                         return;
+                                    //                                       }
+                                    //                                     },
+                                    //                                     textButton: "اذهب",
+                                    //                                     width: 150,
+                                    //                                     radius: 15),
+                                    //                                 const SizedBox(
+                                    //                                   height: 10,
+                                    //                                 )
+                                    //                               ],
+                                    //                             )
+                                    //                           : Column(
+                                    //                               children: [
+                                    //                                 Flexible(
+                                    //                                   flex: 0,
+                                    //                                   child: defaultButton(
+                                    //                                       onPressed: () {
+                                    //                                         Navigator.of(context).pushNamed("ads");
+                                    //                                       },
+                                    //                                       textButton: "الغاء الاعلانات"),
+                                    //                                 ),
+                                    //                                 Flexible(
+                                    //                                   child: Builder(builder: (ctx) {
+                                    //                                     return Container(
+                                    //                                       decoration: BoxDecoration(border: Border.all(color: Colors.pink)),
+                                    //                                       width: double.infinity,
+                                    //                                       child: Center(
+                                    //                                         child: AdmobBanner(adUnitId: AdsHelper.getBunnerAd(), adSize: AdmobBannerSize.MEDIUM_RECTANGLE),
+                                    //                                       ),
+                                    //                                     );
+                                    //                                   }),
+                                    //                                 ),
+                                    //                               ],
+                                    //                             );
+                                    //                     })
+                                    //                 : Column(children: [
+                                    //                     Stack(
+                                    //                         children: [
+                                    //                           SizedBox(
+                                    //                               height:
+                                    //                                   MediaQuery.of(context).size.height * 0.35,
+                                    //                               // color: Colors.black,
+                                    //                               child: PageView.builder(
+                                    //                                   controller: photoController,
+                                    //                                   scrollDirection: Axis.horizontal,
+                                    //                                   itemCount: cubit.selectedPosts[index].files!.length,
+                                    //                                   itemBuilder: (ctx, photoind) {
+                                    //                                     final extension = p.extension(cubit.selectedPosts[index].files![photoind].file!);
+                                    //
+                                    //                                     return extension == ".mp4"
+                                    //                                         ? InkWell(
+                                    //                                             onTap: () {
+                                    //                                               Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                    //                                                 return FullMapScreen(
+                                    //                                                   index: index,
+                                    //                                                   image: "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].files![photoind].file}",
+                                    //                                                 );
+                                    //                                               }));
+                                    //                                             },
+                                    //                                             child: Container(
+                                    //                                                 width: double.infinity,
+                                    //                                                 height: MediaQuery.of(context).size.height * 0.5,
+                                    //                                                 child: PlayV(
+                                    //                                                   "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
+                                    //                                                 )),
+                                    //                                           )
+                                    //                                         : InkWell(
+                                    //                                             onTap: () {
+                                    //                                               Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                    //                                                 return FullMapScreen(
+                                    //                                                   index: index,
+                                    //                                                   image: "https://admin.rain-app.com/storage/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
+                                    //                                                 );
+                                    //                                               }));
+                                    //                                             },
+                                    //                                             child: Image.network(
+                                    //                                               "https://admin.rain-app.com/storage/outlooks/${cubit.selectedPosts[index].files?[photoind].file}",
+                                    //                                               fit: BoxFit.cover,
+                                    //                                               errorBuilder: (context, error, stackTrace) {
+                                    //                                                 return const Text("can not load image");
+                                    //                                               },
+                                    //                                             ),
+                                    //                                           );
+                                    //                                   })),
+                                    //
+                                    //                           //تغيير القسم و البلد ---------------------------
+                                    //                           // Row(
+                                    //                           //   mainAxisAlignment:
+                                    //                           //   MainAxisAlignment
+                                    //                           //       .spaceEvenly,
+                                    //                           //   children: [
+                                    //                           //     Expanded(
+                                    //                           //       child: Container(
+                                    //                           //         margin:
+                                    //                           //         const EdgeInsets
+                                    //                           //             .only(
+                                    //                           //             top: 8),
+                                    //                           //         padding: const EdgeInsets
+                                    //                           //             .symmetric(
+                                    //                           //             vertical: 5,
+                                    //                           //             horizontal:
+                                    //                           //             20),
+                                    //                           //         height: 50,
+                                    //                           //         decoration: BoxDecoration(
+                                    //                           //             color: const Color
+                                    //                           //                 .fromRGBO(
+                                    //                           //                 66,
+                                    //                           //                 105,
+                                    //                           //                 129,
+                                    //                           //                 1),
+                                    //                           //             borderRadius:
+                                    //                           //             BorderRadius
+                                    //                           //                 .circular(
+                                    //                           //                 12)),
+                                    //                           //         child: Row(
+                                    //                           //           mainAxisAlignment:
+                                    //                           //           MainAxisAlignment
+                                    //                           //               .spaceEvenly,
+                                    //                           //           children: [
+                                    //                           //             Text(
+                                    //                           //               "${CacheHelper.getData(
+                                    //                           //                   key: "country")}",
+                                    //                           //               style: const TextStyle(
+                                    //                           //                   fontSize:
+                                    //                           //                   16,
+                                    //                           //                   color: Colors
+                                    //                           //                       .white,
+                                    //                           //                   fontWeight:
+                                    //                           //                   FontWeight.bold),
+                                    //                           //             ),
+                                    //                           //             Image.network(
+                                    //                           //               "https://admin.rain-app.com/storage/countries/${CacheHelper
+                                    //                           //                   .getData(
+                                    //                           //                   key: "country")}.png",
+                                    //                           //               height: 50,
+                                    //                           //             ),
+                                    //                           //           ],
+                                    //                           //         ),
+                                    //                           //       ),
+                                    //                           //     ),
+                                    //                           //     const SizedBox(
+                                    //                           //       width: 15,
+                                    //                           //     ),
+                                    //                           //     // Expanded(
+                                    //                           //     //   child: InkWell(
+                                    //                           //     //     onTap: () {
+                                    //                           //     //       Navigator.of(
+                                    //                           //     //           context)
+                                    //                           //     //           .pushReplacementNamed(
+                                    //                           //     //           "country page");
+                                    //                           //     //     },
+                                    //                           //     //     child: Container(
+                                    //                           //     //       margin:
+                                    //                           //     //       const EdgeInsets
+                                    //                           //     //           .only(
+                                    //                           //     //           top: 8),
+                                    //                           //     //       width: 120,
+                                    //                           //     //       height: 50,
+                                    //                           //     //       decoration: BoxDecoration(
+                                    //                           //     //           color:
+                                    //                           //     //           whiteColor,
+                                    //                           //     //           borderRadius:
+                                    //                           //     //           BorderRadius.circular(
+                                    //                           //     //               12)),
+                                    //                           //     //       child:
+                                    //                           //     //       const Center(
+                                    //                           //     //         child: Text(
+                                    //                           //     //           "تغيير القسم",
+                                    //                           //     //           style: TextStyle(
+                                    //                           //     //               color: Colors
+                                    //                           //     //                   .black,
+                                    //                           //     //               fontSize:
+                                    //                           //     //               16,
+                                    //                           //     //               fontWeight:
+                                    //                           //     //               FontWeight.bold),
+                                    //                           //     //         ),
+                                    //                           //     //       ),
+                                    //                           //     //     ),
+                                    //                           //     //   ),
+                                    //                           //     // ),
+                                    //                           //   ],
+                                    //                           // ),
+                                    //                           cubit.selectedPosts[index].files!.length >
+                                    //                                   1
+                                    //                               ? SizedBox(
+                                    //                                   height: MediaQuery.of(context).size.height * 0.34,
+                                    //                                   child: Align(
+                                    //                                     alignment: Alignment.bottomCenter,
+                                    //                                     child: SmoothPageIndicator(axisDirection: Axis.horizontal, effect: const WormEffect(dotHeight: 12, dotWidth: 12), controller: photoController, count: cubit.selectedPosts[index].files!.length),
+                                    //                                   ),
+                                    //                                 )
+                                    //                               : const SizedBox()
+                                    //                         ]),
+                                    //                     Container(
+                                    //                       decoration: const BoxDecoration(
+                                    //                           color: Color.fromRGBO(
+                                    //                               66,
+                                    //                               105,
+                                    //                               129,
+                                    //                               1)),
+                                    //                       height: 42,
+                                    //                       width: double
+                                    //                           .infinity,
+                                    //                       padding: const EdgeInsets
+                                    //                               .symmetric(
+                                    //                           horizontal:
+                                    //                               10),
+                                    //                       // color: const Color.fromRGBO(66, 105, 129, 1),
+                                    //                       child:
+                                    //                           FittedBox(
+                                    //                         fit: BoxFit
+                                    //                             .cover,
+                                    //                         child: Row(
+                                    //                           children: [
+                                    //                             defaultWeatherExpectedRowIcon(
+                                    //                                 text:
+                                    //                                     cubit.selectedPosts[index].date,
+                                    //                                 icon: Icons.access_time_rounded),
+                                    //                             defaultWeatherExpectedRowIcon(
+                                    //                               onPressed:
+                                    //                                   () async {
+                                    //                                 if (CacheHelper.getData(key: "login") ==
+                                    //                                     null) {
+                                    //                                   await LogInDialog(context);
+                                    //                                   return;
+                                    //                                 }
+                                    //                                 if (cubit.selectedPosts[index].liked ==
+                                    //                                     false) {
+                                    //                                   cubit.selectedPosts[index].liked = true;
+                                    //                                   cubit.sendLike(outlookId: cubit.selectedPosts[index].id!);
+                                    //                                   CacheHelper.saveData(key: 'liked', value: true);
+                                    //                                 } else {
+                                    //                                   cubit.selectedPosts[index].liked = false;
+                                    //                                   cubit.sendLike(outlookId: cubit.selectedPosts[index].id!);
+                                    //                                   CacheHelper.saveData(key: 'liked', value: false);
+                                    //                                 }
+                                    //                               },
+                                    //                               child: CacheHelper.getData(key: 'liked') == true && CacheHelper.getData(key: 'liked') != null
+                                    //                                   ? const Icon(
+                                    //                                       Icons.favorite,
+                                    //                                       color: Colors.red,
+                                    //                                       size: 25,
+                                    //                                     )
+                                    //                                   : const Icon(
+                                    //                                       Icons.favorite_border,
+                                    //                                       color: Colors.white,
+                                    //                                       size: 25,
+                                    //                                     ),
+                                    //                             ),
+                                    //                             defaultWeatherExpectedRowIcon(
+                                    //                                 icon:
+                                    //                                     Icons.comment,
+                                    //                                 onPressed: () {
+                                    //                                   showFlexibleBottomSheet(
+                                    //                                     minHeight: 0,
+                                    //                                     initHeight: 0.5,
+                                    //                                     maxHeight: 1,
+                                    //                                     bottomSheetColor: Colors.transparent,
+                                    //                                     context: context,
+                                    //                                     builder: (context, scrollController, offset) => _buildBottomSheet(context, scrollController, cubit, index),
+                                    //                                     anchors: [
+                                    //                                       0,
+                                    //                                       0.5,
+                                    //                                       1
+                                    //                                     ],
+                                    //                                     isSafeArea: true,
+                                    //                                   );
+                                    //                                 }),
+                                    //                             defaultWeatherExpectedRowIcon(
+                                    //                               onPressed:
+                                    //                                   () {
+                                    //                                 cubit.sendShare(outlookId: cubit.selectedPosts[index].id!);
+                                    //                                 share(
+                                    //                                     cubit.selectedPosts[index].title,
+                                    //                                     cubit.selectedPosts[index].details,
+                                    //                                     "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].id}",
+                                    //                                     "");
+                                    //                               },
+                                    //                               icon:
+                                    //                                   Icons.share,
+                                    //                             ),
+                                    //                           ],
+                                    //                         ),
+                                    //                       ),
+                                    //                     ),
+                                    //                     cubit.profile
+                                    //                                 ?.sub !=
+                                    //                             true
+                                    //                         ? AdmobBanner(
+                                    //                             adUnitId:
+                                    //                                 AdsHelper
+                                    //                                     .getBunnerAd(),
+                                    //                             adSize:
+                                    //                                 AdmobBannerSize.FULL_BANNER)
+                                    //                         : const SizedBox(),
+                                    //                     const SizedBox(
+                                    //                       height: 10,
+                                    //                     ),
+                                    //                     const SizedBox(
+                                    //                       height: 15,
+                                    //                     ),
+                                    //
+                                    //                     /// description
+                                    //                     Expanded(
+                                    //                       child:
+                                    //                           Container(
+                                    //                         decoration:
+                                    //                             BoxDecoration(
+                                    //                           color:
+                                    //                               backgroundColor,
+                                    //                         ),
+                                    //                         //  color: backgroundColor,
+                                    //                         margin: const EdgeInsets
+                                    //                                 .symmetric(
+                                    //                             vertical:
+                                    //                                 2,
+                                    //                             horizontal:
+                                    //                                 8),
+                                    //                         child:
+                                    //                             Container(
+                                    //                           padding:
+                                    //                               const EdgeInsets.all(
+                                    //                                   10),
+                                    //                           width: double
+                                    //                               .infinity,
+                                    //                           margin: const EdgeInsets
+                                    //                                   .only(
+                                    //                               bottom:
+                                    //                                   15),
+                                    //                           decoration: BoxDecoration(
+                                    //                               color:
+                                    //                                   whiteColor,
+                                    //                               borderRadius: BorderRadius.circular(12),
+                                    //                               boxShadow: [
+                                    //                                 shadow()
+                                    //                               ]),
+                                    //                           child:
+                                    //                               SingleChildScrollView(
+                                    //                             child:
+                                    //                                 Column(
+                                    //                               children: [
+                                    //                                 cubit.selectedPosts[index].title != ""
+                                    //                                     ? Text(cubit.selectedPosts[index].title!, style: const TextStyle(fontSize: 24, color: Colors.pink, fontWeight: FontWeight.w700))
+                                    //                                     : const SizedBox(),
+                                    //                                 ReadMoreText(
+                                    //                                   cubit.selectedPosts[index].details!,
+                                    //                                   colorClickableText: Colors.pink,
+                                    //                                   trimMode: TrimMode.Line,
+                                    //                                   style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                                    //                                   trimLines: 4,
+                                    //                                   trimCollapsedText: 'قراءة المزيد',
+                                    //                                   trimExpandedText: 'قراءة اقل',
+                                    //                                 ),
+                                    //                               ],
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                     )
+                                    //                   ]));
+                                    //       }),
+                                    //   onDone: () {
+                                    //     rewardAd.show();
+                                    //     cubit.profile?.sub = true;
+                                    //   },
+                                    // );
+
+                                    // await ApiManager.getTimer(
+                                    //     CacheHelper.getData(
+                                    //         key: 'countryId'),
+                                    //     CacheHelper.getData(key: "token"));
+                                    // customToast(title: "سوف يتم فتح القسم بدون اعلانات لمدة ساعتين",color: secondColor );
+                                  }
+                                },
+                                textButton: 'شاهد الإعلان أولاً',
+                                backgroundColor: secondColor,
+                                radius: 8,
+                                width:
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width *
+                                    .5,
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              defaultButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed("sub");
+                                },
+                                textButton:
+                                'اشتراك لاستخدام بدون اعلانات',
+                                backgroundColor: secondColor,
+                                radius: 8,
+                                width:
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width *
+                                    .7,
+                              ),
+                            ],
                           )
                               : PageView.builder(
                               controller: controller,
@@ -859,13 +1257,33 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                               const SizedBox(
                                                   height: 20),
                                               Text(
-                                                  cubit.adsModel[n].title,
-                                                  style: Theme.of(context).textTheme.headline1?.copyWith(
-                                                      color: Colors.grey[600])),
-                                              Expanded(child:
-                                                Container(height: MediaQuery.of(context).size.height * 3,
-                                                  width: MediaQuery.of(context).size.width * .5,
-                                                  color: Colors.white,
+                                                  cubit
+                                                      .adsModel[
+                                                  n]
+                                                      .title,
+                                                  style: Theme
+                                                      .of(
+                                                      context)
+                                                      .textTheme
+                                                      .headline1
+                                                      ?.copyWith(
+                                                      color:
+                                                      Colors.grey[600])),
+                                              Expanded(
+                                                child:
+                                                Container(
+                                                  height: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .height *
+                                                      3,
+                                                  width: MediaQuery
+                                                      .of(context)
+                                                      .size
+                                                      .width *
+                                                      .5,
+                                                  color: Colors
+                                                      .white,
                                                   margin:
                                                   const EdgeInsets.all(
                                                       10),
@@ -1206,49 +1624,78 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                   icon: Icons
                                                       .access_time_rounded),
                                               defaultWeatherExpectedRowIcon(
-                                                onPressed: () async {
-                                                  if (CacheHelper.getData(
-                                                      key: "login") ==
+                                                onPressed:
+                                                    () async {
+                                                  if (CacheHelper
+                                                      .getData(
+                                                      key:
+                                                      "login") ==
                                                       null) {
                                                     await LogInDialog(
                                                         context);
                                                     return;
                                                   }
-                                                  if (cubit.selectedPosts[index].liked == false) {
-                                                    cubit.selectedPosts[index].liked = true;
-                                                    cubit.sendLike(outlookId: cubit.selectedPosts[index].id!);
+                                                  if (cubit
+                                                      .selectedPosts[
+                                                  index]
+                                                      .liked ==
+                                                      false) {
+                                                    cubit
+                                                        .selectedPosts[
+                                                    index]
+                                                        .liked = true;
+                                                    cubit.sendLike(
+                                                        outlookId: cubit
+                                                            .selectedPosts[
+                                                        index]
+                                                            .id!);
                                                     CacheHelper.saveData(
-                                                        key: 'liked',
-                                                        value: true);
+                                                        key:
+                                                        'liked',
+                                                        value:
+                                                        true);
                                                   } else {
-                                                    cubit.selectedPosts[index]
+                                                    cubit
+                                                        .selectedPosts[
+                                                    index]
                                                         .liked = false;
                                                     cubit.sendLike(
                                                         outlookId: cubit
-                                                            .selectedPosts[index]
+                                                            .selectedPosts[
+                                                        index]
                                                             .id!);
                                                     CacheHelper.saveData(
-                                                        key: 'liked',
-                                                        value: false);
+                                                        key:
+                                                        'liked',
+                                                        value:
+                                                        false);
                                                   }
                                                 },
-                                                child:  CacheHelper.getData(key: 'liked')==true&&CacheHelper.getData(key: 'liked')!=null
+                                                child: CacheHelper.getData(
+                                                    key:
+                                                    'liked') ==
+                                                    true &&
+                                                    CacheHelper.getData(
+                                                        key: 'liked') !=
+                                                        null
                                                     ? const Icon(
-                                                  Icons.favorite,
-                                                  color: Colors.red,
+                                                  Icons
+                                                      .favorite,
+                                                  color: Colors
+                                                      .red,
                                                   size: 25,
                                                 )
                                                     : const Icon(
                                                   Icons
                                                       .favorite_border,
-                                                  color:
-                                                  Colors.white,
+                                                  color: Colors
+                                                      .white,
                                                   size: 25,
                                                 ),
                                               ),
-
                                               defaultWeatherExpectedRowIcon(
-                                                  icon: Icons.comment,
+                                                  icon: Icons
+                                                      .comment,
                                                   onPressed: () {
                                                     showFlexibleBottomSheet(
                                                       minHeight:
@@ -1282,22 +1729,24 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                               defaultWeatherExpectedRowIcon(
                                                 onPressed: () {
                                                   cubit.sendShare(
-                                                                    outlookId: cubit
-                                                                        .selectedPosts[
-                                                                            index]
-                                                                        .id!);
-                                                                share(
-                                                                    cubit
-                                                                        .selectedPosts[
-                                                                            index]
-                                                                        .title,
-                                                                    cubit
-                                                                        .selectedPosts[
-                                                                            index]
-                                                                        .details,
-                                                                    "https://admin.rain-app.com/api/outlooks/${cubit.selectedPosts[index].id}",
-                                                                    "");
-                                                              },
+                                                      outlookId: cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .id!);
+                                                  share(
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .title,
+                                                      cubit
+                                                          .selectedPosts[
+                                                      index]
+                                                          .details,
+                                                      "https://admin.rain-app.com/api/outlooks/${cubit
+                                                          .selectedPosts[index]
+                                                          .id}",
+                                                      "");
+                                                },
                                                 icon: Icons.share,
                                               ),
                                             ],
@@ -1315,6 +1764,37 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                       const SizedBox(
                                         height: 10,
                                       ),
+                                      // SlideCountdown(
+                                      //        duration:
+                                      //            const Duration(
+                                      //                hours: 2),
+                                      //        padding:
+                                      //            const EdgeInsets
+                                      //                    .symmetric(
+                                      //                horizontal:
+                                      //                    50,
+                                      //                vertical:
+                                      //                    10),
+                                      //        decoration:
+                                      //            BoxDecoration(
+                                      //          color:
+                                      //              secondColor,
+                                      //          borderRadius:
+                                      //              const BorderRadius
+                                      //                      .all(
+                                      //                  Radius.circular(
+                                      //                      5)),
+                                      //        ),
+                                      //        replacement:
+                                      //            const SizedBox(),
+                                      //        onDone: () {
+                                      //          rewardAd.show();
+                                      //          sub = true;
+                                      //        },
+                                      //      ),
+                                      // const SizedBox(
+                                      //   height: 15,
+                                      // ),
 
                                       /// description
                                       Expanded(
@@ -1573,16 +2053,20 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                                 cubit
                                                                     .sendReplay(
                                                                     outlookId: cubit
-                                                                        .posts[postIndex]
+                                                                        .posts[
+                                                                    postIndex]
                                                                         .id,
                                                                     commentId: cubit
-                                                                        .posts[postIndex]
-                                                                        .comments[ind]
+                                                                        .posts[
+                                                                    postIndex]
+                                                                        .comments[
+                                                                    ind]
                                                                         .id
                                                                         .toInt(),
                                                                     reply: replayController
                                                                         .text,
-                                                                    context: context);
+                                                                    context:
+                                                                    context);
                                                                 Navigator.pop(
                                                                     context);
                                                               },
@@ -1666,8 +2150,11 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                           129,
                                                           1))),
                                               Text(
-                                                  cubit.post[postIndex]
-                                                      .comments[ind].reply,
+                                                  cubit
+                                                      .post[
+                                                  postIndex]
+                                                      .comments[ind]
+                                                      .reply,
                                                   style: const TextStyle(
                                                       color: Colors
                                                           .black,
@@ -1860,7 +2347,8 @@ class _WeatehrExpectedState extends State<WeatehrExpected> {
                                                           129,
                                                           1))),
                                               Text(
-                                                  commentsAndReplay[index]
+                                                  commentsAndReplay[
+                                                  index]
                                                       .reply,
                                                   style: const TextStyle(
                                                       color: Colors

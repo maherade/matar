@@ -32,8 +32,8 @@ class _ShowMainPageState extends State<ShowMainPage> {
   @override
   void initState() {
     super.initState();
-
     // You should execute `Admob.requestTrackingAuthorization()` here before showing any ad.
+    CacheHelper.saveData(key: "isShowed", value: false);
 
     bannerSize = AdmobBannerSize.BANNER;
 
@@ -48,7 +48,6 @@ class _ShowMainPageState extends State<ShowMainPage> {
     @override
     void dispose() {
       interstitialAd.dispose();
-      rewardAd.dispose();
       super.dispose();
     }
     rewardAd = AdmobReward(

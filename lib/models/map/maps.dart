@@ -24,16 +24,20 @@ class _MapsState extends State<Maps> {
   final TextEditingController _codeController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      MapCubitCubit()
-        ..getmapDetails(),
+      create: (context) => MapCubitCubit()..getmapDetails(),
       child: BlocConsumer<MapCubitCubit, MapCubitState>(
           listener: (context, state) {
-            if (state is PostCoponSuccessful) {
-              buildToast(text: "تم ادخال الكوبون بنجاح", color: secondColor);
-            }
+        if (state is PostCoponSuccessful) {
+          buildToast(text: "تم ادخال الكوبون بنجاح", color: secondColor);
+        }
             if (state is PostCoponError) {
               buildToast(text: "كوبون غير صالح", color: Colors.red);
             }

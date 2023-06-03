@@ -211,10 +211,8 @@ Widget notiContainer(
                 child: Text(
                   content,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700
-                  ),
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -391,8 +389,7 @@ customToast({
       msg: title,
       textColor: Colors.white,
       backgroundColor: color,
-      gravity: ToastGravity.BOTTOM
-  );
+      gravity: ToastGravity.CENTER);
 
 }
 
